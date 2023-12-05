@@ -1,0 +1,2 @@
+The proof of concept for this utility lives here: https://github.com/rontarrant/animators_pal sans GUI.
+This version will be built with a Tkinter GUI because building it as a mobile app with Kivy just doesn't make sense to me since it's meant to be a desktop application.
