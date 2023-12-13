@@ -6,9 +6,9 @@ def generate_video():
 	shoot_on_twos = False
 	fps = 24
 	
-	in_path = "D:/Documents/Programming/PythonCode/kivy_code/cel_animators_pal/image_sequence/"
+	in_path = "D:/Documents/Programming/PythonCode/tkinter/animators_pal/image_sequence/"
 	out_path = in_path
-	video_name = 'lisa_turnaround.mp4'
+	video_name = 'lisa_turnaround_once_again.mp4'
 
 	images = [img for img in os.listdir(in_path) if img.endswith(".jpg") or
 			 img.endswith(".jpeg") or img.endswith(".png")]
@@ -17,11 +17,11 @@ def generate_video():
 
 	frame = cv2.imread(os.path.join(in_path, images[0]))
 	
-	# setting the frame width, height width 
+	# setting the frame width, height width from
 	# the width, height of first image 
 	height, width, layers = frame.shape
 
-	video = cv2.VideoWriter(os.path.join(in_path, video_name), fourcc, 24, (width, height))
+	video = cv2.VideoWriter(os.path.join(in_path, video_name), fourcc, fps, (width, height))
 	print("video: ", video_name)
 	# Appending the images to the video one by one 
 	for image in images:
