@@ -65,9 +65,12 @@ class FileMenu(Menu):
 		print("filename: ", self.window.filename)
 	
 	def file_open(self, event = None):
-		print("opening file...")
-		self.window.filename = filedialog.askopenfilename(filetypes = self.imagetypes)
-		print("filename: ", self.window.filename)
+		print("retrieving image files...")
+		self.window.image_files = filedialog.askopenfilenames(filetypes = self.imagetypes)
+		##print("image file names: ", self.window.image_files)
+		
+		for image in self.window.image_files:
+			print(image)
 
 	def file_save(self, event = None):
 		print("saving project...")
