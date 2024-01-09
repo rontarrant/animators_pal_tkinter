@@ -11,7 +11,6 @@ from tkinter import ttk
 
 ## local
 from filemenu import *
-from preferencesmenu import *
 from helpmenu import *
 
 def main():
@@ -39,6 +38,7 @@ class Window(Tk):
 
 		## POPULATION stuff
 		self._menubar = Menubar(self)
+		self._toolbar = 
 		self.canvas = Canvas(self)
 
 		## CONFIGURE window stuff
@@ -59,12 +59,10 @@ class Menubar(Menu):
 		super().__init__(window)
 		## ATTRIBUTE stuff
 		self.file_menu = FileMenu(self, window)
-		self.preferences_menu = PreferencesMenu(self, window)
 		self.help_menu = HelpMenu(self)
 
 		## POPULATE
 		self.add_cascade(menu = self.file_menu, label = self.file_menu.label_text)
-		self.add_cascade(menu = self.preferences_menu, label = self.preferences_menu.label_text)
 		self.add_cascade(menu = self.help_menu, label = self.help_menu.label_text)
 
 if __name__ == "__main__":
