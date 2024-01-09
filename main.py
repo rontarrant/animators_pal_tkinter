@@ -38,7 +38,7 @@ class Window(Tk):
 
 		## POPULATION stuff
 		self._menubar = Menubar(self)
-		self._toolbar = 
+		##self._toolbar = 
 		self.canvas = Canvas(self)
 
 		## CONFIGURE window stuff
