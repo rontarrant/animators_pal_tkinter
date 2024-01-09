@@ -11,7 +11,7 @@ from tkinter import ttk
 
 ## local
 from filemenu import *
-from settingsmenu import *
+from preferencesmenu import *
 from helpmenu import *
 
 def main():
@@ -24,6 +24,7 @@ class Window(Tk):
 	min_width = 1280
 	min_height = 720
 	_menubar = None
+	_toolbar = None
 	_image_files = None
 
 	def __init__(self, *args, **kwargs):
@@ -51,19 +52,19 @@ class Window(Tk):
 
 class Menubar(Menu):
 	file_menu = None
-	settings_menu = None
+	preferences_menu = None
 	help_menu = None
 
 	def __init__(self, window):
 		super().__init__(window)
 		## ATTRIBUTE stuff
 		self.file_menu = FileMenu(self, window)
-		self.settings_menu = SettingsMenu(self, window)
+		self.preferences_menu = PreferencesMenu(self, window)
 		self.help_menu = HelpMenu(self)
 
 		## POPULATE
 		self.add_cascade(menu = self.file_menu, label = self.file_menu.label_text)
-		self.add_cascade(menu = self.settings_menu, label = self.settings_menu.label_text)
+		self.add_cascade(menu = self.preferences_menu, label = self.preferences_menu.label_text)
 		self.add_cascade(menu = self.help_menu, label = self.help_menu.label_text)
 
 if __name__ == "__main__":
