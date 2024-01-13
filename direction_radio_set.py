@@ -12,8 +12,8 @@ class Window(Tk):
 		direction_radio_set.pack(ipadx = 20, ipady = 10)
 
 class DirectionRadioSet(Labelframe):
-	def __init__(self, window, *args, **kwargs):
-		super().__init__(window, *args, **kwargs)
+	def __init__(self, parent, *args, **kwargs):
+		super().__init__(parent, *args, **kwargs)
 		## attributes
 		self.config(text = "direction")
 		self.radio_var = IntVar()

@@ -12,15 +12,23 @@ class Window(Tk):
 		fps_radio_set.pack(ipadx = 20, ipady = 10)
 
 class FPSRadioSet(Labelframe):
-	def __init__(self, window, *args, **kwargs):
-		super().__init__(window, *args, **kwargs)
+	@property
+	def var(self):
+		return self._var
+	
+	@var.setter
+	def var(self, value):
+		self._var = value
+
+	def __init__(self, parent, *args, **kwargs):
+		super().__init__(parent, *args, **kwargs)
 		## attributes
 		self.config(text = "fps")
-		self.radio_var = IntVar()
+		self._var = IntVar()
 		## child widgets
-		radio1 = Radiobutton(self, text = "18 fps", variable = self.radio_var, value = 18)
-		radio2 = Radiobutton(self, text = "24 fps", variable = self.radio_var, value = 24)
-		radio3 = Radiobutton(self, text = "30 fps", variable = self.radio_var, value = 30)
+		radio1 = Radiobutton(self, text = "18 fps", variable = self._var, value = 18)
+		radio2 = Radiobutton(self, text = "24 fps", variable = self._var, value = 24)
+		radio3 = Radiobutton(self, text = "30 fps", variable = self._var, value = 30)
 		## create grid
 		self.columnconfigure(0, weight = 1)
 		self.rowconfigure(0, weight = 1)
@@ -36,7 +44,7 @@ class FPSRadioSet(Labelframe):
 		radio3.config(command = self.select)
 	
 	def select(self):
-		print("fps: ", self.radio_var.get())
+		print("fps: ", self._var.get())
 	
 if __name__ == "__main__":
 	main()
