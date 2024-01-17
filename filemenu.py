@@ -2,11 +2,15 @@ from tkinter import *
 from tkinter import ttk
 from tkinter import filedialog
 
+## local
+from preferences import Preferences
+
 class FileMenu(Menu):
 	## attributes
 	label_text = "File"
 	window = None
 	imagetypes = None
+	prefs = None
 	
 	def __init__(self, menubar, window):
 		self.window = window
@@ -67,7 +71,7 @@ class FileMenu(Menu):
 	def file_open(self, event = None):
 		print("retrieving image files...")
 		self.window.image_files = filedialog.askopenfilenames(filetypes = self.imagetypes)
-		##print("image file names: ", self.window.image_files)
+		print("image file names: ", self.window.image_files)
 		
 		for image in self.window.image_files:
 			print(image)
