@@ -22,14 +22,14 @@ class FileMenu(Menu):
 		self.entryconfig(items("New"), accelerator = "(Ctrl-N)")
 		window.bind('<Control_L><n>', self.file_new)
 		
-		self.add_command(label = "Open", command = self.file_open)
-		self.entryconfig(items("Open"), accelerator = "(Ctrl-O)")
+		self.add_command(label = "Add Images", command = self.add_images)
+		self.entryconfig(items("Add Images"), accelerator = "(Ctrl-A)")
+		window.bind('<Control_L><a>', self.add_images)
+
+		self.add_command(label = "Open Project", command = self.file_open)
+		self.entryconfig(items("Open Project"), accelerator = "(Ctrl-O)")
 		window.bind('<Control_L><o>', self.file_open)
 		
-		self.add_command(label = "Append Images", command = self.append_images)
-		self.entryconfig(items("Append Images"), accelerator = "(Ctrl-A)")
-		window.bind('<Control_L><a>', self.append_images)
-
 		self.add_command(label = "Save Project", command = self.file_save)
 		self.entryconfig(items("Save Project"), accelerator = "(Ctrl-S)")
 		window.bind('<Control_L><s>', self.file_save)
@@ -69,13 +69,8 @@ class FileMenu(Menu):
 		print("filename: ", self.window.filename)
 	
 	def file_open(self, event = None):
-		print("retrieving image files...")
-		self.window.image_files = filedialog.askopenfilenames(filetypes = self.imagetypes)
-		print("image file names: ", self.window.image_files)
+		print("retrieving project...")
 		
-		for image in self.window.image_files:
-			print(image)
-
 	def file_save(self, event = None):
 		print("saving project...")
 		if self.window.filename == None:
@@ -90,8 +85,38 @@ class FileMenu(Menu):
 		print("closing project...")
 		print("filename: ", self.window.filename)
 
-	def append_images(self, event = None):
-		print("appending images...")
+	def add_images(self, event = None):
+		'''
+		The askopenfilenames() dialog returns a tuple, but it'll be
+		easier to add to the image	list if it's an actual Python list.
+		So, the dialog results are assigned to a temp variable first.
+		Then a for loop append()s each image to the image_files variable.
+		This opens us up to appending multiple image sequences together
+		from multiple sources to create a longer animation. In fact,
+		the same sequence can be added over and over, if desired.
+		'''
+		print("adding images...")
+		prefs = Preferences()
+		temp = filedialog.askopenfilenames(filetypes = self.imagetypes)
+		print("temp: \n", temp)
+		
+		for image in temp:
+			self.window.image_files.append(image)
+
+		prefs.assign_image_file_name_list_variable(self.window.image_files)
+
+		## testing
+		#'''
+		print("from the window:")
+
+		for image in self.window.image_files:
+			print(image)
+
+		print("from prefs:")
+
+		for image in prefs.image_file_name_list:
+			print(image)
+		#'''
 
 	def build_mp4(self, event = None):
 		print("building MP4 video...")
@@ -101,5 +126,3 @@ class FileMenu(Menu):
 
 	def exit(self, event = None):
 		print("exiting...")
-		print("filename: ", self.window.filename)
-

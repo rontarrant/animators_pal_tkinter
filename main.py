@@ -34,6 +34,7 @@ class Window(Tk):
 	min_height = 720
 	_menubar = None
 	_toolbar = None
+	image_files = []
 
 	def __init__(self, *args, **kwargs):
 		working_dir = os.path.abspath(os.path.dirname(sys.argv[0]))
@@ -78,6 +79,7 @@ class Menubar(Menu):
 class SettingsBar(Labelframe):
 	def __init__(self, parent):
 		super().__init__(parent)
+		self.parent = parent
 		self.config(text = "Preferences")
 		## children
 		self.direction = DirectionRadioSet(self)
@@ -127,6 +129,8 @@ class SettingsBar(Labelframe):
 		print("shoot on - ", self.prefs.shoot_on.get())
 		print("hold last checked - ", self.prefs.hold_last.get())
 		print("hold last frame for - ", self.prefs.hold_last_for.get())
+		print("Stored in window: \n", self.parent.image_files)
+		print("Stored in prefs: \n", self.prefs.image_file_name_list)
 		print("")
 		
 if __name__ == "__main__":
