@@ -1,3 +1,9 @@
+'''
+This test:
+- builds a video from a series of images,
+- saves it, and
+- plays it from saved the file.
+'''
 import os
 import cv2
 

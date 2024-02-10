@@ -1,14 +1,18 @@
 ## A solution to playing video from RAM.
-## Reasonable playback up to 60 fps.
 '''
-This code loads a series of video frames as PIL Images, converts them to PhotoImages
-using the ImageTk.PhotoImage constructor, and displays them in a tkinter.Canvas
-widget using the create_image method.
+This test:
+- loads a series of images using cv2,
+- reverses colour channel order,
+- converts them from cv2 to ImageTk.PhotoImages, and
+- displays them as a flipbook.
 
-The animate function updates the canvas with a new frame every 42 milliseconds (24 fps),
-using the after method to schedule the next frame.
+In the animate() function, fps is set by passing the desired
+frames per second to fps2milliseconds() which converts it
+to milliseconds (which is what window.after() needs).
 
-This code has been massaged for png images whose numbers have 3 leading zeros.
+This method of doing a flipbook works reliably up to ~60 fps,
+certainly fast enough for any hand-drawn animation cels.
+
 '''
 import tkinter as tk 
 from PIL import Image, ImageTk 
