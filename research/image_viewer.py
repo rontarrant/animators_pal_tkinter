@@ -79,10 +79,10 @@ pathname = os.path.dirname(sys.argv[0])
 # has a class ImageTk We can directly add the
 # photos in the tkinter folder or we have to
 # give a proper path for the images
-image_no_1 = ImageTk.PhotoImage(Image.open(pathname + "/image_sequence/Lisa_Turnaround_1920x1080_0000.png"))
-image_no_2 = ImageTk.PhotoImage(Image.open(pathname + "/image_sequence/Lisa_Turnaround_1920x1080_0001.png"))
-image_no_3 = ImageTk.PhotoImage(Image.open(pathname + "/image_sequence/Lisa_Turnaround_1920x1080_0002.png"))
-image_no_4 = ImageTk.PhotoImage(Image.open(pathname + "/image_sequence/Lisa_Turnaround_1920x1080_0003.png"))
+image_no_1 = ImageTk.PhotoImage(Image.open(pathname + "image_sequence/Lisa_Turnaround_1920x1080_0000.png"))
+image_no_2 = ImageTk.PhotoImage(Image.open(pathname + "image_sequence/Lisa_Turnaround_1920x1080_0001.png"))
+image_no_3 = ImageTk.PhotoImage(Image.open(pathname + "image_sequence/Lisa_Turnaround_1920x1080_0002.png"))
+image_no_4 = ImageTk.PhotoImage(Image.open(pathname + "image_sequence/Lisa_Turnaround_1920x1080_0003.png"))
  
 # List of the images so that we traverse the list
 List_images = [image_no_1, image_no_2, image_no_3, image_no_4]

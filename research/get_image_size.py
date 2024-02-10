@@ -5,17 +5,17 @@ import os
 ## get the execution path
 path = os.path.abspath(os.path.dirname(sys.argv[0]))
 
-im = cv2.imread('images/bogey.tif')
+image = cv2.imread('images/bogey.tif')
 
-print(type(im))
+print("type(image): ", type(image))
 # <class 'numpy.ndarray'>
 
-print(im.shape)
-print(type(im.shape))
+print("image.shape: ", image.shape)
+print(type(image.shape))
 # (225, 400, 3)
 # <class 'tuple'>
 
-height, width, channels = im.shape
+height, width, channels = image.shape
 print('width:  ', width)
 print('height: ', height)
 print('channel:', channels)
