@@ -1,7 +1,3 @@
-## TO DO
-## - find or create a titlebar icon
-## - add titlebar icon code
-
 ## Python
 import os
 import sys
@@ -12,11 +8,8 @@ from tkinter.ttk import *
 ## local
 from filemenu import *
 from helpmenu import *
-from preferences import Preferences
-from fps_radio_set import FPSRadioSet
-from direction_radio_set import DirectionRadioSet
-from shoot_on_set import ShootOnSet
-from frame_hold_set import FrameHoldSet
+from settings import SettingsLabelFrame
+from video_canvas import VideoCanvas
 
 ## for debugging
 from icecream import install
@@ -30,10 +23,10 @@ def main():
 class Window(Tk):
 	windowing_system = None
 	title_text = "Animator's Pal"
-	min_width = 1280
-	min_height = 720
+	min_width = 1664
+	min_height = 950
 	_menubar = None
-	_toolbar = None
+	_frame = None
 	image_files = []
 
 	def __init__(self, *args, **kwargs):
@@ -48,18 +41,43 @@ class Window(Tk):
 
 		## POPULATION stuff
 		self._menubar = Menubar(self)
-		self._toolbar = SettingsBar(self)
-		self.canvas = Canvas(self)
+		self._frame = MainFrame(self)
 
 		## CONFIGURE window stuff
 		self.config(width = self.min_width, height = self.min_height)
 		self.title(self.title_text)
 		self.config(menu = self._menubar)
-		self._toolbar.pack(side = 'left', padx = 20, pady = 20, ipadx = 10, ipady = 10)
 
 		## titlebar icon
 		photo = PhotoImage(file = os.path.join(working_dir, "images/bobby_bowtie_icon60x.png"))
 		self.iconphoto(True, photo)
+
+class MainFrame(Frame):
+	def __init__(self, window):
+		super().__init__(window)
+		# configure
+		self.pack() ## place the MainFrame in the window
+		# populate
+		image_list_frame = Frame(self, bg = 'peach puff')
+		output_settings_frame = SettingsLabelFrame(self)
+		image_thumbnail_frame = Frame(self, bg = 'lawn green')
+		video_canvas_frame = VideoCanvas(self)
+		video_controls_frame = Frame(self, bg = 'goldenrod1')
+		
+		# layout
+		## set the row and column minimum sizes
+		for row in range(13):
+			self.grid_rowconfigure(row, minsize = 72)
+		
+		for column in range(13):
+			self.grid_columnconfigure(column, minsize = 128)
+			
+		## insert frames for each window area
+		image_list_frame.grid(row = 0, column = 0, rowspan = 10, columnspan = 3, sticky = (N, E, W, S))
+		output_settings_frame.grid(row = 0, column = 3, rowspan = 2, columnspan = 10, sticky = (N, E, W, S))
+		image_thumbnail_frame.grid(row = 10, column = 0, rowspan = 3, columnspan = 3, sticky = (N, E, W, S))
+		video_canvas_frame.grid(row = 2, column = 3, rowspan = 10, columnspan = 10, sticky = (N, E, W, S))
+		video_controls_frame.grid(row = 12, column = 3, columnspan = 10, sticky = (N, E, W, S))
 
 class Menubar(Menu):
 	file_menu = None
@@ -75,63 +93,6 @@ class Menubar(Menu):
 		## POPULATE
 		self.add_cascade(menu = self.file_menu, label = self.file_menu.label_text)
 		self.add_cascade(menu = self.help_menu, label = self.help_menu.label_text)
-
-class SettingsBar(Labelframe):
-	def __init__(self, parent):
-		super().__init__(parent)
-		self.parent = parent
-		self.config(text = "Preferences")
-		## children
-		self.direction = DirectionRadioSet(self)
-		separator1 = Separator(self, orient = VERTICAL)
-		self.fps = FPSRadioSet(self)
-		separator2 = Separator(self, orient = VERTICAL)
-		separator3 = Separator(self, orient = VERTICAL)
-		self.shoot_on = ShootOnSet(self)
-		separator4 = Separator(self, orient = VERTICAL)
-		self.hold_first = FrameHoldSet(self, "first frame hold")
-		self.hold_last = FrameHoldSet(self, "last frame hold")
-		## layout
-		## because of a peculiarity in how padding works, to get the space
-		## on the left to match that on the right, padx needs to be applied
-		## to the first child widget as shown below. The value matches
-		## the parent's xpad value above.
-		self.direction.pack(side = 'left', padx = (20, 0))
-		separator1.pack(side = 'left', padx = 5)
-		self.fps.pack(side = 'left', padx = 5)
-		separator2.pack(side = 'left', padx = 5)
-		self.hold_first.pack(side = "left")
-		separator3.pack(side = 'left', padx = 5)
-		self.shoot_on.pack(side = 'left')
-		separator4.pack(side = 'left', padx = 5)
-		self.hold_last.pack(side = 'left')
-		self.prefs = Preferences()
-		self.prefs.assign_widget_variables(self.direction.var,
-										self.fps.var,
-										self.hold_first.checked_on,
-										self.hold_first.spinvalue,
-										self.shoot_on.var,
-										self.hold_last.checked_on,
-										self.hold_last.spinvalue)
-		## testing
-		#'''
-		#button = Button(text = "Update", command = lambda: print(self.prefs))
-		button = Button(text = "Update", command = self.show_preferences)
-		button.pack()
-		#'''
-		
-	def show_preferences(self):
-		print("\nPreferences:")
-		print("direction - ", self.prefs.direction.get())
-		print("frames per second - ", self.prefs.fps.get())
-		print("hold_first checked - ", self.prefs.hold_first.get())
-		print("hold first frame for - ", self.prefs.hold_first_for.get())
-		print("shoot on - ", self.prefs.shoot_on.get())
-		print("hold last checked - ", self.prefs.hold_last.get())
-		print("hold last frame for - ", self.prefs.hold_last_for.get())
-		print("Stored in window: \n", self.parent.image_files)
-		print("Stored in prefs: \n", self.prefs.image_file_name_list)
-		print("")
 		
 if __name__ == "__main__":
 	main()
