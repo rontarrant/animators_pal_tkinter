@@ -1,5 +1,5 @@
 '''
-cv_image.py
+ap_image.py
 A class containing an image read by opencv.
 Properties are:
 	- file name,
@@ -20,6 +20,9 @@ Special FX may consist of:
 import os
 import cv2
 import sys ## for testing only
+from PIL import Image, ImageTk
+from tkinter import Tk ## This must be limited so we don't replace PIL's Image class
+from tkinter import Canvas
 
 class APImage():
 	_file_name: str = []
@@ -89,7 +92,12 @@ class APImage():
 		self.height = shape[0]
 	
 	def convert_cv_to_tk(self):
-		pass
+		## reverse order of colour channels
+		blue, green, red = cv2.split(self._cv_image_data) 
+		image_rgb = cv2.merge((red, green, blue))
+		pillow_image_data = Image.fromarray(image_rgb)
+		## and convert to TkImage
+		self._tk_image_data = ImageTk.PhotoImage(pillow_image_data)
 		
 	def resize(self):
 		pass
@@ -108,11 +116,21 @@ class APImage():
 	
 	def restore(self): ## inpaint
 		pass
+		
 ## testing
 if __name__ == "__main__":
+	window = Tk() ## this has to be here or PIL's TkImage won't work
+	canvas = Canvas(window, width = 1920, height = 1080)
+	canvas.pack()
+	## load an image
 	image_file_name = "D:/Documents/Programming/PythonCode/tkinter/animators_pal/research/image_sequence/Lisa_Turnaround_1920x1080_0000.png"
-	my_cv_image = APImage(image_file_name)
-	print("my_cv_image.file_name: ", my_cv_image.file_name)
-	print("my_cv_image.path: ", my_cv_image.path)
-	print("width: ", my_cv_image.width, ", height: ", my_cv_image.height)
-	print("cv_image_data: ", my_cv_image.cv_image_data)
+	my_ap_image = APImage(image_file_name)
+	
+	print("my_ap_image.file_name: ", my_ap_image.file_name)
+	print("my_ap_image.path: ", my_ap_image.path)
+	print("width: ", my_ap_image.width, ", height: ", my_ap_image.height)
+	my_ap_image.convert_cv_to_tk()
+	print("tk_image_data size: ", my_ap_image.tk_image_data.width(), ", ", my_ap_image.tk_image_data.height())
+	print("my_ap_image.tk_image_data type: ", type(my_ap_image.tk_image_data))
+	canvas.create_image(0, 0, anchor = "nw", image = my_ap_image.tk_image_data)
+	window.mainloop()

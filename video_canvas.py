@@ -1,18 +1,26 @@
 '''
 Video Canvas
-Displays a flipbook of CVImages collected in a TKImageCollection. 
+Displays a flipbook of TKImages collected in a TKImageCollection. 
 '''
-class VideoCanvas():
+
+from tkinter import *
+from tkinter.ttk import *
+
+class VideoCanvas(Canvas):
 	fps: int = 24 ## can also be 18, 25, or 30
 	shoot_on: int = 1 ## 1's, 2's, 3's up to 9's
-	width: int = 1920 ## default: HD
-	height: int = 1080 ## default: HD
+	width: int = 1280 ## default: HD
+	height: int = 720 ## default: HD
+	colour = "DarkOliveGreen3"
 	direction: int = 1 ## default: forward (-1 = reverse)
 	first_frame_hold: int = 1 ## anything from 1 to 90
 	last_frame_hold: int = 1 ## anything from 1 to 90
+	parent = None
 	
-	def __init__(self):
-		pass
+	def __init__(self, parent):
+		super().__init__(parent)
+		self.parent = parent
+		self.config(bg = self.colour, width = 1280, height = 720)
 	
 	def play_forward(self):
 		pass
@@ -31,5 +39,11 @@ class VideoCanvas():
 	
 	def step_reverse(self):
 		pass
-	
-	
+
+## testing
+if __name__ == "__main__":
+	window = Tk()
+	window.configure(width = 1280, height = 840)
+	vcanvas = VideoCanvas(window)
+	vcanvas.pack()
+	window.mainloop()
