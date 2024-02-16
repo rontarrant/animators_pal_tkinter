@@ -15,17 +15,20 @@ class ImageButton(Button):
 	swapped = False ## track the state of swapped/unswapped
 	
 	def __init__(self, parent, up_image, down_image, swap_on = None, swap_off = None, *args, **kwargs):
+		#print(up_image, down_image)
 		if swap_on != None and swap_off != None:
+			#print(swap_on, swap_off)
 			self.unclicked_swap_image = PhotoImage(file = swap_off)
 			self.clicked_swap_image = PhotoImage(file = swap_on)
 			self.unclicked_image = PhotoImage(file = up_image)
 			self.clicked_image = PhotoImage(file = down_image)
 			self.unclickedImage = PhotoImage(file = up_image)
 			self.clickedImage = PhotoImage(file = down_image)
-			self.swapable_image()
+			self.swapable = True
 		else:
 			self.unclickedImage = PhotoImage(file = up_image)
 			self.clickedImage = PhotoImage(file = down_image)
+			self.swapable = False
 			
 		super().__init__(parent, *args, image = self.unclickedImage, **kwargs)
 		self.toggleState = 1
@@ -37,16 +40,15 @@ class ImageButton(Button):
 	def clickFunction(self, event = None):
 		if self.swapable == True:
 			if self.swapped == False: ## we're in an unswapped state; change to swapped state
+				#print("swapped = True... swapping images")
 				self.swapped = True
 				self.unclickedImage = self.unclicked_swap_image
 				self.clickedImage = self.clicked_swap_image
-				print("looping is on")
 			else:
+				#print("swapped = False")
 				self.swapped = False
 				self.unclickedImage = self.unclicked_image
 				self.clickedImage = self.clicked_image
-				print("looping is off")
-				
 			
 		if self.cget("state") != "disabled": #Ignore click if button is disabled
 			self.toggleState *= -1
@@ -58,6 +60,13 @@ class ImageButton(Button):
 
 class VideoControlsFrame(Frame):
 	colour = "CadetBlue1"
+	goto_start_button = None
+	step_backward_button = None
+	play_button = None
+	stop_button = None
+	step_forward_button = None
+	goto_end_button = None
+	loop_button = None
 	
 	def __init__(self, parent):
 		super().__init__(parent)
@@ -66,67 +75,69 @@ class VideoControlsFrame(Frame):
 		self.configure(width = 1280, height = 72)
 		## populate
 		# goto start
-		goto_start_button = ImageButton(self, "images/goto_start_64x64_up.png", "images/goto_start_64x64_down.png")
+		self.goto_start_button = ImageButton(self, "images/goto_start_up.png", "images/goto_start_down.png")
 		# step backward
-		step_backward_button = ImageButton(self, "images/step_backward_64x64_up.png", "images/step_backward_64x64_down.png")
-		# play button
-		play_button = ImageButton(self, "images/play_64x64_up.png", "images/play_64x64_down.png")
-		# pause
-		pause_button = ImageButton(self, "images/pause_64x64_up.png", "images/pause_64x64_down.png")
+		self.step_backward_button = ImageButton(self, "images/step_backward_up.png", "images/step_backward_down.png")
+		# play/pause button
+		play_image_up = "images/play_up.png"
+		play_image_down = "images/play_down.png"
+		pause_image_up = "images/pause_up.png"
+		pause_image_down = "images/pause_down.png"
+		self.play_button = ImageButton(self, play_image_up, play_image_down, swap_on = pause_image_up, swap_off = pause_image_down)
 		# stop
-		stop_button = ImageButton(self, "images/stop_64x64_up.png", "images/stop_64x64_down.png")
+		self.stop_button = ImageButton(self, "images/stop_up.png", "images/stop_down.png")
 		# step forward
-		step_forward_button = ImageButton(self, "images/step_forward_64x64_up.png", "images/step_forward_64x64_down.png")
+		self.step_forward_button = ImageButton(self, "images/step_forward_up.png", "images/step_forward_down.png")
 		# goto end
-		goto_end_button = ImageButton(self, "images/goto_end_64x64_up.png", "images/goto_end_64x64_down.png")
+		self.goto_end_button = ImageButton(self, "images/goto_end_up.png", "images/goto_end_down.png")
 		# loop on/off
-		loop_image_up = "images/loop_off_64x64_up.png"
-		loop_image_down = "images/loop_off_64x64_down.png"
-		loop_image_swap_up = "images/loop_on_64x64_up.png"
-		loop_image_swap_down = "images/loop_on_64x64_down.png"
-		loop_button = ImageButton(self, loop_image_up, loop_image_down, swap_on = loop_image_swap_up, swap_off = loop_image_swap_down)
+		loop_image_up = "images/loop_off_up.png"
+		loop_image_down = "images/loop_off_down.png"
+		loop_image_swap_up = "images/loop_on_up.png"
+		loop_image_swap_down = "images/loop_on_down.png"
+		self.loop_button = ImageButton(self, loop_image_up, loop_image_down, swap_on = loop_image_swap_up, swap_off = loop_image_swap_down)
 		## layout
-		goto_start_button.pack(side = LEFT)
-		step_backward_button.pack(side = LEFT)
-		play_button.pack(side = LEFT)
-		pause_button.pack(side = LEFT)
-		stop_button.pack(side = LEFT)
-		step_forward_button.pack(side = LEFT)
-		goto_end_button.pack(side = LEFT)
-		loop_button.pack(side = LEFT)
+		self.goto_start_button.pack(side = LEFT)
+		self.step_backward_button.pack(side = LEFT)
+		self.play_button.pack(side = LEFT)
+		self.stop_button.pack(side = LEFT)
+		self.step_forward_button.pack(side = LEFT)
+		self.goto_end_button.pack(side = LEFT)
+		self.loop_button.pack(side = LEFT)
 		## button bindings
-		goto_start_button.bind("<Button-1>", self.goto_start_callback)
-		step_backward_button.bind("<Button-1>", self.step_backward_callback)
-		play_button.bind("<Button-1>", self.play_callback)
-		pause_button.bind("<Button-1>", self.pause_callback)
-		stop_button.bind("<Button-1>", self.stop_callback)
-		step_forward_button.bind("<Button-1>", self.step_forward_callback)
-		goto_end_button.bind("<Button-1>", self.goto_end_callback)
-		loop_button.bind("<Button-1>", self.loop_switch, add="+")
+		self.goto_start_button.bind("<Button-1>", self.goto_start_callback)
+		self.step_backward_button.bind("<Button-1>", self.step_backward_callback)
+		self.play_button.bind("<Button-1>", self.play_pause_callback, add="+")
+		self.stop_button.bind("<Button-1>", self.stop_callback)
+		self.step_forward_button.bind("<Button-1>", self.step_forward_callback)
+		self.goto_end_button.bind("<Button-1>", self.goto_end_callback)
+		self.loop_button.bind("<Button-1>", self.loop_switch, add="+")
 
-	def goto_start_callback(self, *args, **kwargs):
+	def goto_start_callback(self, *args, **kwargs): ## goes to first frame
 		print("Goto Start button pressed")
 
-	def step_backward_callback(self, *args, **kwargs):
+	def step_backward_callback(self, *args, **kwargs): ## goes back one frame
 		print("Step Backward button pressed")
 
-	def play_callback(self, *args, **kwargs):
+	def play_pause_callback(self, *args, **kwargs): ## plays video at normal speed; pauses at current frame
 		print("Play button pressed")
 
-	def pause_callback(self, *args, **kwargs):
-		print("Pause button pressed")
-
-	def stop_callback(self, *args, **kwargs):
+	def stop_callback(self, *args, **kwargs): ## stops video, rewinds to first frame
 		print("Stop button pressed")
+		## If the Pause button is visible, this should swap it back to the Play button.
+		if self.play_button.swapped == True:
+			self.play_button.clickFunction()
 
-	def step_forward_callback(self, *args, **kwargs):
+	def step_forward_callback(self, *args, **kwargs): ## goes forward one frame
 		print("Step Forward button pressed")
 
-	def goto_end_callback(self, *args, **kwargs):
+	def goto_end_callback(self, *args, **kwargs): ## goes to last frame
 		print("Goto End button pressed")
 
-	def loop_switch(self, *args, **kwargs):
+	def loop_switch(self, *args, **kwargs): ## turns on/off looping
 		print("loop switch")
+		
+		print(args)
 
 ## testing
 if __name__ == "__main__":
