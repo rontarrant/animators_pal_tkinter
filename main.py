@@ -10,6 +10,10 @@ from filemenu import *
 from helpmenu import *
 from settings import SettingsLabelFrame
 from video_canvas import VideoCanvas
+from video_controls import VideoControlsFrame
+from ap_image import APImage
+from image_collection import TKImageCollection
+
 
 ## for debugging
 from icecream import install
@@ -62,7 +66,7 @@ class MainFrame(Frame):
 		output_settings_frame = SettingsLabelFrame(self)
 		image_thumbnail_frame = Frame(self, bg = 'lawn green')
 		video_canvas_frame = VideoCanvas(self)
-		video_controls_frame = Frame(self, bg = 'goldenrod1')
+		video_controls_frame = VideoControlsFrame(self)
 		
 		# layout
 		## set the row and column minimum sizes
