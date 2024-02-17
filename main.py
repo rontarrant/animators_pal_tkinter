@@ -49,6 +49,7 @@ class Window(Tk):
 
 		## CONFIGURE window stuff
 		self.config(width = self.min_width, height = self.min_height)
+		self.minsize(self.min_width, self.min_height)
 		self.title(self.title_text)
 		self.config(menu = self._menubar)
 
@@ -60,7 +61,7 @@ class MainFrame(Frame):
 	def __init__(self, window):
 		super().__init__(window)
 		# configure
-		self.pack() ## place the MainFrame in the window
+		self.grid() ## place the MainFrame in the window
 		# populate
 		image_list_frame = Frame(self, bg = 'peach puff')
 		output_settings_frame = SettingsLabelFrame(self)

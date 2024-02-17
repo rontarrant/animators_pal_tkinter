@@ -17,6 +17,10 @@ class SettingsLabelFrame(Labelframe):
 		super().__init__(parent)
 		self.parent = parent
 		self.config(text = "Video Output Settings")
+		self.grid(sticky = (N, E, W, S))
+		self.grid_columnconfigure(0, weight = 1)
+		self.grid_columnconfigure(10, weight = 1)
+
 		## children
 		self.direction = DirectionRadioSet(self)
 		separator1 = Separator(self, orient = VERTICAL)
@@ -32,15 +36,15 @@ class SettingsLabelFrame(Labelframe):
 		## on the left to match that on the right, padx needs to be applied
 		## to the first child widget as shown below. The value matches
 		## the parent's xpad value above.
-		self.direction.pack(side = 'left', padx = (20, 0))
-		separator1.pack(side = 'left', padx = 5)
-		self.fps.pack(side = 'left', padx = 5)
-		separator2.pack(side = 'left', padx = 5)
-		self.hold_first.pack(side = "left")
-		separator3.pack(side = 'left', padx = 5)
-		self.shoot_on.pack(side = 'left')
-		separator4.pack(side = 'left', padx = 5)
-		self.hold_last.pack(side = 'left')
+		self.direction.grid(row = 0, column = 1, padx = 2)
+		separator1.grid(row = 0, column = 2, padx = 2)
+		self.fps.grid(row = 0, column = 3, padx = 2)
+		separator2.grid(row = 0, column = 4, padx = 2)
+		self.hold_first.grid(row = 0, column = 5, padx = 2)
+		separator3.grid(row = 0, column = 6, padx = 2)
+		self.shoot_on.grid(row = 0, column = 7, padx = 2)
+		separator4.grid(row = 0, column = 8, padx = 2)
+		self.hold_last.grid(row = 0, column = 9, padx = 2)
 		self.prefs = Preferences()
 		self.prefs.assign_widget_variables(self.direction.var,
 										self.fps.var,
@@ -53,7 +57,7 @@ class SettingsLabelFrame(Labelframe):
 		#'''
 		#button = Button(text = "Update", command = lambda: print(self.prefs))
 		#button = Button(text = "Update", command = self.show_preferences)
-		#button.pack()
+		#button.grid()
 		#'''
 		
 	def show_preferences(self):
@@ -68,3 +72,12 @@ class SettingsLabelFrame(Labelframe):
 		print("Stored in window: \n", self.parent.image_files)
 		print("Stored in prefs: \n", self.prefs.image_file_name_list)
 		print("")
+
+
+## testing
+if __name__ == "__main__":
+	window = Tk()
+	window.configure(width = 1280, height = 840)
+	video_settings = SettingsLabelFrame(window)
+	video_settings.grid()
+	window.mainloop()

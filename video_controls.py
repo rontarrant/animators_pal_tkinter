@@ -73,6 +73,9 @@ class VideoControlsFrame(Frame):
 		## configure
 		self.parent = parent
 		self.configure(width = 1280, height = 72)
+		self.grid(sticky = (N, E, W, S))
+		self.grid_columnconfigure(0, weight = 1)
+		self.grid_columnconfigure(8, weight = 1)
 		## populate
 		# goto start
 		self.goto_start_button = ImageButton(self, "images/goto_start_up.png", "images/goto_start_down.png")
@@ -97,13 +100,13 @@ class VideoControlsFrame(Frame):
 		loop_image_swap_down = "images/loop_on_down.png"
 		self.loop_button = ImageButton(self, loop_image_up, loop_image_down, swap_on = loop_image_swap_up, swap_off = loop_image_swap_down)
 		## layout
-		self.goto_start_button.pack(side = LEFT)
-		self.step_backward_button.pack(side = LEFT)
-		self.play_button.pack(side = LEFT)
-		self.stop_button.pack(side = LEFT)
-		self.step_forward_button.pack(side = LEFT)
-		self.goto_end_button.pack(side = LEFT)
-		self.loop_button.pack(side = LEFT)
+		self.goto_start_button.grid(row = 0, column = 1, padx = 5)
+		self.step_backward_button.grid(row = 0, column = 2, padx = 5)
+		self.play_button.grid(row = 0, column = 3, padx = 5)
+		self.stop_button.grid(row = 0, column = 4, padx = 5)
+		self.step_forward_button.grid(row = 0, column = 5, padx = 5)
+		self.goto_end_button.grid(row = 0, column = 6, padx = 5)
+		self.loop_button.grid(row = 0, column = 7, padx = 5)
 		## button bindings
 		self.goto_start_button.bind("<Button-1>", self.goto_start_callback)
 		self.step_backward_button.bind("<Button-1>", self.step_backward_callback)
@@ -143,6 +146,6 @@ class VideoControlsFrame(Frame):
 if __name__ == "__main__":
 	window = Tk()
 	window.configure(width = 1280, height = 840)
-	vcanvas = VideoControlsFrame(window)
-	vcanvas.pack()
+	video_controls = VideoControlsFrame(window)
+	video_controls.grid()
 	window.mainloop()
