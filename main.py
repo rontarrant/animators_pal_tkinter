@@ -13,7 +13,7 @@ from video_canvas import VideoCanvas
 from video_controls import VideoControlsFrame
 from ap_image import APImage
 from image_collection import TKImageCollection
-
+from image_list import FileNamesFrame
 
 ## for debugging
 from icecream import install
