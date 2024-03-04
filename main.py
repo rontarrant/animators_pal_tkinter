@@ -6,11 +6,13 @@ from tkinter import *
 from tkinter.ttk import *
 
 ## local
-from filemenu import *
-from helpmenu import *
-from settings import SettingsLabelFrame
-from video_canvas import VideoCanvas
-from video_controls import VideoControlsFrame
+from menu_file import *
+from menu_help import *
+from fr_settings import SettingsLabelFrame
+from fr_video_canvas import VideoCanvas
+## from fr_image_preview import ImagePreviewFrame
+## from fr_file_treeview import TreeGenFrame
+from fr_video_controls import VideoControlsFrame
 from ap_image import APImage
 from image_collection import TKImageCollection
 from image_list import FileNamesFrame
@@ -32,6 +34,7 @@ class Window(Tk):
 	_menubar = None
 	_frame = None
 	image_files = []
+	project_name = None
 
 	def __init__(self, *args, **kwargs):
 		working_dir = os.path.abspath(os.path.dirname(sys.argv[0]))
