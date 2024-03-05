@@ -1,12 +1,15 @@
 '''
-ColumnProperties class
-Contains configuration properties for a single Treeview column.
+a class for column configuration specifications
+
+Create an instance one of this class for each column of a Treeview.
 
 '''
 from tkinter import *
 from tkinter.ttk import *
 
-class ColumnProperties():
+from collections.abc import Callable
+
+class ColumnSpecs():
 	@property
 	def cid(self):
 		return self._cid
@@ -15,7 +18,7 @@ class ColumnProperties():
 	def cid(self, cid):
 		if type(cid) == str: ## is it a string?
 			if cid[:1] == "#": ## is the first character an octothorp?
-				if cid[-1:].isdigit() == True: ## is the last character a number?
+				if cid[-1:].isdigit() == True: ## is the last digit a number?
 					self._cid = cid
 		
 	@property
@@ -54,28 +57,36 @@ class ColumnProperties():
 		if type(value) == int:
 			self._stretch = value
 		
-	def __init__(self, cid, width = 200, minwidth = 20, anchor = W, stretch = 1):
-		_cid: str
-		_width: int
-		_minwidth: int
-		_anchor: str = W
-		_stretch: int
-
-		self.cid = cid
+	def __init__(self, cid):
+		## instance variables
+		self._cid: str = cid
+		self._width: int
+		self._minwidth: int
+		self._anchor: str = W
+		self._stretch: int
+	
+	def set_specs(self, width = 200, minwidth = 20, anchor = W, stretch = 1):
 		self.width = width
 		self.minwidth = minwidth
 		self.anchor = anchor
 		self.stretch = stretch
 
 	def dump(self):
-		print("ColumnProperties:")
+		print("ColumnSpecs:")
 		print("cid: ", self.cid)
 		print("width: ", self.width)
 		print("anchor: ", self.anchor)
 		print("minwidth: ", self.minwidth)
 		print("stretch: ", self.stretch)
 
-## testing	
+
 if __name__ == "__main__":
-	colprop = ColumnProperties("#2", 250, 40)
-	colprop.dump()
+
+	colprop1 = ColumnSpecs("#0")
+	colprop1.set_specs(width = 250, anchor = N)
+	colprop1.dump()
+
+	colprop2 = ColumnSpecs("#2")
+	colprop2.set_specs(width = 20, anchor = E, minwidth = 30)
+	colprop2.dump()
+

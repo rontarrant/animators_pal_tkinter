@@ -1,16 +1,17 @@
 '''
-class for heading configuration properties
+classes for heading and column configuration properties
 
-For each heading of a Treeview, create an instance of HeadingProperties.
+For each heading/column of a Treeview, create an instance of each
+class -- one HeadingSpecs and one ColumnProperties.
 
-HeadingProperties arguments:
+HeadingSpecs arguments:
 cid -- column ID
 	defaults: "#0", "#1", "#2", etc.
-	Other than "#0", the rest can be arbiltrary strings
-	This argument must be supplied when instantiating HeadingProperties.
+	or can be set to arbiltrary strings
+	This argument must be supplied when instantiating HeadingSpecs.
 	
 text -- the string that appears in the column heading
-	This argument must be supplied when instantiating HeadingProperties.
+	This argument must be supplied when instantiating HeadingSpecs.
 
 command = None -- the callback triggered when the user clicks the heading
 	
@@ -25,13 +26,7 @@ from tkinter.ttk import *
 
 from collections.abc import Callable
 
-class HeadingProperties():
-	_cid: str
-	_anchor: str = W
-	_command: Callable[[], None]
-	_image: str
-	_text: str
-
+class HeadingSpecs():
 	@property
 	def cid(self):
 		return self._cid
@@ -73,15 +68,22 @@ class HeadingProperties():
 		if type(anchor) == str:
 			self._anchor = anchor
 		
-	def __init__(self, cid, text, command = None, anchor = W, image = ""):
-		self.cid = cid
+	def __init__(self, cid):
+		## instance variables
+		self._cid: str = cid
+		self._anchor: str = W
+		self._command: Callable[[], None]
+		self._image: str
+		self._text: str
+	
+	def set_specs(self, text, command = None, anchor = W, image = ""):
 		self.text = text
 		self.command = command
 		self.anchor = anchor
 		self.image = image
 
 	def dump(self):
-		print("HeadingProperties:")
+		print("HeadingSpecs:")
 		print("cid: ", self.cid)
 		print("text: ", self.text)
 		print("anchor: ", self.anchor)
@@ -91,19 +93,20 @@ class HeadingProperties():
 			print("command: ", self.command)
 			self.command()
 
-
-
 def do_something():
 	print("we're doing something")
 	
 if __name__ == "__main__":
-	headprop = HeadingProperties("#0", "column name", command = do_something)
+	headprop1 = HeadingSpecs("#0")
+	## If the arguments are given in order, they don't have to be named.
+	headprop1.set_specs("column name", do_something)
 	##headprop.dump()
 	
-	headprop2 = HeadingProperties("#1", "other column name")
+	headprop2 = HeadingSpecs("#1")
+	headprop2.set_specs("other column name", anchor = S, image = "images/my_image.png")
 	##headprop2.dump()
 
-	headings_list = [headprop, headprop2]
+	headings_list = [headprop1, headprop2]
 	
 	for heading in headings_list:
 		heading.dump()
