@@ -2,6 +2,10 @@ from tkinter import *
 from tkinter import ttk
 from tkinter import filedialog
 
+## Python stuff
+import os
+import sys
+
 ## local
 from set_preferences import Preferences
 
@@ -90,14 +94,26 @@ class FileMenu(Menu):
 		from multiple sources to create a longer animation. In fact,
 		the same sequence can be added over and over, if desired.
 		'''
-		print("adding images...")
 		prefs = Preferences()
-		temp = filedialog.askopenproject_names(filetypes = self.imagetypes)
+		file_names = []
+		path_names = []
+		
+		## change initialdir to point at the stored location
+		## when you figure that shit out
+		temp = filedialog.askopenfilenames(filetypes = self.imagetypes, initialdir = ".")
 		print("temp: \n", temp)
 		
-		for image in temp:
-			self.window.image_files.append(image)
+		## build a data list suitable for the treeview
+		self.window._frame.children['!treeframe'].reach_me()
+		
+		for image_file_name in temp:
+			file_name = os.path.split(image_file_name)[1]
+			file_names.append(file_name)
+			path_name = os.path.split(image_file_name)[0]
+			path_names.append(path_name)
+			self.window.image_files.append(image_file_name)
 
+		self.window._frame.children['!treeframe'].build_file_data(file_names, path_names)
 		prefs.assign_image_file_name_list_variable(self.window.image_files)
 
 		## testing

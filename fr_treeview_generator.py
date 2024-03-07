@@ -31,7 +31,26 @@ class TreeFrame(Frame):
 		self.cid_generator(number_of_columns)
 		self._configure_columns(column_specs)
 		self._configure_headings(heading_specs)
+		
+		## Treeview dummy data
+		## Without this, the headings won't show when the
+		## file list is empty.
+		## This will have to be overwritten when file names are added.
+		## data is: file name, location, width, height
+		data = [("", "", "", "")]
+		self.inject_data(data)
 
+	def build_file_data(self, file_list, path_list):
+		data = []
+		for i in range(len(file_list)):
+			data.append((file_list[i], path_list[i], "", ""))
+		
+		print(data)
+		self.inject_data(data)
+
+	def reach_me(self):
+		print("We've been reached from: ", self.parent)
+		
 	def set_col_width(self, cid):
 		print("Got cid: ", cid)
 	'''
@@ -77,13 +96,6 @@ def main():
 
 	number_of_columns = 4
 	tree_frame = TreeFrame(window, number_of_columns)
-
-	data = [
-		("", "", "", "")
-	]
-	
-	tree_frame.inject_data(data)
-
 	window.mainloop()
 
 if __name__ == "__main__":

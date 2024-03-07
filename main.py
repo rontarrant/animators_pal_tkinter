@@ -67,11 +67,11 @@ class MainFrame(Frame):
 		number_of_file_columns = 4
 		self.grid() ## place the MainFrame in the window
 		# populate
-		image_list_frame = TreeFrame(self, number_of_file_columns)
-		output_settings_frame = SettingsLabelFrame(self)
-		image_thumbnail_frame = Frame(self, bg = 'lawn green')
-		video_canvas_frame = VideoCanvas(self)
-		video_controls_frame = VideoControlsFrame(self)
+		self.image_list_frame = TreeFrame(self, number_of_file_columns)
+		self.output_settings_frame = SettingsLabelFrame(self)
+		self.image_thumbnail_frame = Frame(self, bg = 'lawn green')
+		self.video_canvas_frame = VideoCanvas(self)
+		self.video_controls_frame = VideoControlsFrame(self)
 		
 		# layout
 		## set the row and column minimum sizes
@@ -82,20 +82,12 @@ class MainFrame(Frame):
 			self.grid_columnconfigure(column, minsize = 128)
 			
 		## insert frames for each window area
-		image_list_frame.grid(row = 0, column = 0, rowspan = 10, columnspan = 3, sticky = (N, E, W, S))
-		output_settings_frame.grid(row = 0, column = 3, rowspan = 2, columnspan = 10, sticky = (N, E, W, S))
-		image_thumbnail_frame.grid(row = 10, column = 0, rowspan = 3, columnspan = 3, sticky = (N, E, W, S))
-		video_canvas_frame.grid(row = 2, column = 3, rowspan = 10, columnspan = 10, sticky = (N, E, W, S))
-		video_controls_frame.grid(row = 12, column = 3, columnspan = 10, sticky = (N, E, W, S))
+		self.image_list_frame.grid(row = 0, column = 0, rowspan = 10, columnspan = 3, sticky = (N, E, W, S))
+		self.output_settings_frame.grid(row = 0, column = 3, rowspan = 2, columnspan = 10, sticky = (N, E, W, S))
+		self.image_thumbnail_frame.grid(row = 10, column = 0, rowspan = 3, columnspan = 3, sticky = (N, E, W, S))
+		self.video_canvas_frame.grid(row = 2, column = 3, rowspan = 10, columnspan = 10, sticky = (N, E, W, S))
+		self.video_controls_frame.grid(row = 12, column = 3, columnspan = 10, sticky = (N, E, W, S))
 		
-		## Treeview dummy data
-		## Without this, the headings won't show
-		data = [
-			("", "", "", "")
-		]
-		
-		image_list_frame.inject_data(data)
-
 class Menubar(Menu):
 	file_menu = None
 	preferences_menu = None
