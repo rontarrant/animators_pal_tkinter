@@ -1,7 +1,7 @@
 '''
 a class for column configuration specifications
 
-Create an instance one of this class for each column of a Treeview.
+Create an instance of this class for each column of a Treeview.
 
 '''
 from tkinter import *
@@ -78,7 +78,6 @@ class ColumnSpecs():
 		print("anchor: ", self.anchor)
 		print("minwidth: ", self.minwidth)
 		print("stretch: ", self.stretch)
-
 
 if __name__ == "__main__":
 

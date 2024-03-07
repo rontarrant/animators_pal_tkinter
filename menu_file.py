@@ -3,7 +3,7 @@ from tkinter import ttk
 from tkinter import filedialog
 
 ## local
-from preferences import Preferences
+from set_preferences import Preferences
 
 class FileMenu(Menu):
 	def __init__(self, menubar, window):

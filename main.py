@@ -11,9 +11,9 @@ from menu_help import *
 from fr_settings import SettingsLabelFrame
 from fr_video_canvas import VideoCanvas
 ## from fr_image_preview import ImagePreviewFrame
-## from fr_file_treeview import TreeGenFrame
 from fr_video_controls import VideoControlsFrame
-from ap_image import APImage
+from fr_treeview_generator import TreeFrame
+from image_ap import APImage
 from image_collection import TKImageCollection
 from image_list import FileNamesFrame
 
@@ -64,9 +64,10 @@ class MainFrame(Frame):
 	def __init__(self, window):
 		super().__init__(window)
 		# configure
+		number_of_file_columns = 4
 		self.grid() ## place the MainFrame in the window
 		# populate
-		image_list_frame = Frame(self, bg = 'peach puff')
+		image_list_frame = TreeFrame(self, number_of_file_columns)
 		output_settings_frame = SettingsLabelFrame(self)
 		image_thumbnail_frame = Frame(self, bg = 'lawn green')
 		video_canvas_frame = VideoCanvas(self)
@@ -86,6 +87,14 @@ class MainFrame(Frame):
 		image_thumbnail_frame.grid(row = 10, column = 0, rowspan = 3, columnspan = 3, sticky = (N, E, W, S))
 		video_canvas_frame.grid(row = 2, column = 3, rowspan = 10, columnspan = 10, sticky = (N, E, W, S))
 		video_controls_frame.grid(row = 12, column = 3, columnspan = 10, sticky = (N, E, W, S))
+		
+		## Treeview dummy data
+		## Without this, the headings won't show
+		data = [
+			("", "", "", "")
+		]
+		
+		image_list_frame.inject_data(data)
 
 class Menubar(Menu):
 	file_menu = None

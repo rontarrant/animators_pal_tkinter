@@ -10,7 +10,7 @@ from set_fps_radio import FPSRadioSet
 from set_direction_radio import DirectionRadioSet
 from set_shoot_on import ShootOnSet
 from set_frame_hold import FrameHoldSet
-from preferences import Preferences
+from set_preferences import Preferences
 
 class SettingsLabelFrame(Labelframe):
 	def __init__(self, parent):

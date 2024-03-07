@@ -9,7 +9,7 @@ from tkinter import Tk ## This must be limited so we don't replace PIL's Image c
 from tkinter import Canvas
 
 ## local
-from ap_image import APImage
+from image_ap import APImage
 
 class TKImageCollection():
 	_images = {} ## dictionary of CVImage data (NOT CVImage objects)
