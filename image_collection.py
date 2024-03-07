@@ -51,7 +51,7 @@ if __name__ == "__main__":
 	images = {}
 	
 	for i in range(8):
-		file_name = f"image_sequence/Lisa_Turnaround_1920x1080_{i:04d}.png"
+		file_name = f"image_sequence/Lisa_seq_01_{i:04d}.png"
 		image = APImage(file_name)
 		## convert it...
 		image.convert_cv_to_tk()

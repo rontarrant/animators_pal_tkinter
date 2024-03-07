@@ -104,8 +104,6 @@ class FileMenu(Menu):
 		print("temp: \n", temp)
 		
 		## build a data list suitable for the treeview
-		self.window._frame.children['!treeframe'].reach_me()
-		
 		for image_file_name in temp:
 			file_name = os.path.split(image_file_name)[1]
 			file_names.append(file_name)
@@ -117,7 +115,7 @@ class FileMenu(Menu):
 		prefs.assign_image_file_name_list_variable(self.window.image_files)
 
 		## testing
-		#'''
+		'''
 		print("from the window:")
 
 		for image in self.window.image_files:
@@ -127,7 +125,7 @@ class FileMenu(Menu):
 
 		for image in prefs.image_file_name_list:
 			print(image)
-		#'''
+		'''
 
 	def build_mp4(self, event = None):
 		print("building MP4 video...")
