@@ -6,6 +6,10 @@ Displays a flipbook of TKImages collected in a TKImageCollection.
 from tkinter import *
 from tkinter.ttk import *
 
+## local
+from image_collection import TKImageCollection
+from image_ap import APImage
+
 class VideoCanvas(Canvas):
 	fps: int = 24 ## can also be 18, 25, or 30
 	shoot_on: int = 1 ## 1's, 2's, 3's up to 9's
@@ -20,6 +24,7 @@ class VideoCanvas(Canvas):
 	def __init__(self, parent):
 		super().__init__(parent)
 		self.parent = parent
+		self.image_collection = TKImageCollection()
 		self.config(bg = self.colour, width = 1280, height = 720)
 	
 	def play_forward(self):

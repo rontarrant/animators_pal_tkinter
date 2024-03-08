@@ -8,11 +8,14 @@ import sys
 
 ## local
 from set_preferences import Preferences
+from image_collection import TKImageCollection
+from image_ap import APImage
 
 class FileMenu(Menu):
 	def __init__(self, menubar, window):
 		self.label_text = "File"
 		self.window = window
+		self.image_collection = TKImageCollection()
 		super().__init__(menubar)
 		items = self.index ## shortcut to item index
 		## configure stuff
@@ -86,13 +89,16 @@ class FileMenu(Menu):
 
 	def add_images(self, event = None):
 		'''
-		The askopenproject_names() dialog returns a tuple, but it'll be
+		The askopenfilenames() dialog returns a tuple, but it'll be
 		easier to add to the image	list if it's an actual Python list.
 		So, the dialog results are assigned to a temp variable first.
 		Then a for loop append()s each image to the image_files variable.
 		This opens us up to appending multiple image sequences together
 		from multiple sources to create a longer animation. In fact,
 		the same sequence can be added over and over, if desired.
+		NOTE:
+		This is going to change when the image collection class is 
+		brought in.
 		'''
 		prefs = Preferences()
 		file_names = []
@@ -103,15 +109,28 @@ class FileMenu(Menu):
 		temp = filedialog.askopenfilenames(filetypes = self.imagetypes, initialdir = ".")
 		print("temp: \n", temp)
 		
-		## build a data list suitable for the treeview
+		## make sure we have a collection of images
+		self.image_collection = TKImageCollection()
+		## Find out how many images are already in the collection.
+		old_count = len(self.image_collection.images)
+		## add the new images to the image_collection
 		for image_file_name in temp:
-			file_name = os.path.split(image_file_name)[1]
-			file_names.append(file_name)
-			path_name = os.path.split(image_file_name)[0]
-			path_names.append(path_name)
-			self.window.image_files.append(image_file_name)
-
-		self.window._frame.children['!treeframe'].build_file_data(file_names, path_names)
+			image = APImage(image_file_name)
+			image.convert_cv_to_tk()
+			self.image_collection.add(image_file_name, image.tk_image_data)
+		
+		## now get the number of images in the collection again...
+		new_count = len(self.image_collection.images)
+		## and find the difference, thus we know how many new images 
+		## were added
+		new_file_count = new_count - old_count
+		## testing
+		#'''
+		for image in self.image_collection.images:
+			print("collection image: ", image)
+		#'''
+		
+		self.window._frame.children['!treeframe'].build_file_data(new_file_count)
 		prefs.assign_image_file_name_list_variable(self.window.image_files)
 
 		## testing

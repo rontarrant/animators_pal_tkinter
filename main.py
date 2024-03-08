@@ -10,7 +10,7 @@ from menu_file import *
 from menu_help import *
 from fr_settings import SettingsLabelFrame
 from fr_video_canvas import VideoCanvas
-## from fr_image_preview import ImagePreviewFrame
+from fr_thumbnail import ThumbnailFrame
 from fr_video_controls import VideoControlsFrame
 from fr_treeview_generator import TreeFrame
 from image_ap import APImage
@@ -33,8 +33,9 @@ class Window(Tk):
 	min_height = 950
 	_menubar = None
 	_frame = None
-	image_files = []
+	image_files = [] ## deprecated
 	project_name = None
+	image_collection = TKImageCollection()
 
 	def __init__(self, *args, **kwargs):
 		working_dir = os.path.abspath(os.path.dirname(sys.argv[0]))
@@ -64,12 +65,12 @@ class MainFrame(Frame):
 	def __init__(self, window):
 		super().__init__(window)
 		# configure
-		number_of_file_columns = 4
+		column_count = 4
 		self.grid() ## place the MainFrame in the window
 		# populate
-		self.image_list_frame = TreeFrame(self, number_of_file_columns)
+		self.image_list_frame = TreeFrame(self, column_count)
 		self.output_settings_frame = SettingsLabelFrame(self)
-		self.image_thumbnail_frame = Frame(self, bg = 'lawn green')
+		self.image_thumbnail_frame = ThumbnailFrame(self)
 		self.video_canvas_frame = VideoCanvas(self)
 		self.video_controls_frame = VideoControlsFrame(self)
 		

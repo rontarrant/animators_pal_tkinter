@@ -11,6 +11,10 @@ from tkinter import Canvas
 ## local
 from image_ap import APImage
 
+## Because the image list is a class attribute
+## this will be the same instance no matter where
+## or how often it's instantiated throughout the
+## other modules.
 class TKImageCollection():
 	_images = {} ## dictionary of CVImage data (NOT CVImage objects)
 					## using the filenames as keys, the data as values
