@@ -43,38 +43,57 @@ class TreeFrame(Frame):
 		self.cid_generator(column_count)
 		self._configure_columns(column_specs)
 		self._configure_headings(heading_specs)
+		self.treeview.bind('<<TreeviewSelect>>', self.thumbnail_selected_image)
+
+	def thumbnail_selected_image(self, event):
+		## find the selected item ID (iid) ie. row
+		selected_iid = self.treeview.selection()[0]
+		print(self.treeview.selection())
+		## get the full path and image file name
+		row_number = self.treeview.index(self.treeview.selection()[0])
+		print("row number: ", self.treeview.index(self.treeview.selection()[0]))
+		self.parent.children['!thumbnailframe'].show_image(row_number)
 	
-	## Because all the image file names are already stored in
-	## the image_collection, we need a way to tell where the 
-	## newly-added file names start in the image_collection.
-	## We do this will a bit of simple math in FileMenu.add_files().
-	## When the file Add Images dialog closes, and before we start
-	## adding the new images, we get the length of the image_collection.
-	## Then we add the new files and get the length again. The difference
-	## is passed to build_file_data() as new_file_count.
-	## In the current method, we again look at the length of
-	## the image_collection and set a count. In the for loop,
-	## do a countdown until we countdown to new_file_count. Only
-	## then do we start adding images.
-	## The purpose of all this is to avoid adding the same image
-	## file names to the Treeview over and over each time we add
-	## new images.
+	'''
+	The purpose of all the mucking around in build_file_data()
+	is to avoid adding the same image file names to the Treeview
+	over and over each time we add new images. Here's how it works:
+	
+	Because all the image file names are already stored in
+	the image_collection--and that's the only place we can draw on
+	to get file names to put in the Treeview--we need a way to tell
+	where in image_collection the newly-added file names start.
+	
+	We do this will a bit of simple math in FileMenu.add_files().
+	When the Add Images dialog closes, and before we start
+	adding the new images, we get the length of the image_collection.
+	Then we add the new files and get the length again. The difference
+	is how many new files are being added. We pass this to 
+	the following method--build_file_data()--as new_file_count.
+	
+	Now we again get the number of images in the collection (count)
+	and in the for loop, count down until we get to new_file_count.
+	That way we skip over the files already in the Treeview and only
+	add the new ones.
+	'''
 	def build_file_data(self, new_file_count):
 		## start with an empty list of images to add
 		data = []
 		## number of images already in the collection
 		count = len(self.image_collection.images)
 		
+		## To get the file names to add,
+		## look at each image in the collection...
 		for image in self.image_collection.images:
 			## This keeps us from adding the images already
 			## in the collection for a second time.
 			if count > new_file_count:
 				count -= 1
 				continue
+			## 
 			## separate the file name from the path
-			full_path = image
-			file_name = os.path.split(full_path)[1]
-			path = os.path.split(full_path)[0]
+			file_name = image.file_name
+			path = image.path
 			## create shortened file path so we're only seeing
 			## the lowest sub-directory where the image lives
 			path_parts = path.split("/")
@@ -95,6 +114,9 @@ class TreeFrame(Frame):
 	CID's cannot be changed.
 	'''
 	def cid_generator(self, columns):
+		## The 0th column is created automatically
+		## when the Treeview is instantiated, so we
+		## decrease the count by one.
 		columns -= 1
 		
 		if columns > 1:
@@ -120,12 +142,11 @@ class TreeFrame(Frame):
 	def inject_data(self, data):
 		for item in data:
 			self.treeview.insert("", "end", text = item[0], values = (item[1], item[2], item[3]))
-		
-		## local testing - show all data rows
-		#'''
+
+	## local testing - show all data rows
+	def list_rows(self):
 		for row in self.treeview.get_children():
 			print(self.treeview.item(row)['text'], self.treeview.item(row)['values'])
-		#'''
 		
 ## testing
 def main():

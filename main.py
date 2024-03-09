@@ -88,6 +88,10 @@ class MainFrame(Frame):
 		self.image_thumbnail_frame.grid(row = 10, column = 0, rowspan = 3, columnspan = 3, sticky = (N, E, W, S))
 		self.video_canvas_frame.grid(row = 2, column = 3, rowspan = 10, columnspan = 10, sticky = (N, E, W, S))
 		self.video_controls_frame.grid(row = 12, column = 3, columnspan = 10, sticky = (N, E, W, S))
+		#self.show_frames()
+	
+	def show_frames(self):
+		print(self.winfo_children())
 		
 class Menubar(Menu):
 	file_menu = None

@@ -16,8 +16,7 @@ from image_ap import APImage
 ## or how often it's instantiated throughout the
 ## other modules.
 class TKImageCollection():
-	_images = {} ## dictionary of CVImage data (NOT CVImage objects)
-					## using the filenames as keys, the data as values
+	_images = [] ## a list of lists containing file name and data
 	
 	@property
 	def images(self):
@@ -26,8 +25,9 @@ class TKImageCollection():
 	def __init__(self):
 		pass
 		
-	def add(self, image_name: str, data: ImageTk.PhotoImage):
-		self._images[image_name] = data
+	def add(self, image):
+		## a list of dictionaries
+		self._images.append(image)
 		
 	def remove(self, image_name: str, data: ImageTk.PhotoImage):
 		pass
@@ -42,7 +42,8 @@ class TKImageCollection():
 		pass
 	
 	def show_list(self):
-		pass
+		for image in self._images.items():
+			print("image: ", image)
 
 ## testing
 if __name__ == "__main__":
@@ -60,7 +61,7 @@ if __name__ == "__main__":
 		## convert it...
 		image.convert_cv_to_tk()
 		## add the image to the frame list
-		image_collection.add(file_name, image.tk_image_data)
+		image_collection.add(file_name, image)
 		
 	for j in image_collection.images:
 		print(j)

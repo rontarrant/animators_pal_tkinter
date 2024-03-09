@@ -107,7 +107,7 @@ class FileMenu(Menu):
 		## change initialdir to point at the stored location
 		## when you figure that shit out
 		temp = filedialog.askopenfilenames(filetypes = self.imagetypes, initialdir = ".")
-		print("temp: \n", temp)
+		##print("temp: \n", temp)
 		
 		## make sure we have a collection of images
 		self.image_collection = TKImageCollection()
@@ -117,7 +117,7 @@ class FileMenu(Menu):
 		for image_file_name in temp:
 			image = APImage(image_file_name)
 			image.convert_cv_to_tk()
-			self.image_collection.add(image_file_name, image.tk_image_data)
+			self.image_collection.add(image)
 		
 		## now get the number of images in the collection again...
 		new_count = len(self.image_collection.images)
@@ -125,10 +125,10 @@ class FileMenu(Menu):
 		## were added
 		new_file_count = new_count - old_count
 		## testing
-		#'''
-		for image in self.image_collection.images:
-			print("collection image: ", image)
-		#'''
+		'''
+		for index in self.image_collection.images:
+			print("collection image: ", index)
+		'''
 		
 		self.window._frame.children['!treeframe'].build_file_data(new_file_count)
 		prefs.assign_image_file_name_list_variable(self.window.image_files)

@@ -68,14 +68,8 @@ class APImage():
 
 	@property
 	def dimensions(self):
-		return (self._width, self._height)
+		return (self.width, self.height)
 	
-	@dimensions.setter
-	def dimensions(self, value):
-		self._width = value[1]
-		self._height = value[0]
-		self._channels = value[2]
-
 	def __init__(self, full_path_and_file):
 		## instance variables
 		_file_name: str = []
@@ -89,6 +83,7 @@ class APImage():
 		self.file_name = os.path.split(full_path_and_file)[1]
 		self.path = os.path.split(full_path_and_file)[0]
 		self.cv_image_data = cv2.imread(os.path.join(self.path, self.file_name))
+		self.convert_cv_to_tk()
 		shape = self.cv_image_data.shape
 		self.width = shape[1]
 		self.height = shape[0]

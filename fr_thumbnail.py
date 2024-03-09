@@ -1,6 +1,6 @@
 '''
-Video Canvas
-Displays a flipbook of TKImages collected in a TKImageCollection. 
+Image Thumbnail
+Displays a TKImages selected in the Treeview and stored in TKImageCollection. 
 '''
 
 from tkinter import *
@@ -11,15 +11,8 @@ from image_collection import TKImageCollection
 from image_ap import APImage
 
 class ThumbnailFrame(Canvas):
-	fps: int = 24 ## can also be 18, 25, or 30
-	shoot_on: int = 1 ## 1's, 2's, 3's up to 9's
-	width: int = 1280 ## default: HD
-	height: int = 720 ## default: HD
+	thumbnail_image = None
 	colour = "DarkOliveGreen3"
-	direction: int = 1 ## default: forward (-1 = reverse)
-	first_frame_hold: int = 1 ## anything from 1 to 90
-	last_frame_hold: int = 1 ## anything from 1 to 90
-	parent = None
 	
 	def __init__(self, parent):
 		super().__init__(parent)
@@ -27,13 +20,32 @@ class ThumbnailFrame(Canvas):
 		self.image_collection = TKImageCollection()
 		self.config(bg = self.colour, width = 384, height = 216)
 	
-	def show(self, image):
-		pass
+	def show_image(self, image_number):
+		print("showing image: ", image_number)
+		## In the collection, find the image we want to thumbnail.
+		image = self.image_collection.images[image_number]
+		print("image to show: ", image.path + "/" + image.file_name)
+		## get the width and height of the image
+		width, height = image.dimensions
+		print("width: ", width, ", height: ", height)
+		## subtract height from width: 0 or -x = pillar, +x = letter
+		## set pillar or letter flag
+		## calculate resolution (8k, 4k, 2k, HD, etc.)
+		## 	a) if pillar flag set, check height against available resolutions
+		##			pick the one whose height is closest, but not more than the image
+		##		b) if letter flag is set, check width against available resolutions
+		##			pick the one whose width is closest, but not more than the image
+		## resize the image to match selected resolution
+		## create black rectangle of selected resolution
+		## place black rectangle on canvas
+		## overlay image onto black rectangle
+		
+		
 ## testing
 if __name__ == "__main__":
 	image_collection = TKImageCollection()
 	window = Tk()
 	window.configure(width = 1280, height = 840)
-	thumb = ThumbnailFrame(window, image_collection)
+	thumb = ThumbnailFrame(window)
 	thumb.pack()
 	window.mainloop()
