@@ -5,10 +5,11 @@ from PIL import Image, ImageTk
 
 def set_ratio_type(width, height):
 	##- subtract height from width:
-	difference = width - height
-	##	- if result is 0 or -x, set pillarbox flag,
-	##	- if result is +x, set letterbox flag
-	if difference < 1:
+	difference = width / height
+	print("difference: ", difference)
+	##	- result: 1.78 or less: pillarbox
+	## - 1.781 or more: letterbox
+	if difference < 1.78:
 		ratio_flag = "pillarbox"
 	else:
 		ratio_flag = "letterbox"
@@ -21,8 +22,11 @@ canvas = Canvas(window, width = 720, height = 320)
 canvas.grid()
 
 # Load an image as OpenCV
-cv_image = cv2.imread("images/one_dollar.jpg")
-
+##cv_image = cv2.imread("images/starry_night_b&w.png")
+##cv_image = cv2.imread("images/one_dollar.png")
+##cv_image = cv2.imread("images/background.png")
+##cv_image = cv2.imread("images/bogey.tif")
+cv_image = cv2.imread("images/square.png")
 ## convert ##
 
 ## reverse the order of the colour channels
@@ -33,7 +37,7 @@ pillow_image_data = Image.fromarray(image_rgb)
 ## get width and height
 width = cv_image.shape[1]
 height = cv_image.shape[0]
-print("width: ", width, ", height: ", height)
+print("original width: ", width, ", original height: ", height)
 
 ## the the ratio difference type
 ratio_type = set_ratio_type(width, height)
@@ -49,26 +53,27 @@ if ratio_type == "letterbox":
 	new_width = target_width
 	divisor = width / target_width ## always assume we're downsizing
 	new_height = int(height / divisor)
+	print("letterbox...\n divisor: ", divisor, "\n new_width: ", new_width, "\n new_height: ", new_height)
 elif ratio_type == "pillarbox":
 	new_height = target_height
 	divisor = height / target_height
 	new_width = int(width / divisor)
+	print("pillarbox...\n divisor: ", divisor, "\n new_width: ", new_width, "\n new_height: ", new_height)
 
-print("new_height: ", new_height)
+print("new_height: ", new_height, ", new_width: ", new_width)
 
 ## get placement
-if new_height == target_height:
+if new_height == target_height: ## pillarbox mode
 	pillars = (target_width - new_width) / 2
 	letters = 0
-elif new_width == target_width:
+elif new_width == target_width: ## letterbox mode
 	letters = (target_height - new_height) / 2
 	pillars = 0
 
 print("pillars: ", pillars, ", letters: ", letters)
 
 ## resize image
-newsize = (new_width, new_height)
-pillow_image_data = pillow_image_data.resize(newsize)
+pillow_image_data = pillow_image_data.resize((new_width, new_height))
 
 ## convert to TkImage
 tk_image = ImageTk.PhotoImage(pillow_image_data)
