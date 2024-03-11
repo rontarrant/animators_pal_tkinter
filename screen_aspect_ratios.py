@@ -1,5 +1,5 @@
 screen_aspect_ratios = { 
-	"8K": 
+	"8k": 
 	{
 		"width": 7680,
 		"height": 4320,
@@ -74,7 +74,7 @@ screen_aspect_ratios = {
 			}
 		}
 	},
-	"6K": 
+	"6k": 
 	{
 		"width": 6144,
 		"height": 3456,
@@ -149,7 +149,7 @@ screen_aspect_ratios = {
 			}
 		}
 	},
-	"5K": 
+	"5k": 
 	{
 		"width": 5120,
 		"height": 2880,
@@ -161,70 +161,70 @@ screen_aspect_ratios = {
 				"pillars": 640,
 				"width": 3840,
 				"height": 2880
-			},
-			"IMAX": 
+			}
+		},
+		"IMAX": 
+		{
+			"conform_ratio": ("22:16", "1.9:1"),
+			"format":
 			{
-				"conform_ratio": ("22:16", "1.9:1"),
-				"format":
-				{
-					"pillars": 580,
-					"width": 3960,
-					"height": 2880
-				}
-			},
-			"HDTV": 
+				"pillars": 580,
+				"width": 3960,
+				"height": 2880
+			}
+		},
+		"HDTV": 
+		{
+			"conform_ratio": ("16:9", "1.78:1"),
+			"format":
 			{
-				"conform_ratio": ("16:9", "1.78:1"),
-				"format":
-				{
-					"pillars": 0,
-					"width": 5120,
-					"height": 2880
-				}
-			},
-			"VistaVision": 
+				"pillars": 0,
+				"width": 5120,
+				"height": 2880
+			}
+		},
+		"VistaVision": 
+		{
+			"conform_ratio": ("37:20", "1.85:1"),
+			"format":
 			{
-				"conform_ratio": ("37:20", "1.85:1"),
-				"format":
-				{
-					"pillars": 56,
-					"width": 5120,
-					"height": 2768
-				}
-			},
-			"CinemaScope": 
+				"pillars": 56,
+				"width": 5120,
+				"height": 2768
+			}
+		},
+		"CinemaScope": 
+		{
+			"conform_ratio": ("21:9", "2.35:1"),
+			"format":
 			{
-				"conform_ratio": ("21:9", "2.35:1"),
-				"format":
-				{
-					"pillars": 343,
-					"width": 5120,
-					"height": 2194
-				}
-			},
-			"Anamorphic Widescreen": 
+				"pillars": 343,
+				"width": 5120,
+				"height": 2194
+			}
+		},
+		"Anamorphic Widescreen": 
+		{
+			"conform_ratio": ("239:100", "2.39:1"),
+			"format":
 			{
-				"conform_ratio": ("239:100", "2.39:1"),
-				"format":
-				{
-					"pillars": 369,
-					"width": 5120,
-					"height": 2142
-				}
-			},
-			"MGM 65": 
+				"pillars": 369,
+				"width": 5120,
+				"height": 2142
+			}
+		},
+		"MGM 65": 
+		{
+			"conform_ratio": ("69:25", "2.76:1"),
+			"format":
 			{
-				"conform_ratio": ("69:25", "2.76:1"),
-				"format":
-				{
-					"pillars": 512,
-					"width": 5120,
-					"height": 1855
-				}
+				"pillars": 512,
+				"width": 5120,
+				"height": 1855
 			}
 		}
 	},
-	"4K": 
+	"4k": 
 	{
 		"width": 3840,
 		"height": 2160,
@@ -299,7 +299,7 @@ screen_aspect_ratios = {
 			}
 		}
 	},
-	"3K": 
+	"3k": 
 	{
 		"width": 2880,
 		"height": 1620,
@@ -374,7 +374,7 @@ screen_aspect_ratios = {
 			}
 		}
 	},
-	"2K": 
+	"2k": 
 	{
 		"width": 2048,
 		"height": 1152,
@@ -461,66 +461,66 @@ screen_aspect_ratios = {
 				"pillars": 240,
 				"width": 1440,
 				"height": 1080
-			},
-			"IMAX": 
+			}
+		},
+		"IMAX": 
+		{
+			"conform_ratio": ("22:16", "1.9:1"),
+			"format":
 			{
-				"conform_ratio": ("22:16", "1.9:1"),
-				"format":
-				{
-					"pillars": 218,
-					"width": 1485,
-					"height": 1080
-				}
-			},
-			"HDTV": 
+				"pillars": 218,
+				"width": 1485,
+				"height": 1080
+			}
+		},
+		"HDTV": 
+		{
+			"conform_ratio": ("16:9", "1.78:1"),
+			"format":
 			{
-				"conform_ratio": ("16:9", "1.78:1"),
-				"format":
-				{
-					"pillars": 0,
-					"width": 1920,
-					"height": 1080
-				}
-			},
-			"VistaVision": 
+				"pillars": 0,
+				"width": 1920,
+				"height": 1080
+			}
+		},
+		"VistaVision": 
+		{
+			"conform_ratio": ("37:20", "1.85:1"),
+			"format":
 			{
-				"conform_ratio": ("37:20", "1.85:1"),
-				"format":
-				{
-					"pillars": 21,
-					"width": 1920,
-					"height": 1038
-				}
-			},
-			"CinemaScope": 
+				"pillars": 21,
+				"width": 1920,
+				"height": 1038
+			}
+		},
+		"CinemaScope": 
+		{
+			"conform_ratio": ("21:9", "2.35:1"),
+			"format":
 			{
-				"conform_ratio": ("21:9", "2.35:1"),
-				"format":
-				{
-					"pillars": 129,
-					"width": 1920,
-					"height": 823
-				}
-			},
-			"Anamorphic Widescreen": 
+				"pillars": 129,
+				"width": 1920,
+				"height": 823
+			}
+		},
+		"Anamorphic Widescreen": 
+		{
+			"conform_ratio": ("239:100", "2.39:1"),
+			"format":
 			{
-				"conform_ratio": ("239:100", "2.39:1"),
-				"format":
-				{
-					"pillars": 138,
-					"width": 1920,
-					"height": 803
-				}
-			},
-			"MGM 65": 
+				"pillars": 138,
+				"width": 1920,
+				"height": 803
+			}
+		},
+		"MGM 65": 
+		{
+			"conform_ratio": ("69:25", "2.76:1"),
+			"format":
 			{
-				"conform_ratio": ("69:25", "2.76:1"),
-				"format":
-				{
-					"pillars": 192,
-					"width": 1920,
-					"height": 696
-				}
+				"pillars": 192,
+				"width": 1920,
+				"height": 696
 			}
 		}
 	},
@@ -603,5 +603,5 @@ screen_aspect_ratios = {
 
 ## testing
 if __name__ == "__main__":
-	print("conform ratio: ", screen_aspect_ratios["8K"]["VistaVision"]["conform_ratio"][0])
-	print("pillar width: ", screen_aspect_ratios["8K"]["VistaVision"]["format"]["pillars"])
+	print("conform ratio: ", screen_aspect_ratios["8k"]["VistaVision"]["conform_ratio"][0])
+	print("pillar width: ", screen_aspect_ratios["8k"]["VistaVision"]["format"]["pillars"])

@@ -1,6 +1,7 @@
 '''
 Image Thumbnail
-Displays a TKImages selected in the Treeview and stored in TKImageCollection. 
+Displays a TKImage selected in the Treeview (and stored in TKImageCollection)
+as a thumbnail. 
 '''
 
 from tkinter import *
@@ -22,24 +23,22 @@ class ThumbnailFrame(Canvas):
 	
 	def show_image(self, image_number):
 		print("showing image: ", image_number)
+		
 		## In the collection, find the image we want to thumbnail.
 		image = self.image_collection.images[image_number]
-		print("image to show: ", image.path + "/" + image.file_name)
+		print("image to show: ", image.full_path)
+		
 		## get the width and height of the image
 		width, height = image.dimensions
 		print("width: ", width, ", height: ", height)
-		## subtract height from width: 0 or -x = pillar, +x = letter
-		## set pillar or letter flag
-		## calculate resolution (8k, 4k, 2k, HD, etc.)
-		## 	a) if pillar flag set, check height against available resolutions
-		##			pick the one whose height is closest, but not more than the image
-		##		b) if letter flag is set, check width against available resolutions
-		##			pick the one whose width is closest, but not more than the image
-		## resize the image to match selected resolution
-		## create black rectangle of selected resolution
-		## place black rectangle on canvas
-		## overlay image onto black rectangle
+		## get the ratio flag
+		ratio = image.ratio_flag
+		print("ratio flag: ", ratio)
 		
+		##- resize the image to fit within a 384x216 (thumbnail size) canvas
+		##- create black rectangle 384x216
+		##- place black rectangle on canvas
+		##- overlay image onto black rectangle for pillarbox or letterbox effect
 		
 ## testing
 if __name__ == "__main__":

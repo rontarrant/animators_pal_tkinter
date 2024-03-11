@@ -24,6 +24,9 @@ from PIL import Image, ImageTk
 from tkinter import Tk ## This must be limited so we don't replace PIL's Image class
 from tkinter import Canvas
 
+## local
+from screen_aspect_ratios import *
+
 class APImage():
 
 	@property
@@ -67,18 +70,35 @@ class APImage():
 			pass ## error condition?
 
 	@property
+	def full_path(self):
+		return self._path + "/" + self._file_name
+
+	@property
+	def width(self):
+		return self._width
+		
+	@width.setter
+	def width(self, value):
+		if type(value) == int:
+			self._width = value
+			
+	@property
 	def dimensions(self):
 		return (self.width, self.height)
 	
+	## ratio_flag
+	## can be either "pillarbox" or "letterbox"
+	@property
+	def ratio_flag(self):
+		return self._ratio_flag
+	
+	@ratio_flag.setter
+	def ratio_flag(self, value):
+		if type(value) == str:
+			self._ratio_flag = value
+			
 	def __init__(self, full_path_and_file):
 		## instance variables
-		_file_name: str = []
-		_path: str = [] ## file location
-		_cv_image_data = None
-		_tk_image_data = None
-		_width: int = None
-		_height: int = None
-		_sfx: str = [] ## list of SFX to do before adding this image to video
 		## set up
 		self.file_name = os.path.split(full_path_and_file)[1]
 		self.path = os.path.split(full_path_and_file)[0]
@@ -87,6 +107,7 @@ class APImage():
 		shape = self.cv_image_data.shape
 		self.width = shape[1]
 		self.height = shape[0]
+		self.set_ratio()
 	
 	def convert_cv_to_tk(self):
 		## reverse order of colour channels
@@ -95,7 +116,27 @@ class APImage():
 		pillow_image_data = Image.fromarray(image_rgb)
 		## and convert to TkImage
 		self._tk_image_data = ImageTk.PhotoImage(pillow_image_data)
-		
+
+	def set_ratio(self):
+		##- subtract height from width:
+		difference = self.width - self.height
+		##	- if result is 0 or -x, set pillarbox flag,
+		##	- if result is +x, set letterbox flag
+		if difference < 1:
+			self.ratio_flag = "pillarbox"
+		else:
+			self.ratio_flag = "letterbox"
+
+	def config_resolution(self):
+		##- configure resolution (8k, 4k, 2k, HD, etc.)
+		##	a) if pillar flag set, check height against available resolutions
+		##		pick the one whose height is closest, but not more than the image
+		if self.ratio_flag == "pillarbox":
+			pass 
+		##	b) if letter flag is set, check width against available resolutions
+		##		pick the one whose width is closest, but not more than the image
+		pass
+
 	def resize(self):
 		pass
 		
