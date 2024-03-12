@@ -25,9 +25,9 @@ class TreeGenFrame():
 					cid = "#" + str(i)
 					self.cids.append(cid)
 			else:
-				print("Too many columns")
+				## ic("Too many columns")
 		else:
-			print("Not enough columns")
+			## ic("Not enough columns")
 
 ## testing
 if __name__ == "__main__":

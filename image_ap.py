@@ -27,8 +27,27 @@ from tkinter import Canvas
 ## local
 from screen_aspect_ratios import *
 
-class APImage():
+## ice cream
 
+
+class APImage():
+	def __init__(self, full_path_and_file):
+		## instance variables
+		## store file name and path
+		self.file_name = os.path.split(full_path_and_file)[1]
+		self.path = os.path.split(full_path_and_file)[0]
+		## image data types
+		self.pillow_image = Image.open(os.path.join(self.path, self.file_name))
+		self.cv_image_data = cv2.imread(os.path.join(self.path, self.file_name))
+		self._tk_image_data = ImageTk.PhotoImage(self.pillow_image)
+		## image specifications
+		shape = self.cv_image_data.shape
+		self.width = shape[1]
+		self.height = shape[0]
+		self._ratio_flag = ""
+		self.set_ratio()
+		## ic(self.width, self.height, self._ratio_flag)
+	
 	@property
 	def tk_image_data(self):
 		return self._tk_image_data
@@ -97,35 +116,29 @@ class APImage():
 		if type(value) == str:
 			self._ratio_flag = value
 			
-	def __init__(self, full_path_and_file):
-		## instance variables
-		## set up
-		self.file_name = os.path.split(full_path_and_file)[1]
-		self.path = os.path.split(full_path_and_file)[0]
-		self.cv_image_data = cv2.imread(os.path.join(self.path, self.file_name))
-		self.convert_cv_to_tk()
-		shape = self.cv_image_data.shape
-		self.width = shape[1]
-		self.height = shape[0]
-		self.set_ratio()
-	
-	def convert_cv_to_tk(self):
-		## reverse order of colour channels
-		blue, green, red = cv2.split(self._cv_image_data) 
-		image_rgb = cv2.merge((red, green, blue))
-		pillow_image_data = Image.fromarray(image_rgb)
-		## and convert to TkImage
-		self._tk_image_data = ImageTk.PhotoImage(pillow_image_data)
-
 	def set_ratio(self):
+		'''
+		Given the width and height of the image, returns
+		a flag indicating whether it should be letterboxed
+		or pillarboxed.
+		If the result of the test is 1.78 or less,
+		we know the ratio is narrower than UHD (16:9), so
+		the flag will be set to "pillarbox". If it's 1.781
+		or more, the format wider than UHD, so it'll be set
+		to "letterbox".
+		'''
 		##- subtract height from width:
-		difference = self.width - self.height
-		##	- if result is 0 or -x, set pillarbox flag,
-		##	- if result is +x, set letterbox flag
-		if difference < 1:
+		difference = self.width / self.height
+		## ic("difference: ", difference)
+		
+		if difference < 1.78:
 			self.ratio_flag = "pillarbox"
+			## ic(self.ratio_flag)
 		else:
 			self.ratio_flag = "letterbox"
+			## ic(self.ratio_flag)
+		
+		## ic(self.ratio_flag)
 
 	def config_resolution(self):
 		##- configure resolution (8k, 4k, 2k, HD, etc.)
@@ -164,11 +177,11 @@ if __name__ == "__main__":
 	image_file_name = "D:/Documents/Programming/PythonCode/tkinter/animators_pal/research/image_sequence/Lisa_Turnaround_1920x1080_0000.png"
 	my_ap_image = APImage(image_file_name)
 	
-	print("my_ap_image.file_name: ", my_ap_image.file_name)
-	print("my_ap_image.path: ", my_ap_image.path)
-	print("width: ", my_ap_image.width, ", height: ", my_ap_image.height)
-	my_ap_image.convert_cv_to_tk()
-	print("tk_image_data size: ", my_ap_image.tk_image_data.width(), ", ", my_ap_image.tk_image_data.height())
-	print("my_ap_image.tk_image_data type: ", type(my_ap_image.tk_image_data))
+	## ic(my_ap_image.file_name)
+	## ic(my_ap_image.path)
+	## ic(my_ap_image.width, my_ap_image.height)
+	#my_ap_image.convert_cv_to_tk()
+	## ic(my_ap_image.tk_image_data.width(), my_ap_image.tk_image_data.height())
+	## ic(type(my_ap_image.tk_image_data))
 	canvas.create_image(0, 0, anchor = "nw", image = my_ap_image.tk_image_data)
 	window.mainloop()

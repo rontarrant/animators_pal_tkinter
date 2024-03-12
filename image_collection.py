@@ -43,7 +43,7 @@ class TKImageCollection():
 	
 	def show_list(self):
 		for image in self._images.items():
-			print("image: ", image)
+			ic(image)
 
 ## testing
 if __name__ == "__main__":
@@ -64,5 +64,5 @@ if __name__ == "__main__":
 		image_collection.add(file_name, image)
 		
 	for j in image_collection.images:
-		print(j)
+		ic(j)
 	

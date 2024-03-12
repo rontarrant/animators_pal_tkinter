@@ -14,7 +14,7 @@ class HelpMenu(Menu):
 		self.add_command(label = "About", command = self.help_about)
 		
 	def help_help(self):
-		print("showing help dialog")
+		ic()
 	
 	def help_about(self):
-		print("showing about dialog")
+		ic("")

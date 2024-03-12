@@ -23,7 +23,7 @@ class ShootOnSet(Labelframe):
 	def reset(self):
 		self.spinbox.set(1)
 		self.label.config(text = "1's")
-		print("Shoot on " + str(self.spinbox.get()) + "'s")
+		## ic(str(self.spinbox.get()))
 	
 class NumericSpinbox(Spinbox):
 	def __init__(self, parent, var):
@@ -39,7 +39,7 @@ class NumericSpinbox(Spinbox):
 	def action(self, label):
 		label_text = str(self.get() + "'s")
 		label.config(text = label_text)
-		print(self.get() + "'s")
+		## ic(self.get())
 		
 def main():
 	window = Window()

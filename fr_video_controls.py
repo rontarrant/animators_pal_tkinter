@@ -15,9 +15,9 @@ class ImageButton(Button):
 	swapped = False ## track the state of swapped/unswapped
 	
 	def __init__(self, parent, up_image, down_image, swap_on = None, swap_off = None, *args, **kwargs):
-		#print(up_image, down_image)
+		### ic(up_image, down_image)
 		if swap_on != None and swap_off != None:
-			#print(swap_on, swap_off)
+			### ic(swap_on, swap_off)
 			self.unclicked_swap_image = PhotoImage(file = swap_off)
 			self.clicked_swap_image = PhotoImage(file = swap_on)
 			self.unclicked_image = PhotoImage(file = up_image)
@@ -40,12 +40,12 @@ class ImageButton(Button):
 	def clickFunction(self, event = None):
 		if self.swapable == True:
 			if self.swapped == False: ## we're in an unswapped state; change to swapped state
-				#print("swapped = True... swapping images")
+				### ic("swapped = True... swapping images")
 				self.swapped = True
 				self.unclickedImage = self.unclicked_swap_image
 				self.clickedImage = self.clicked_swap_image
 			else:
-				#print("swapped = False")
+				### ic("swapped = False")
 				self.swapped = False
 				self.unclickedImage = self.unclicked_image
 				self.clickedImage = self.clicked_image
@@ -117,28 +117,28 @@ class VideoControlsFrame(Frame):
 		self.loop_button.bind("<Button-1>", self.loop_switch, add="+")
 
 	def goto_start_callback(self, *args, **kwargs): ## goes to first frame
-		print("Goto Start button pressed")
+		ic()
 
 	def step_backward_callback(self, *args, **kwargs): ## goes back one frame
-		print("Step Backward button pressed")
+		ic()
 
 	def play_pause_callback(self, *args, **kwargs): ## plays video at normal speed; pauses at current frame
-		print("Play button pressed")
+		ic()
 
 	def stop_callback(self, *args, **kwargs): ## stops video, rewinds to first frame
-		print("Stop button pressed")
+		## ic()
 		## If the Pause button is visible, this should swap it back to the Play button.
 		if self.play_button.swapped == True:
 			self.play_button.clickFunction()
 
 	def step_forward_callback(self, *args, **kwargs): ## goes forward one frame
-		print("Step Forward button pressed")
+		ic()
 
 	def goto_end_callback(self, *args, **kwargs): ## goes to last frame
-		print("Goto End button pressed")
+		ic()
 
 	def loop_switch(self, *args, **kwargs): ## turns on/off looping
-		print("loop switch")
+		ic("")
 		
 		print(args)
 

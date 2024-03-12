@@ -55,23 +55,22 @@ class SettingsLabelFrame(Labelframe):
 										self.hold_last.spinvalue)
 		## testing
 		#'''
-		#button = Button(text = "Update", command = lambda: print(self.prefs))
+		#button = Button(text = "Update", command = lambda: ## ic(self.prefs))
 		#button = Button(text = "Update", command = self.show_preferences)
 		#button.grid()
 		#'''
 		
 	def show_preferences(self):
-		print("\nPreferences:")
-		print("direction - ", self.prefs.direction.get())
-		print("frames per second - ", self.prefs.fps.get())
-		print("hold_first checked - ", self.prefs.hold_first.get())
-		print("hold first frame for - ", self.prefs.hold_first_for.get())
-		print("shoot on - ", self.prefs.shoot_on.get())
-		print("hold last checked - ", self.prefs.hold_last.get())
-		print("hold last frame for - ", self.prefs.hold_last_for.get())
-		print("Stored in window: \n", self.parent.image_files)
-		print("Stored in prefs: \n", self.prefs.image_file_name_list)
-		print("")
+		ic("direction - ", self.prefs.direction.get())
+		ic("frames per second - ", self.prefs.fps.get())
+		ic("hold_first checked - ", self.prefs.hold_first.get())
+		ic("hold first frame for - ", self.prefs.hold_first_for.get())
+		ic("shoot on - ", self.prefs.shoot_on.get())
+		ic("hold last checked - ", self.prefs.hold_last.get())
+		ic("hold last frame for - ", self.prefs.hold_last_for.get())
+		ic("Stored in window: \n", self.parent.image_files)
+		ic("Stored in prefs: \n", self.prefs.image_file_name_list)
+		ic("")
 
 
 ## testing

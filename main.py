@@ -91,7 +91,8 @@ class MainFrame(Frame):
 		#self.show_frames()
 	
 	def show_frames(self):
-		print(self.winfo_children())
+		## ic(self.winfo_children())
+		pass
 		
 class Menubar(Menu):
 	file_menu = None

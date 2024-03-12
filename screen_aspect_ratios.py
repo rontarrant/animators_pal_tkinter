@@ -603,5 +603,5 @@ screen_aspect_ratios = {
 
 ## testing
 if __name__ == "__main__":
-	print("conform ratio: ", screen_aspect_ratios["8k"]["VistaVision"]["conform_ratio"][0])
-	print("pillar width: ", screen_aspect_ratios["8k"]["VistaVision"]["format"]["pillars"])
+	ic(screen_aspect_ratios["8k"]["VistaVision"]["conform_ratio"][0])
+	ic(screen_aspect_ratios["8k"]["VistaVision"]["format"]["pillars"])

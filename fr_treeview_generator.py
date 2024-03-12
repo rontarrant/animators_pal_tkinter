@@ -48,11 +48,11 @@ class TreeFrame(Frame):
 	def thumbnail_selected_image(self, event):
 		## find the selected item ID (iid) ie. row
 		selected_iid = self.treeview.selection()[0]
-		print(self.treeview.selection())
+		## ic(self.treeview.selection())
 		## get the full path and image file name
 		row_number = self.treeview.index(self.treeview.selection()[0])
-		print("row number: ", self.treeview.index(self.treeview.selection()[0]))
-		self.parent.children['!thumbnailframe'].show_image(row_number)
+		## ic(self.treeview.index(self.treeview.selection()[0]))
+		self.parent.children['!thumbnailframe'].show_thumbnail(row_number)
 	
 	'''
 	The purpose of all the mucking around in build_file_data()
@@ -105,7 +105,7 @@ class TreeFrame(Frame):
 		self.inject_data(data)
 
 	def set_col_width(self, cid):
-		print("Got cid: ", cid)
+		ic(cid)
 	'''
 	CID Generator
 	Creates IDs for Treeview columns
@@ -125,9 +125,9 @@ class TreeFrame(Frame):
 					cid = "#" + str(i)
 					self._cids.append(cid)
 			else:
-				print("Too many columns")
+				ic("Too many columns")
 		else:
-			print("Not enough columns")
+			ic("Not enough columns")
 
 	def _configure_columns(self, specs):
 		self.treeview["columns"] = self._cids
@@ -146,7 +146,7 @@ class TreeFrame(Frame):
 	## local testing - show all data rows
 	def list_rows(self):
 		for row in self.treeview.get_children():
-			print(self.treeview.item(row)['text'], self.treeview.item(row)['values'])
+			ic(self.treeview.item(row)['text'], self.treeview.item(row)['values'])
 		
 ## testing
 def main():
