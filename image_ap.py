@@ -27,44 +27,62 @@ from tkinter import Canvas
 ## local
 from screen_aspect_ratios import *
 
-## ice cream
-
+## for debugging
+from icecream import install
+install()
+ic.configureOutput(includeContext = True)
 
 class APImage():
 	def __init__(self, full_path_and_file):
 		## instance variables
+		self._pillow_image = None
+		self._tk_image = None
+		self._cv_image = None
+		self._file_name = ""
+		self._path = ""
 		## store file name and path
 		self.file_name = os.path.split(full_path_and_file)[1]
 		self.path = os.path.split(full_path_and_file)[0]
 		## image data types
 		self.pillow_image = Image.open(os.path.join(self.path, self.file_name))
-		self.cv_image_data = cv2.imread(os.path.join(self.path, self.file_name))
-		self._tk_image_data = ImageTk.PhotoImage(self.pillow_image)
+		self.cv_image = cv2.imread(os.path.join(self.path, self.file_name))
+		self.tk_image = ImageTk.PhotoImage(self.pillow_image)
 		## image specifications
-		shape = self.cv_image_data.shape
+		shape = self.cv_image.shape
 		self.width = shape[1]
 		self.height = shape[0]
-		self._ratio_flag = ""
+		self.ratio_flag = ""
 		self.set_ratio()
 		## ic(self.width, self.height, self._ratio_flag)
 	
 	@property
-	def tk_image_data(self):
-		return self._tk_image_data
+	def pillow_image(self):
+		return self._pillow_image
 	
-	@tk_image_data.setter
-	def tk_image_data(self, value):
-		if value.any():
-			self._tk_image_data = value
+	@pillow_image.setter
+	def pillow_image(self, value):
+		if value:
+			self._pillow_image = value
 		
 	@property
-	def cv_image_data(self):
-		return self._cv_image_data
+	def tk_image(self):
+		return self._tk_image
+	
+	@tk_image.setter
+	def tk_image(self, value):
+		## we don't use any() here because a TKImage isn't a data array
+		if value:
+			self._tk_image = value
 		
-	@cv_image_data.setter
-	def cv_image_data(self, value):
+	@property
+	def cv_image(self):
+		return self._cv_image
+		
+	@cv_image.setter
+	def cv_image(self, value):
+		## We use any() here because a CV image is a data array
 		if value.any():
-			self._cv_image_data = value
+			self._cv_image = value
 
 	@property
 	def file_name(self):
@@ -181,7 +199,7 @@ if __name__ == "__main__":
 	## ic(my_ap_image.path)
 	## ic(my_ap_image.width, my_ap_image.height)
 	#my_ap_image.convert_cv_to_tk()
-	## ic(my_ap_image.tk_image_data.width(), my_ap_image.tk_image_data.height())
-	## ic(type(my_ap_image.tk_image_data))
-	canvas.create_image(0, 0, anchor = "nw", image = my_ap_image.tk_image_data)
+	## ic(my_ap_image.tk_image.width(), my_ap_image.tk_image.height())
+	## ic(type(my_ap_image.tk_image))
+	canvas.create_image(0, 0, anchor = "nw", image = my_ap_image.tk_image)
 	window.mainloop()

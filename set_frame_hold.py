@@ -10,7 +10,7 @@ class FrameHoldSet(Labelframe):
 		self.spinvalue = IntVar(value = 1) ## used in preferences
 		self.config(text = name)
 		## population - checkbutton, spinbox
-		self.checkbutton = Checkbutton(self, text = "check on")
+		self.checkbutton = Checkbutton(self, text = "yes")
 		self.checkbutton.configure(onvalue = 1, offvalue = 0)
 		self.checkbutton.configure(command = lambda: self.action(parent))
 		self.checkbutton.config(state = NORMAL)

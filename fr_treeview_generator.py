@@ -6,7 +6,7 @@ import os
 import sys
 
 ## local
-from image_collection import TKImageCollection
+from image_collection import APImageCollection
 from image_ap import APImage
 
 class TreeFrame(Frame):
@@ -20,7 +20,7 @@ class TreeFrame(Frame):
 		self.grid()
 
 		## make sure we have a collection of images
-		self.image_collection = TKImageCollection()
+		self.image_collection = APImageCollection()
 
 		## total width: 380
 		column_specs = {
@@ -43,16 +43,19 @@ class TreeFrame(Frame):
 		self.cid_generator(column_count)
 		self._configure_columns(column_specs)
 		self._configure_headings(heading_specs)
-		self.treeview.bind('<<TreeviewSelect>>', self.thumbnail_selected_image)
+		## The bound variable 'event' isn't used, but needs to be
+		## mentioned in the lambda statement because it's returned
+		## by something somewhere.
+		self.treeview.bind('<<TreeviewSelect>>', lambda event: self.thumbnail_selected_image(parent))
 
-	def thumbnail_selected_image(self, event):
+	def thumbnail_selected_image(self, parent):
 		## find the selected item ID (iid) ie. row
 		selected_iid = self.treeview.selection()[0]
 		## ic(self.treeview.selection())
 		## get the full path and image file name
 		row_number = self.treeview.index(self.treeview.selection()[0])
 		## ic(self.treeview.index(self.treeview.selection()[0]))
-		self.parent.children['!thumbnailframe'].show_thumbnail(row_number)
+		parent.children['!thumbnailframe'].show_thumbnail(row_number)
 	
 	'''
 	The purpose of all the mucking around in build_file_data()

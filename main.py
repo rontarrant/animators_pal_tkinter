@@ -14,8 +14,8 @@ from fr_thumbnail import ThumbnailFrame
 from fr_video_controls import VideoControlsFrame
 from fr_treeview_generator import TreeFrame
 from image_ap import APImage
-from image_collection import TKImageCollection
-from image_list import FileNamesFrame
+from image_collection import APImageCollection
+#from image_list import FileNamesFrame
 
 ## for debugging
 from icecream import install
@@ -35,7 +35,7 @@ class Window(Tk):
 	_frame = None
 	image_files = [] ## deprecated
 	project_name = None
-	image_collection = TKImageCollection()
+	image_collection = APImageCollection()
 
 	def __init__(self, *args, **kwargs):
 		working_dir = os.path.abspath(os.path.dirname(sys.argv[0]))
@@ -72,8 +72,8 @@ class MainFrame(Frame):
 		self.output_settings_frame = SettingsLabelFrame(self)
 		self.image_thumbnail_frame = ThumbnailFrame(self)
 		self.video_canvas_frame = VideoCanvas(self)
-		self.video_controls_frame = VideoControlsFrame(self)
-		
+		self.video_controls_frame = VideoControlsFrame(self, self.video_canvas_frame)
+
 		# layout
 		## set the row and column minimum sizes
 		for row in range(13):

@@ -8,14 +8,14 @@ import sys
 
 ## local
 from set_preferences import Preferences
-from image_collection import TKImageCollection
+from image_collection import APImageCollection
 from image_ap import APImage
 
 class FileMenu(Menu):
 	def __init__(self, menubar, window):
 		self.label_text = "File"
 		self.window = window
-		self.image_collection = TKImageCollection()
+		self.image_collection = APImageCollection()
 		super().__init__(menubar)
 		items = self.index ## shortcut to item index
 		## configure stuff
@@ -114,7 +114,7 @@ class FileMenu(Menu):
 		#### ic("temp: \n", temp)
 		
 		## make sure we have a collection of images
-		self.image_collection = TKImageCollection()
+		self.image_collection = APImageCollection()
 		## Find out how many images are already in the collection.
 		old_count = len(self.image_collection.images)
 		## add the new images to the image_collection

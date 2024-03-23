@@ -1,6 +1,6 @@
 '''
 Image Thumbnail
-Displays a TKImage selected in the Treeview (and stored in TKImageCollection)
+Displays a TKImage selected in the Treeview (and stored in APImageCollection)
 as a thumbnail. 
 '''
 
@@ -8,13 +8,13 @@ from tkinter import *
 from tkinter.ttk import *
 
 ## local
-from image_collection import TKImageCollection
+from image_collection import APImageCollection
 from image_ap import APImage
 from PIL import Image, ImageTk
 
 class ThumbnailFrame(Canvas):
 
-	colour = "black"
+	colour = "gray"
 	
 	def __init__(self, parent):
 		## attributes
@@ -30,10 +30,10 @@ class ThumbnailFrame(Canvas):
 		## configure
 		super().__init__(parent)
 		self.parent = parent
-		self.image_collection = TKImageCollection()
+		self.image_collection = APImageCollection()
 		## population
 		self.config(width = self.target_width, height = self.target_height)
-		self.canvas = Canvas(self, width = self.target_width, height = self.target_height)
+		self.canvas = Canvas(self, bg = self.colour, width = self.target_width, height = self.target_height)
 		self.canvas.grid()
 
 	def set_thumbnail_size(self, image_width, image_height):
@@ -90,7 +90,7 @@ class ThumbnailFrame(Canvas):
 		
 ## testing
 if __name__ == "__main__":
-	image_collection = TKImageCollection()
+	image_collection = APImageCollection()
 	window = Tk()
 	window.configure(width = 1280, height = 840)
 	thumb = ThumbnailFrame(window)

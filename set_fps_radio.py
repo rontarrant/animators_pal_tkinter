@@ -1,6 +1,11 @@
 from tkinter import *
 from tkinter.ttk import *
 
+## for debugging
+from icecream import install
+install()
+ic.configureOutput(includeContext = True)
+
 class FPSRadioSet(Labelframe):
 	def __init__(self, parent, *args, **kwargs):
 		super().__init__(parent, *args, **kwargs)
@@ -28,7 +33,7 @@ class FPSRadioSet(Labelframe):
 		self.var.set(24)
 	
 	def select(self, parent):
-		ic(self.var.get())
+		print(self.var.get())
 
 def main():
 	window = Window()
