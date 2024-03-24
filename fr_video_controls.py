@@ -4,74 +4,17 @@ The usual controls for video... play, stop, pause, etc.
 '''
 
 from tkinter import *
-#from tkinter.ttk import *
 
 ## local
 from fr_video_canvas import VideoCanvas
+from image_button import ImageButton
 
 ## for debugging
 from icecream import install
 install()
 ic.configureOutput(includeContext = True)
 
-class ImageButton(Button):
-	## These can be class variables because only one
-	## button image is swapped at a given instant in time
-	## and button image refresh takes care of itself.
-	unclicked_swap_image = None
-	clicked_swap_image = None
-	unclicked_image = None
-	clicked_image = None
-	swapable = False ## does the button have swap images
-	swapped = False ## track the state of swapped/unswapped
-	
-	def __init__(self, parent, up_image, down_image, swap_on = None, swap_off = None, *args, **kwargs):
-		### ic(up_image, down_image)
-		if swap_on != None and swap_off != None:
-			### ic(swap_on, swap_off)
-			self.unclicked_swap_image = PhotoImage(file = swap_off)
-			self.clicked_swap_image = PhotoImage(file = swap_on)
-			self.unclicked_image = PhotoImage(file = up_image)
-			self.clicked_image = PhotoImage(file = down_image)
-			self.unclickedImage = PhotoImage(file = up_image)
-			self.clickedImage = PhotoImage(file = down_image)
-			self.swapable = True
-		else:
-			self.unclickedImage = PhotoImage(file = up_image)
-			self.clickedImage = PhotoImage(file = down_image)
-			self.swapable = False
-			
-		super().__init__(parent, *args, image = self.unclickedImage, **kwargs)
-		self.toggleState = 1
-		self.bind("<Button-1>", self.clickFunction)
-			
-	def swapable_image(self, event = None):
-		self.swapable = True
-		
-	def clickFunction(self, event = None):
-		ic()
-		if self.swapable == True:
-			if self.swapped == False: ## we're in an unswapped state; change to swapped state
-				### ic("swapped = True... swapping images")
-				self.swapped = True
-				self.unclickedImage = self.unclicked_swap_image
-				self.clickedImage = self.clicked_swap_image
-			else:
-				### ic("swapped = False")
-				self.swapped = False
-				self.unclickedImage = self.unclicked_image
-				self.clickedImage = self.clicked_image
-			
-		if self.cget("state") != "disabled": #Ignore click if button is disabled
-			self.toggleState *= -1
-			
-			if self.toggleState == -1:
-				self.config(image = self.clickedImage)
-			else:
-				self.config(image = self.unclickedImage)
-
 class VideoControlsFrame(Frame):
-	colour = "CadetBlue1"
 	goto_start_button = None
 	step_backward_button = None
 	play_button = None
@@ -92,7 +35,6 @@ class VideoControlsFrame(Frame):
 		self.grid(sticky = (N, E, W, S))
 		self.grid_columnconfigure(0, weight = 1)
 		self.grid_columnconfigure(9, weight = 1)
-		## so we can pass the canvas object into the button callbacks
 		## BUTTON IMAGES
 		# goto start
 		self.goto_start_button = ImageButton(self, "images/goto_start_up.png", "images/goto_start_down.png")
@@ -145,7 +87,7 @@ class VideoControlsFrame(Frame):
 		ic()
 		canvas.status[0] = canvas.STOP
 		canvas.frame_num = 0
-		canvas.show_next_frame()
+		canvas.show_next_frame(canvas.frame_num)
 		
 	def step_backward_callback(self, canvas, *args, **kwargs): ## goes back one frame
 		ic()
@@ -154,13 +96,13 @@ class VideoControlsFrame(Frame):
 		if canvas.frame_num > 0:
 			canvas.frame_num -= 1
 			
-		canvas.show_next_frame()
+		canvas.show_next_frame(canvas.frame_num)
 
 	def play_reverse_pause_callback(self, canvas, *args, **kwargs): ## plays video in reverse at normal speed; pauses at current frame
 		ic()
 		canvas.status[0] = canvas.REVERSE
 		canvas.last_button = self.play_reverse_button
-		canvas.show_next_frame()
+		canvas.show_next_frame(canvas.frame_num)
 	
 	def stop_callback(self, canvas, *args, **kwargs): ## stops video, rewinds to first frame
 		ic()
@@ -172,13 +114,12 @@ class VideoControlsFrame(Frame):
 			
 		canvas.status[0] = canvas.STOP
 		canvas.frame_num = 0
-		canvas.show_next_frame()
+		canvas.show_next_frame(canvas.frame_num)
 	
 	def play_pause_callback(self, canvas, *args, **kwargs): ## plays video at normal speed; pauses at current frame
 		canvas.status[0] = canvas.FORWARD
 		canvas.last_button = self.play_button
-		canvas.show_next_frame()
-		ic(self.play_button)
+		canvas.show_next_frame(canvas.frame_num)
 	
 	def step_forward_callback(self, canvas, *args, **kwargs): ## goes forward one frame
 		ic()
@@ -188,17 +129,17 @@ class VideoControlsFrame(Frame):
 		if canvas.frame_num < len(canvas.image_collection.images) - 1:
 			canvas.frame_num += 1
 			
-		canvas.show_next_frame()
+		canvas.show_next_frame(canvas.frame_num)
 	
 	def goto_end_callback(self, canvas, *args, **kwargs): ## goes to last frame
 		ic()
 		canvas.status[0] = canvas.STOP
 		canvas.frame_num = len(canvas.image_collection.images) - 1
-		canvas.show_next_frame()
+		canvas.show_next_frame(canvas.frame_num)
 	
 	def loop_switch(self, canvas, *args, **kwargs): ## turns on/off looping
 		ic("")
-		canvas.status[1] = not self.status[1]
+		canvas.status[1] = not canvas.status[1]
 		print(args)
 
 ## testing

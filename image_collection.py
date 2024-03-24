@@ -1,7 +1,9 @@
 '''
 Image Collection
-The images (actually, image data) in this collection
-is ready to animate and/or render to a video file.
+The images in this collection are ready to animate and/or
+render to a video file.
+Images are loaded as OpenCV data, then converted to pillow
+and tkinter (tk_image) formats. All three are persistent.
 '''
 
 from PIL import Image, ImageTk

@@ -18,7 +18,7 @@ class FileMenu(Menu):
 		self.image_collection = APImageCollection()
 		super().__init__(menubar)
 		items = self.index ## shortcut to item index
-		## configure stuff
+		## CONFIGURE
 		self.assign_filetypes()
 		self.add_command(label = "New", command = self.file_new)
 		self.entryconfig(items("New"), accelerator = "(Ctrl-N)")
