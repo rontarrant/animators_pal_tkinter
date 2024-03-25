@@ -46,7 +46,6 @@ class VideoCanvas(Canvas):
 		## configure
 		self.config(bg = self.colour, width = self.width, height = self.height)
 		self.delay = self.fps2ms(self.fps)
-		print("VideoCanvas: ", id(self))
 
 	'''
 	VideoCanvas.show_next_frame()

@@ -140,7 +140,7 @@ class VideoControlsFrame(Frame):
 	def loop_switch(self, canvas, *args, **kwargs): ## turns on/off looping
 		ic("")
 		canvas.status[1] = not canvas.status[1]
-		print(args)
+		#print(args)
 
 ## testing
 if __name__ == "__main__":

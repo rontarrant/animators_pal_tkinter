@@ -59,7 +59,6 @@ class Window(Tk):
 
 		## POPULATION stuff
 		self._frame = MainFrame(self)
-		print(self._frame.winfo_children())
 		video_canvas = self.nametowidget(".!mainframe.!videocanvas")
 		treeframe = self.nametowidget(".!mainframe.!treeframe")
 		self._menubar = Menubar(self, video_canvas, treeframe)

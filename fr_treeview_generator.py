@@ -18,7 +18,6 @@ class TreeFrame(Frame):
 		## associate with parent
 		super().__init__(parent)
 		self.grid()
-		print("canvas from TreeFrame: ", id(canvas))
 		## make sure we have a collection of images
 		self.image_collection = APImageCollection()
 

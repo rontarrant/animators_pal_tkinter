@@ -27,7 +27,6 @@ class FileMenu(Menu):
 		self.image_collection = APImageCollection()
 		super().__init__(menubar)
 		items = self.index ## shortcut to item index
-		print("VideoCanvas from menu_file: ", id(self.video_canvas))
 		## CONFIGURE
 		self.assign_filetypes()
 		self.add_command(label = "New", command = self.file_new)
@@ -114,7 +113,6 @@ class FileMenu(Menu):
 		This is going to change when the image collection class is 
 		brought in.
 		'''
-		print("video_canvas from file menu: ", id(video_canvas))
 		prefs = Preferences()
 		file_names = []
 		path_names = []
