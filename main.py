@@ -38,6 +38,16 @@ class Window(Tk):
 	image_collection = APImageCollection()
 
 	def __init__(self, *args, **kwargs):
+		'''
+		You'll notice that MainFrame is instantiated before the Menubar.
+		This is because the menu system needs access to the video_canvas
+		and the treeframe for communication purposes during runtime.
+		These variables (video_canvas and treeframe) are injected
+		into the Menubar which injects it into the File menu which passes
+		them along to the add_images() method. There, they are used to
+		push a list of file names into the Treeview and push the first
+		image in the list onto the VideoCanvas.
+		'''
 		working_dir = os.path.abspath(os.path.dirname(sys.argv[0]))
 
 		super().__init__(*args, **kwargs)
@@ -48,8 +58,11 @@ class Window(Tk):
 		self.title("Animator's Pal")
 
 		## POPULATION stuff
-		self._menubar = Menubar(self)
 		self._frame = MainFrame(self)
+		print(self._frame.winfo_children())
+		video_canvas = self.nametowidget(".!mainframe.!videocanvas")
+		treeframe = self.nametowidget(".!mainframe.!treeframe")
+		self._menubar = Menubar(self, video_canvas, treeframe)
 
 		## CONFIGURE window stuff
 		self.config(width = self.min_width, height = self.min_height)
@@ -68,11 +81,11 @@ class MainFrame(Frame):
 		column_count = 4
 		self.grid() ## place the MainFrame in the window
 		# populate
-		self.image_list_frame = TreeFrame(self, column_count)
+		self.video_canvas = VideoCanvas(self) ## so it can be passed to TreeFrame
+		self.image_list_frame = TreeFrame(self, column_count, self.video_canvas)
 		self.output_settings_frame = SettingsLabelFrame(self)
 		self.image_thumbnail_frame = ThumbnailFrame(self)
-		self.video_canvas_frame = VideoCanvas(self)
-		self.video_controls_frame = VideoControlsFrame(self, self.video_canvas_frame)
+		self.video_controls_frame = VideoControlsFrame(self, self.video_canvas)
 
 		# layout
 		## set the row and column minimum sizes
@@ -86,7 +99,7 @@ class MainFrame(Frame):
 		self.image_list_frame.grid(row = 0, column = 0, rowspan = 10, columnspan = 3, sticky = (N, E, W, S))
 		self.output_settings_frame.grid(row = 0, column = 3, rowspan = 2, columnspan = 10, sticky = (N, E, W, S))
 		self.image_thumbnail_frame.grid(row = 10, column = 0, rowspan = 3, columnspan = 3, sticky = (N, E, W, S))
-		self.video_canvas_frame.grid(row = 2, column = 3, rowspan = 10, columnspan = 10, sticky = (N, E, W, S))
+		self.video_canvas.grid(row = 2, column = 3, rowspan = 10, columnspan = 10, sticky = (N, E, W, S))
 		self.video_controls_frame.grid(row = 12, column = 3, columnspan = 10, sticky = (N, E, W, S))
 		#self.show_frames()
 	
@@ -99,10 +112,10 @@ class Menubar(Menu):
 	preferences_menu = None
 	help_menu = None
 
-	def __init__(self, window):
+	def __init__(self, window, canvas, treeframe):
 		super().__init__(window)
 		## ATTRIBUTE stuff
-		self.file_menu = FileMenu(self, window)
+		self.file_menu = FileMenu(self, window, canvas, treeframe)
 		self.help_menu = HelpMenu(self)
 
 		## POPULATE

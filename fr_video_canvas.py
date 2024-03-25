@@ -16,18 +16,17 @@ install()
 ic.configureOutput(includeContext = True)
 
 class VideoCanvas(Canvas):
-	## playback mode
-	status = [1, False]
 	## constants
 	REVERSE = -1 ## play backwards
 	FORWARD = 1 ## play forward
 	STOP = 0 ## halt playback and goto start frame
 	LOOP_ON = True
 	LOOP_OFF = False
+	status = [STOP, LOOP_OFF] ## default
 	## defaults
 	frame_num = 0
 	looping_status = LOOP_OFF
-	fps: int = 12 ## can also be 18, 25, or 30
+	fps: int = 24 ## can also be 18, 25, or 30
 	delay: int = 0
 	shoot_on: int = 1 ## 1's, 2's, 3's up to 9's
 	width: int = 1280 ## default: HD
@@ -47,6 +46,7 @@ class VideoCanvas(Canvas):
 		## configure
 		self.config(bg = self.colour, width = self.width, height = self.height)
 		self.delay = self.fps2ms(self.fps)
+		print("VideoCanvas: ", id(self))
 
 	'''
 	VideoCanvas.show_next_frame()

@@ -10,7 +10,7 @@ from image_collection import APImageCollection
 from image_ap import APImage
 
 class TreeFrame(Frame):
-	def __init__(self, parent, column_count):
+	def __init__(self, parent, column_count, canvas):
 		## instance variables
 		self._cids = []
 		self.treeview = None
@@ -18,7 +18,7 @@ class TreeFrame(Frame):
 		## associate with parent
 		super().__init__(parent)
 		self.grid()
-
+		print("canvas from TreeFrame: ", id(canvas))
 		## make sure we have a collection of images
 		self.image_collection = APImageCollection()
 

@@ -10,23 +10,33 @@ import sys
 from set_preferences import Preferences
 from image_collection import APImageCollection
 from image_ap import APImage
+from fr_video_canvas import VideoCanvas
 
+'''
+Dependency Injection
+Both video_canvas and treeframe need to be accessed from the file menu,
+so they're injected in keeping with true OOP philosophy. This avoids 
+confusion if someone's looking over the code and sees one of these
+appear suddenly as if from nowhere. Also makes the code more portable.
+'''
 class FileMenu(Menu):
-	def __init__(self, menubar, window):
+	def __init__(self, menubar, window, video_canvas, treeframe):
+		self.video_canvas = video_canvas
 		self.label_text = "File"
 		self.window = window
 		self.image_collection = APImageCollection()
 		super().__init__(menubar)
 		items = self.index ## shortcut to item index
+		print("VideoCanvas from menu_file: ", id(self.video_canvas))
 		## CONFIGURE
 		self.assign_filetypes()
 		self.add_command(label = "New", command = self.file_new)
 		self.entryconfig(items("New"), accelerator = "(Ctrl-N)")
 		window.bind('<Control_L><n>', self.file_new)
 		
-		self.add_command(label = "Add Images", command = self.add_images)
+		self.add_command(label = "Add Images", command = lambda: self.add_images(self.video_canvas, treeframe))
 		self.entryconfig(items("Add Images"), accelerator = "(Ctrl-A)")
-		window.bind('<Control_L><a>', self.add_images)
+		window.bind('<Control_L><a>', lambda: self.add_images(self.video_canvas, treeframe))
 
 		self.add_command(label = "Open Project", command = self.file_open)
 		self.entryconfig(items("Open Project"), accelerator = "(Ctrl-O)")
@@ -91,7 +101,7 @@ class FileMenu(Menu):
 		ic(self.window.project_name)
 		pass
 
-	def add_images(self, event = None):
+	def add_images(self, video_canvas, treeframe, event = None):
 		'''
 		The askopenfilenames() dialog returns a tuple, but it'll be
 		easier to add to the image	list if it's an actual Python list.
@@ -104,6 +114,7 @@ class FileMenu(Menu):
 		This is going to change when the image collection class is 
 		brought in.
 		'''
+		print("video_canvas from file menu: ", id(video_canvas))
 		prefs = Preferences()
 		file_names = []
 		path_names = []
@@ -124,16 +135,16 @@ class FileMenu(Menu):
 		
 		## now get the number of images in the collection again...
 		new_count = len(self.image_collection.images)
-		## and find the difference, thus we know how many new images 
-		## were added
+		## and find the difference, thus we know how many new images were added
 		new_file_count = new_count - old_count
+		video_canvas.show_next_frame(0)
 		## testing
 		'''
 		for index in self.image_collection.images:
 			## ic("collection image: ", index)
 		'''
-		
-		self.window._frame.children['!treeframe'].build_file_data(new_file_count)
+		video_canvas.show_next_frame(0)
+		treeframe.build_file_data(new_file_count)
 		prefs.assign_image_file_name_list_variable(self.window.image_files)
 
 		## testing
