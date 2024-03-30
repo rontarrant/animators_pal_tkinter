@@ -12,10 +12,9 @@ from fr_settings import SettingsLabelFrame
 from fr_video_canvas import VideoCanvas
 from fr_thumbnail import ThumbnailFrame
 from fr_video_controls import VideoControlsFrame
-from fr_treeview_generator import TreeFrame
+from fr_treeframe import TreeFrame
 from image_ap import APImage
 from image_collection import APImageCollection
-#from image_list import FileNamesFrame
 
 ## for debugging
 from icecream import install
@@ -81,9 +80,9 @@ class MainFrame(Frame):
 		self.grid() ## place the MainFrame in the window
 		# populate
 		self.video_canvas = VideoCanvas(self) ## so it can be passed to TreeFrame
-		self.image_list_frame = TreeFrame(self, column_count, self.video_canvas)
+		self.thumbnail_frame = ThumbnailFrame(self)
+		self.tree_frame = TreeFrame(self, column_count, self.thumbnail_frame.show_thumbnail)
 		self.output_settings_frame = SettingsLabelFrame(self)
-		self.image_thumbnail_frame = ThumbnailFrame(self)
 		self.video_controls_frame = VideoControlsFrame(self, self.video_canvas)
 
 		# layout
@@ -95,15 +94,15 @@ class MainFrame(Frame):
 			self.grid_columnconfigure(column, minsize = 128)
 			
 		## insert frames for each window area
-		self.image_list_frame.grid(row = 0, column = 0, rowspan = 10, columnspan = 3, sticky = (N, E, W, S))
+		self.tree_frame.grid(row = 0, column = 0, rowspan = 10, columnspan = 3, sticky = (N, E, W, S))
 		self.output_settings_frame.grid(row = 0, column = 3, rowspan = 2, columnspan = 10, sticky = (N, E, W, S))
-		self.image_thumbnail_frame.grid(row = 10, column = 0, rowspan = 3, columnspan = 3, sticky = (N, E, W, S))
+		self.thumbnail_frame.grid(row = 10, column = 0, rowspan = 3, columnspan = 3, sticky = (N, E, W, S))
 		self.video_canvas.grid(row = 2, column = 3, rowspan = 10, columnspan = 10, sticky = (N, E, W, S))
 		self.video_controls_frame.grid(row = 12, column = 3, columnspan = 10, sticky = (N, E, W, S))
 		#self.show_frames()
 	
 	def show_frames(self):
-		## ic(self.winfo_children())
+		## # ic(self.winfo_children())
 		pass
 		
 class Menubar(Menu):

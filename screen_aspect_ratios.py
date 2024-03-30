@@ -603,5 +603,6 @@ screen_aspect_ratios = {
 
 ## testing
 if __name__ == "__main__":
-	ic(screen_aspect_ratios["8k"]["VistaVision"]["conform_ratio"][0])
-	ic(screen_aspect_ratios["8k"]["VistaVision"]["format"]["pillars"])
+	# ic(screen_aspect_ratios["8k"]["VistaVision"]["conform_ratio"][0])
+	# ic(screen_aspect_ratios["8k"]["VistaVision"]["format"]["pillars"])
+	pass

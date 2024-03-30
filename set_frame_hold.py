@@ -40,8 +40,8 @@ class FrameHoldSet(Labelframe):
 		else:
 			self.spinbox.set(1)
 
-		## ic(self.cget("text"), self.checked_on.get())
-		## ic(self.spinbox.get())
+		## # ic(self.cget("text"), self.checked_on.get())
+		## # ic(self.spinbox.get())
 		
 class NumericSpinbox(Spinbox):
 	def __init__(self, parent):
@@ -56,8 +56,8 @@ class NumericSpinbox(Spinbox):
 		if checked_on.get() == 0:
 			self.set(1)
 		
-		## ic(checked_on.get())
-		## ic(self.get())
+		## # ic(checked_on.get())
+		## # ic(self.get())
 
 ## for testing
 def main():

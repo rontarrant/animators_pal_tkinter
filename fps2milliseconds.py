@@ -6,11 +6,11 @@ def fps2ms(fps):
 
 ## testing
 if __name__ == "__main__":
-	print("24 fps: ", fps_to_milliseconds(24))
-	print("15 fps: ", fps_to_milliseconds(15))
-	print("30 fps: ", fps_to_milliseconds(30))
-	print("25 fps: ", fps_to_milliseconds(25))
-	print("60 fps: ", fps_to_milliseconds(60))
-	print("48 fps: ", fps_to_milliseconds(48))
-	print("23.976 fps: ", fps_to_milliseconds(23.976))
-	print("29.940 fps: ", fps_to_milliseconds(29.940))
+	# ic("24 fps: ", fps_to_milliseconds(24))
+	# ic("15 fps: ", fps_to_milliseconds(15))
+	# ic("30 fps: ", fps_to_milliseconds(30))
+	# ic("25 fps: ", fps_to_milliseconds(25))
+	# ic("60 fps: ", fps_to_milliseconds(60))
+	# ic("48 fps: ", fps_to_milliseconds(48))
+	# ic("23.976 fps: ", fps_to_milliseconds(23.976))
+	# ic("29.940 fps: ", fps_to_milliseconds(29.940))

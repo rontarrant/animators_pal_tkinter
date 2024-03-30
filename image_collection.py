@@ -1,5 +1,5 @@
 '''
-Image Collection
+Image Collection - Model (as in Model, View, Controller or Model, View, Presenter)
 The images in this collection are ready to animate and/or
 render to a video file.
 Images are loaded as OpenCV data, then converted to pillow
@@ -37,9 +37,10 @@ class APImageCollection():
 		self._images.append(image)
 	
 	def list_image_types(self):
-		print("tk: ", image.tk_image)
-		print("pillow: ", image.pillow_image)
-		print("cv: ", image.cv_image)
+		# ic("tk: ", image.tk_image)
+		# ic("pillow: ", image.pillow_image)
+		# ic("cv: ", image.cv_image)
+		pass
 		
 	def remove(self, image_name: str, data: ImageTk.PhotoImage):
 		pass
@@ -53,9 +54,13 @@ class APImageCollection():
 	def show_thumbnail(self):
 		pass
 	
+	def get_images(self):
+		return self.images
+
 	def show_list(self):
 		for image in self._images.items():
-			ic(image)
+			# ic(image)
+			pass
 
 ## testing
 if __name__ == "__main__":
@@ -75,5 +80,5 @@ if __name__ == "__main__":
 		image_collection.add(image)
 		
 	for j in image_collection.images:
-		print(j)
-	
+		# ic(j)
+		pass

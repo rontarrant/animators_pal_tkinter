@@ -23,7 +23,8 @@ class DirectionRadioSet(Labelframe):
 		self.var.set(1)
 	
 	def select(self):
-		ic(self.var.get())
+		# ic(self.var.get())
+		pass
 
 ## testing
 def main():

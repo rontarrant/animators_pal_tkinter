@@ -19,6 +19,7 @@ class VideoCanvas(Canvas):
 	## constants
 	REVERSE = -1 ## play backwards
 	FORWARD = 1 ## play forward
+	PAUSE = 2
 	STOP = 0 ## halt playback and goto start frame
 	LOOP_ON = True
 	LOOP_OFF = False
@@ -48,7 +49,6 @@ class VideoCanvas(Canvas):
 		self.delay = self.fps2ms(self.fps)
 
 	'''
-	VideoCanvas.show_next_frame()
 	Recursive... takes the next frame as its argument.
 	When called with 0, starts with the first frame.
 	- LOOP_ON = True ## looping is on
@@ -70,46 +70,66 @@ class VideoCanvas(Canvas):
 		match self.status:
 			case (self.FORWARD, self.LOOP_OFF):
 				self.delete("all")
-				
-				if frame_num == len(self.image_collection.images) - 1:
+
+				if frame_num == len(self.image_collection.images) - 1: ## If we hit the last frame, stop and rewind to frame 001
 					self.status[0] = self.STOP
+					self.frame_num = frame_num ## remember the last frame displayed (NOTE: may want to jump back to the beginning)
+					self.last_button.change_button_image()
+					## need to switch the callback from pause_callback() to play_callback()
+					self.last_button = None
 					self.show_next_frame(frame_num)
-					self.frame_num = frame_num ## remember the last frame displayed
-					self.last_button.clickFunction()
-				else:
+					ic("we're done: ", frame_num, self.frame_num, self.status)
+				else:                                                  ## otherwise, go to the next frame
 					self.create_image(0, 0, anchor = "nw", image = self.image_collection.images[frame_num].tk_image) 
 					self.winfo_toplevel().after(self.delay, self.show_next_frame, (frame_num + 1) % len(self.image_collection.images))
+					ic("go to next frame: ", frame_num, self.frame_num, self.status)
 					
 			case (self.REVERSE, self.LOOP_OFF):
 				self.delete("all") 
 				
 				if frame_num == 0:
 					self.status[0] = self.STOP
-					self.show_next_frame(frame_num)
 					self.frame_num = frame_num ## remember the last frame displayed
-					self.last_button.clickFunction()
+					self.last_button.change_button_image()
+					self.show_next_frame(frame_num)
 				else:
 					self.create_image(0, 0, anchor = "nw", image = self.image_collection.images[frame_num].tk_image) 
 					self.winfo_toplevel().after(self.delay, self.show_next_frame, (frame_num - 1) % len(self.image_collection.images))
 				
 				if frame_num == 0:
-					ic("beginning of images")
+					# ic("beginning of images")
 					self.status[0] = self.STOP
-				ic()
+									
 			case (self.FORWARD, self.LOOP_ON):
+
 				self.delete("all") 
 				self.create_image(0, 0, anchor = "nw", image = self.image_collection.images[frame_num].tk_image) 
 				self.winfo_toplevel().after(self.delay, self.show_next_frame, (frame_num + 1) % len(self.image_collection.images))
-				ic()
+				self.last_button.change_button_image()
+				# ic()
+				
 			case (self.REVERSE, self.LOOP_ON):
 				self.delete("all") 
 				self.create_image(0, 0, anchor = "nw", image = self.image_collection.images[frame_num].tk_image) 
 				self.winfo_toplevel().after(self.delay, self.show_next_frame, (frame_num - 1) % len(self.image_collection.images))
-				ic()
+				self.last_button.change_button_image()
+				# ic()
+			
+			case (self.PAUSE, self.LOOP_OFF):
+				# ic()
+				pass
+				
+			case (self.PAUSE, self.LOOP_ON):
+				# ic()
+				pass
+				
 			case _:
+				ic("catchall: ", self.status, self.frame_num, frame_num)
 				self.delete("all") 
 				self.create_image(0, 0, anchor = "nw", image = self.image_collection.images[frame_num].tk_image)
-				ic()
+
+		ic(frame_num, self.frame_num, self.last_button, self.status)
+
 	 
 ## testing
 if __name__ == "__main__":

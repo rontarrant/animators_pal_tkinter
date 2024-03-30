@@ -10,7 +10,7 @@ from image_collection import APImageCollection
 from image_ap import APImage
 
 class TreeFrame(Frame):
-	def __init__(self, parent, column_count, canvas):
+	def __init__(self, parent, column_count, preview_method):
 		## instance variables
 		self._cids = []
 		self.treeview = None
@@ -45,38 +45,35 @@ class TreeFrame(Frame):
 		## The bound variable 'event' isn't used, but needs to be
 		## mentioned in the lambda statement because it's returned
 		## by something somewhere.
-		self.treeview.bind('<<TreeviewSelect>>', lambda event: self.thumbnail_selected_image(parent))
+		self.treeview.bind('<<TreeviewSelect>>', lambda event: self.preview(preview_method))
 
-	def thumbnail_selected_image(self, parent):
+	def preview(self, preview_method):
 		## find the selected item ID (iid) ie. row
 		selected_iid = self.treeview.selection()[0]
-		## ic(self.treeview.selection())
+		## # ic(self.treeview.selection())
 		## get the full path and image file name
 		row_number = self.treeview.index(self.treeview.selection()[0])
-		## ic(self.treeview.index(self.treeview.selection()[0]))
-		parent.children['!thumbnailframe'].show_thumbnail(row_number)
+		## # ic(self.treeview.index(self.treeview.selection()[0]))
+		preview_method(row_number)
 	
 	'''
 	The purpose of all the mucking around in build_file_data()
-	is to avoid adding the same image file names to the Treeview
-	over and over each time we add new images. Here's how it works:
+	is to avoid adding the previously-added image file names
+	to the Treeview each time we add new images. Here's how it works:
 	
-	Because all the image file names are already stored in
-	the image_collection--and that's the only place we can draw on
-	to get file names to put in the Treeview--we need a way to tell
-	where in image_collection the newly-added file names start.
+	Because previously-added image file names are already stored in
+	the image_collection, we need to know where the end of that
+	list is. We find it using a bit of simple math in 
+	FileMenu.add_files().
 	
-	We do this will a bit of simple math in FileMenu.add_files().
-	When the Add Images dialog closes, and before we start
+	When the Add Images dialog closes, but before we start
 	adding the new images, we get the length of the image_collection.
-	Then we add the new files and get the length again. The difference
-	is how many new files are being added. We pass this to 
-	the following method--build_file_data()--as new_file_count.
+	Then we add the new files and get the length of
+	image_collection again. The difference is the number of new files
+	being added. We pass this to build_file_data() as new_file_count.
 	
 	Now we again get the number of images in the collection (count)
-	and in the for loop, count down until we get to new_file_count.
-	That way we skip over the files already in the Treeview and only
-	add the new ones.
+	and in the for loop, skip down until we get to new_file_count.
 	'''
 	def build_file_data(self, new_file_count):
 		## start with an empty list of images to add
@@ -107,7 +104,8 @@ class TreeFrame(Frame):
 		self.inject_data(data)
 
 	def set_col_width(self, cid):
-		ic(cid)
+		# ic(cid)
+		pass
 	'''
 	CID Generator
 	Creates IDs for Treeview columns
@@ -127,9 +125,11 @@ class TreeFrame(Frame):
 					cid = "#" + str(i)
 					self._cids.append(cid)
 			else:
-				ic("Too many columns")
+				# ic("Too many columns")
+				pass
 		else:
-			ic("Not enough columns")
+			# ic("Not enough columns")
+			pass
 
 	def _configure_columns(self, specs):
 		self.treeview["columns"] = self._cids
@@ -148,7 +148,8 @@ class TreeFrame(Frame):
 	## local testing - show all data rows
 	def list_rows(self):
 		for row in self.treeview.get_children():
-			ic(self.treeview.item(row)['text'], self.treeview.item(row)['values'])
+			# ic(self.treeview.item(row)['text'], self.treeview.item(row)['values'])
+			pass
 		
 ## testing
 def main():

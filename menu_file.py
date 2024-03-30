@@ -21,7 +21,6 @@ appear suddenly as if from nowhere. Also makes the code more portable.
 '''
 class FileMenu(Menu):
 	def __init__(self, menubar, window, video_canvas, treeframe):
-		self.video_canvas = video_canvas
 		self.label_text = "File"
 		self.window = window
 		self.image_collection = APImageCollection()
@@ -33,9 +32,9 @@ class FileMenu(Menu):
 		self.entryconfig(items("New"), accelerator = "(Ctrl-N)")
 		window.bind('<Control_L><n>', self.file_new)
 		
-		self.add_command(label = "Add Images", command = lambda: self.add_images(self.video_canvas, treeframe))
+		self.add_command(label = "Add Images", command = lambda: self.add_images(video_canvas, treeframe))
 		self.entryconfig(items("Add Images"), accelerator = "(Ctrl-A)")
-		window.bind('<Control_L><a>', lambda: self.add_images(self.video_canvas, treeframe))
+		window.bind('<Control_L><a>', lambda: self.add_images(video_canvas, treeframe))
 
 		self.add_command(label = "Open Project", command = self.file_open)
 		self.entryconfig(items("Open Project"), accelerator = "(Ctrl-O)")
@@ -76,28 +75,28 @@ class FileMenu(Menu):
 								("All formats", all_formats))
 
 	def file_new(self, event = None):
-		ic(event)
-		ic(self.window.project_name)
+		# ic(event)
+		# ic(self.window.project_name)
 		pass
 	
 	def file_open(self, event = None):
-		ic()
+		# ic()
 		pass
 		
 	def file_save(self, event = None):
-		## ic()
+		## # ic()
 		if self.window.project_name == None:
-			## ic(self.window.project_name)
+			## # ic(self.window.project_name)
 			filedialog.asksaveasproject_name(filetypes = self.imagetypes)
 
 	def file_save_as(self, event = None):
-		ic()
-		ic(self.window.project_name)
+		# ic()
+		# ic(self.window.project_name)
 		pass
 
 	def file_close(self, event = None):
-		ic()
-		ic(self.window.project_name)
+		# ic()
+		# ic(self.window.project_name)
 		pass
 
 	def add_images(self, video_canvas, treeframe, event = None):
@@ -120,7 +119,7 @@ class FileMenu(Menu):
 		## change initialdir to point at the stored location
 		## when you figure that shit out
 		temp = filedialog.askopenfilenames(filetypes = self.imagetypes, initialdir = ".")
-		#### ic("temp: \n", temp)
+		#### # ic("temp: \n", temp)
 		
 		## make sure we have a collection of images
 		self.image_collection = APImageCollection()
@@ -134,35 +133,37 @@ class FileMenu(Menu):
 		## now get the number of images in the collection again...
 		new_count = len(self.image_collection.images)
 		## and find the difference, thus we know how many new images were added
-		new_file_count = new_count - old_count
-		video_canvas.show_next_frame(0)
+		difference = new_count - old_count
 		## testing
 		'''
 		for index in self.image_collection.images:
-			## ic("collection image: ", index)
+			## # ic("collection image: ", index)
 		'''
-		video_canvas.show_next_frame(0)
-		treeframe.build_file_data(new_file_count)
+		video_canvas.show_next_frame(old_count) ## put 1st new frame in video_canvas
+		treeframe.build_file_data(difference)
 		prefs.assign_image_file_name_list_variable(self.window.image_files)
 
 		## testing
 		'''
-		## ic("from the window:")
+		## # ic("from the window:")
 
 		for image in self.window.image_files:
-			## ic(image)
+			## # ic(image)
 
-		## ic("from prefs:")
+		## # ic("from prefs:")
 
 		for image in prefs.image_file_name_list:
-			## ic(image)
+			## # ic(image)
 		'''
 
 	def build_mp4(self, event = None):
-		ic("building MP4 video...")
+		# ic("building MP4 video...")
+		pass
 
 	def save_mp4(self, event = None):
-		ic("saving MP4 video...")
+		# ic("saving MP4 video...")
+		pass
 
 	def exit(self, event = None):
-		ic("exiting...")
+		# ic("exiting...")
+		pass

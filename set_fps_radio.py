@@ -33,7 +33,8 @@ class FPSRadioSet(Labelframe):
 		self.var.set(24)
 	
 	def select(self, parent):
-		print(self.var.get())
+		# ic(self.var.get())
+		pass
 
 def main():
 	window = Window()

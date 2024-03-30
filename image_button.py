@@ -2,57 +2,71 @@ from tkinter import *
 
 class ImageButton(Button):
 	## These can be class variables because only one
-	## button image is swapped at a given instant in time
+	## button image is changed at a given instant in time
 	## and button image refresh takes care of itself.
-	unclicked_swap_image = None
-	clicked_swap_image = None
-	unclicked_image = None
-	clicked_image = None
-	swapable = False ## does the button have swap images
-	swapped = False ## track the state of swapped/unswapped
+	image_alt_image_up = None
+	image_alt_image_down = None
+	image_up = None
+	image_down = None
+	changeable = False ## does the button have alt images
+	image_state = False ## track the state of the button image (normal/changed)
 	
-	def __init__(self, parent, up_image, down_image, swap_on = None, swap_off = None, *args, **kwargs):
-		### ic(up_image, down_image)
-		if swap_on != None and swap_off != None:
-			### ic(swap_on, swap_off)
-			self.unclicked_swap_image = PhotoImage(file = swap_off)
-			self.clicked_swap_image = PhotoImage(file = swap_on)
-			self.unclicked_image = PhotoImage(file = up_image)
-			self.clicked_image = PhotoImage(file = down_image)
-			self.unclickedImage = PhotoImage(file = up_image)
-			self.clickedImage = PhotoImage(file = down_image)
-			self.swapable = True
+	def __init__(self, parent, image_up, image_down,
+					 alt_image_down = None, alt_image_up = None,
+					 *args, **kwargs):
+		### # ic(image_up, image_down)
+		if alt_image_down != None and alt_image_up != None:
+			self.image_up = PhotoImage(file = image_up)
+			self.image_down = PhotoImage(file = image_down)
+			self.image_alt_image_up = PhotoImage(file = alt_image_up)
+			self.image_alt_image_down = PhotoImage(file = alt_image_down)
+			self.live_image_up = PhotoImage(file = image_up)
+			self.live_image_down = PhotoImage(file = image_down)
+			self.changeable = True
 		else:
-			self.unclickedImage = PhotoImage(file = up_image)
-			self.clickedImage = PhotoImage(file = down_image)
-			self.swapable = False
+			self.live_image_up = PhotoImage(file = image_up)
+			self.live_image_down = PhotoImage(file = image_down)
+			self.changeable = False
 			
-		super().__init__(parent, *args, image = self.unclickedImage, **kwargs)
+		super().__init__(parent, *args, image = self.live_image_up, **kwargs)
 		self.toggleState = 1
-		self.bind("<Button-1>", self.clickFunction)
-			
-	def swapable_image(self, event = None):
-		self.swapable = True
+		self.bind("<ButtonRelease-1>", self.change_button_image)
+
+	def changeable_image(self, event = None):
+		self.changeable = True
 		
-	def clickFunction(self, event = None):
-		ic()
-		if self.swapable == True:
-			if self.swapped == False: ## we're in an unswapped state; change to swapped state
-				### ic("swapped = True... swapping images")
-				self.swapped = True
-				self.unclickedImage = self.unclicked_swap_image
-				self.clickedImage = self.clicked_swap_image
+	def change_button_image(self, event = None):
+		# ic(event)
+		if self.changeable == True:
+			if self.image_state == False: ## we're in an unimage_state state; change to image_state state
+				# ic("image_state = True... altping images")
+				self.image_state = True
+				self.live_image_up = self.image_alt_image_up
+				self.live_image_down = self.image_alt_image_down
 			else:
-				### ic("swapped = False")
-				self.swapped = False
-				self.unclickedImage = self.unclicked_image
-				self.clickedImage = self.clicked_image
+				# ic("image_state = False")
+				self.image_state = False
+				self.live_image_up = self.image_up
+				self.live_image_down = self.image_down
 			
 		if self.cget("state") != "disabled": #Ignore click if button is disabled
 			self.toggleState *= -1
 			
 			if self.toggleState == -1:
-				self.config(image = self.clickedImage)
+				self.configure(image = self.live_image_down)
 			else:
-				self.config(image = self.unclickedImage)
+				self.configure(image = self.live_image_up)
+
+## testing
+if __name__ == "__main__":
+	window = Tk()
+	loop_image_up = "images/loop_off_up.png"
+	loop_image_down = "images/loop_off_down.png"
+	loop_image_alt_image_up = "images/loop_on_up.png"
+	loop_image_alt_image_down = "images/loop_on_down.png"
+
+	window.configure(width = 1280, height = 806)
+	button = ImageButton(window, loop_image_up, loop_image_down, alt_image_down = loop_image_alt_image_up, alt_image_up = loop_image_alt_image_down)
+	button.grid()
+	window.mainloop()
 
