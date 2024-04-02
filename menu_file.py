@@ -108,13 +108,8 @@ class FileMenu(Menu):
 		This opens us up to appending multiple image sequences together
 		from multiple sources to create a longer animation. In fact,
 		the same sequence can be added over and over, if desired.
-		NOTE:
-		This is going to change when the image collection class is 
-		brought in.
 		'''
 		prefs = Preferences()
-		file_names = []
-		path_names = []
 		
 		## change initialdir to point at the stored location
 		## when you figure that shit out

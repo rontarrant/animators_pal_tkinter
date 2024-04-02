@@ -48,6 +48,9 @@ class TreeFrame(Frame):
 		self.treeview.bind('<<TreeviewSelect>>', lambda event: self.preview(preview_method))
 
 	def preview(self, preview_method):
+		'''
+		Takes a method name for previewing the selected image.
+		'''
 		## find the selected item ID (iid) ie. row
 		selected_iid = self.treeview.selection()[0]
 		## # ic(self.treeview.selection())
@@ -59,21 +62,12 @@ class TreeFrame(Frame):
 	'''
 	The purpose of all the mucking around in build_file_data()
 	is to avoid adding the previously-added image file names
-	to the Treeview each time we add new images. Here's how it works:
+	to the Treeview each time we add new images.
 	
-	Because previously-added image file names are already stored in
-	the image_collection, we need to know where the end of that
-	list is. We find it using a bit of simple math in 
-	FileMenu.add_files().
-	
-	When the Add Images dialog closes, but before we start
-	adding the new images, we get the length of the image_collection.
-	Then we add the new files and get the length of
-	image_collection again. The difference is the number of new files
-	being added. We pass this to build_file_data() as new_file_count.
-	
-	Now we again get the number of images in the collection (count)
-	and in the for loop, skip down until we get to new_file_count.
+	Previously-added image file names are already in
+	the image_collection. So, we find the end of the list, and
+	do a bit of simple math to find out where the new file names
+	will be added.
 	'''
 	def build_file_data(self, new_file_count):
 		## start with an empty list of images to add
