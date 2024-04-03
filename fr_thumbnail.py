@@ -61,7 +61,7 @@ class ThumbnailFrame(Frame):
 		
 		## # ic(self.pillars, self.letters)
 
-	def show_thumbnail(self, image_number):
+	def preview_thumbnail(self, image_number):
 		## # ic(image_number)
 		
 		## In the collection, find the image we want to thumbnail.

@@ -10,7 +10,7 @@ from ap_image_collection import APImageCollection
 from image_ap import APImage
 
 class TreeFrame(Frame):
-	def __init__(self, parent, column_count, preview_method):
+	def __init__(self, parent, column_count, preview_thumbnail):
 		## instance variables
 		self._cids = []
 		self.treeview = None
@@ -45,9 +45,9 @@ class TreeFrame(Frame):
 		## The bound variable 'event' isn't used, but needs to be
 		## mentioned in the lambda statement because it's returned
 		## by something somewhere.
-		self.treeview.bind('<<TreeviewSelect>>', lambda event: self.preview(preview_method))
+		self.treeview.bind('<<TreeviewSelect>>', lambda event: self.preview(preview_thumbnail))
 
-	def preview(self, preview_method):
+	def preview(self, preview_thumbnail):
 		'''
 		Takes a method name for previewing the selected image.
 		'''
@@ -57,10 +57,10 @@ class TreeFrame(Frame):
 		## get the full path and image file name
 		row_number = self.treeview.index(self.treeview.selection()[0])
 		## # ic(self.treeview.index(self.treeview.selection()[0]))
-		preview_method(row_number)
+		preview_thumbnail(row_number)
 	
 	'''
-	The purpose of all the mucking around in build_file_data()
+	The purpose of all the mucking around in build_new_image_list()
 	is to avoid adding the previously-added image file names
 	to the Treeview each time we add new images.
 	
@@ -69,7 +69,7 @@ class TreeFrame(Frame):
 	do a bit of simple math to find out where the new file names
 	will be added.
 	'''
-	def build_file_data(self, new_file_count):
+	def build_new_image_list(self, new_file_count):
 		## start with an empty list of images to add
 		data = []
 		## number of images already in the collection
@@ -78,12 +78,13 @@ class TreeFrame(Frame):
 		## To get the file names to add,
 		## look at each image in the collection...
 		for image in self.image_collection.images:
-			## This keeps us from adding the images already
-			## in the collection for a second time.
+			## This keeps us from re-adding pre-existing
+			## images for a second time.
 			if count > new_file_count:
 				count -= 1
 				continue
-			## 
+			## Now that we're past the pre-existing images,
+			## we can get to work...
 			## separate the file name from the path
 			file_name = image.file_name
 			path = image.path
@@ -95,6 +96,8 @@ class TreeFrame(Frame):
 			## put file name and shortened path into data
 			data.append((file_name, short_path, "", ""))
 		
+		## Now that we have a list of new images,
+		## we can send them off to be inserted into the Treeview.
 		self.inject_data(data)
 
 	def set_col_width(self, cid):

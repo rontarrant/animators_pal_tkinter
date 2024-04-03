@@ -51,9 +51,6 @@ class APImageCollection():
 	def reorder(self):
 		pass
 	
-	def show_thumbnail(self):
-		pass
-	
 	def get_images(self):
 		return self.images
 

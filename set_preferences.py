@@ -96,6 +96,7 @@ class Preferences(Borg):
 		if type(var) is list:
 			if all(type(item) is str for item in var):
 				self.image_file_name_list = var
+				ic(var)
 			else:
 				## error state exists; report it
 				pass

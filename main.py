@@ -13,7 +13,6 @@ from fr_video_canvas import VideoCanvas
 from fr_thumbnail import ThumbnailFrame
 from fr_video_controls import VideoControlsFrame
 from fr_treeframe import TreeFrame
-from image_ap import APImage
 from ap_image_collection import APImageCollection
 
 ## for debugging
@@ -32,7 +31,6 @@ class Window(Tk):
 	min_height = 950
 	_menubar = None
 	_frame = None
-	image_files = [] ## deprecated
 	project_name = None
 	image_collection = APImageCollection()
 
@@ -58,9 +56,9 @@ class Window(Tk):
 
 		## POPULATION stuff
 		self._frame = MainFrame(self)
-		video_canvas = self.nametowidget(".!mainframe.!videocanvas")
-		treeframe = self.nametowidget(".!mainframe.!treeframe")
-		self._menubar = Menubar(self, video_canvas, treeframe)
+		show_next_frame = self.nametowidget(".!mainframe.!videocanvas").show_next_frame
+		build_new_image_list = self.nametowidget(".!mainframe.!treeframe").build_new_image_list
+		self._menubar = Menubar(self, show_next_frame, build_new_image_list)
 
 		## CONFIGURE window stuff
 		self.config(width = self.min_width, height = self.min_height)
@@ -81,7 +79,7 @@ class MainFrame(Frame):
 		# populate
 		self.video_canvas = VideoCanvas(self) ## so a method can be passed to TreeFrame
 		self.thumbnail_frame = ThumbnailFrame(self)
-		self.tree_frame = TreeFrame(self, column_count, self.thumbnail_frame.show_thumbnail)
+		self.tree_frame = TreeFrame(self, column_count, self.thumbnail_frame.preview_thumbnail)
 		self.output_settings_frame = SettingsLabelFrame(self)
 		self.video_controls_frame = VideoControlsFrame(self, self.video_canvas)
 
@@ -110,10 +108,10 @@ class Menubar(Menu):
 	preferences_menu = None
 	help_menu = None
 
-	def __init__(self, window, canvas, treeframe):
+	def __init__(self, window, show_next_frame, build_new_image_list):
 		super().__init__(window)
 		## ATTRIBUTE stuff
-		self.file_menu = FileMenu(self, window, canvas, treeframe)
+		self.file_menu = FileMenu(self, window, show_next_frame,build_new_image_list)
 		self.help_menu = HelpMenu(self)
 
 		## POPULATE

@@ -99,7 +99,7 @@ class FileMenu(Menu):
 		# ic(self.window.project_name)
 		pass
 
-	def add_images(self, video_canvas, treeframe, event = None):
+	def add_images(self, show_next_frame, build_new_image_list, event = None):
 		'''
 		The askopenfilenames() dialog returns a tuple, but it'll be
 		easier to add to the image	list if it's an actual Python list.
@@ -134,9 +134,8 @@ class FileMenu(Menu):
 		for index in self.image_collection.images:
 			## # ic("collection image: ", index)
 		'''
-		video_canvas.show_next_frame(old_count) ## put 1st new frame in video_canvas
-		treeframe.build_file_data(difference)
-		prefs.assign_image_file_name_list_variable(self.window.image_files)
+		show_next_frame(old_count) ## put 1st new frame in video_canvas
+		build_new_image_list(difference)
 
 		## testing
 		'''
