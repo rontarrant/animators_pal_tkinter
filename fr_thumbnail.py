@@ -8,7 +8,7 @@ from tkinter import *
 from tkinter.ttk import *
 
 ## local
-from image_collection import APImageCollection
+from ap_image_collection import APImageCollection
 from image_ap import APImage
 from PIL import Image, ImageTk
 

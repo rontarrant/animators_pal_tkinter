@@ -603,6 +603,13 @@ screen_aspect_ratios = {
 
 ## testing
 if __name__ == "__main__":
-	# ic(screen_aspect_ratios["8k"]["VistaVision"]["conform_ratio"][0])
-	# ic(screen_aspect_ratios["8k"]["VistaVision"]["format"]["pillars"])
-	pass
+	print("8k VistaVision:")
+	print("\taspect ratio: ", screen_aspect_ratios["8k"]["VistaVision"]["conform_ratio"][0])
+	print("\tpillar width: ", screen_aspect_ratios["8k"]["VistaVision"]["format"]["pillars"])
+	print("\twidth: ", screen_aspect_ratios["8k"]["VistaVision"]["format"]["width"])
+	print("\theight: ", screen_aspect_ratios["8k"]["VistaVision"]["format"]["height"])
+	print("1080p HDTV:")
+	print("\taspect ratio: ", screen_aspect_ratios["1080p"]["HDTV"]["conform_ratio"][0])
+	print("\tpillar width: ", screen_aspect_ratios["1080p"]["HDTV"]["format"]["pillars"])
+	print("\twidth: ", screen_aspect_ratios["1080p"]["HDTV"]["format"]["width"])
+	print("\theight: ", screen_aspect_ratios["1080p"]["HDTV"]["format"]["height"])

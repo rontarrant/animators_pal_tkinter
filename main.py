@@ -14,7 +14,7 @@ from fr_thumbnail import ThumbnailFrame
 from fr_video_controls import VideoControlsFrame
 from fr_treeframe import TreeFrame
 from image_ap import APImage
-from image_collection import APImageCollection
+from ap_image_collection import APImageCollection
 
 ## for debugging
 from icecream import install
@@ -79,7 +79,7 @@ class MainFrame(Frame):
 		column_count = 4
 		self.grid() ## place the MainFrame in the window
 		# populate
-		self.video_canvas = VideoCanvas(self) ## so it can be passed to TreeFrame
+		self.video_canvas = VideoCanvas(self) ## so a method can be passed to TreeFrame
 		self.thumbnail_frame = ThumbnailFrame(self)
 		self.tree_frame = TreeFrame(self, column_count, self.thumbnail_frame.show_thumbnail)
 		self.output_settings_frame = SettingsLabelFrame(self)

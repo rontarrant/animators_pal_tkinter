@@ -8,7 +8,7 @@ import sys
 
 ## local
 from set_preferences import Preferences
-from image_collection import APImageCollection
+from ap_image_collection import APImageCollection
 from image_ap import APImage
 from fr_video_canvas import VideoCanvas
 
