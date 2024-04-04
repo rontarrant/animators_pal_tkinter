@@ -9,8 +9,6 @@ from tkinter.ttk import *
 from set_fps_radio import FPSRadioSet
 from set_direction_radio import DirectionRadioSet
 from set_shoot_on import ShootOnSet
-from set_frame_hold import FrameHoldSet
-from set_preferences import Preferences
 
 ## constants
 FORWARD: int = 1

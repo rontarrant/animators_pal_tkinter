@@ -1,20 +1,20 @@
 '''
 main.__init__()
-	preview monkey
-		file treeview
+	preview_monkey_frame
+		file_treeview
 			()build_new_image_list()
 				**APImageCollection**
 			()ThumbnailFrame.preview_thumbnail()
-		thumbnail canvas
-			()ThumbnailFrame.preview_thumbnail()
+		thumbnail_canvas
+			()preview_thumbnail()
 				**APImageCollection**
 
-	video monkey
+	video_monkey_frame
 		**APSettings**
-		video settings
-		video canvas
+		video_settings
+		video_canvas
 			()show_next_frame()
-		video controls
+		video_controls
 			()VideoCanvas.show_next_frame()
 				**APImageCollection**
 
