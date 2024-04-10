@@ -11,7 +11,7 @@ from tkinter import Tk ## This must be limited so we don't replace PIL's Image c
 from tkinter import Canvas
 
 ## local
-from image_ap import APImage
+from ap_image import APImage
 
 ## for debugging
 from icecream import install

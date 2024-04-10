@@ -6,9 +6,6 @@ from tkinter import *
 from tkinter.ttk import *
 
 ## local
-from set_fps_radio import FPSRadioSet
-from set_direction_radio import DirectionRadioSet
-from set_shoot_on import ShootOnSet
 
 ## constants
 FORWARD: int = 1

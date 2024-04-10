@@ -6,8 +6,8 @@ The usual controls for video... play, stop, pause, etc.
 from tkinter import *
 
 ## local
-from fr_video_canvas import VideoCanvas
-from image_button import ImageButton
+from vdo_vw_canvas import VideoCanvas
+from vdo_vw_image_button import ImageButton
 
 ## for debugging
 from icecream import install
@@ -27,7 +27,7 @@ class VideoControlsFrame(Frame):
 	## The button callbacks are passed a pointer to the VideoCanvas
 	## so the buttons can act directly on the VideoCanvas for
 	## stopping, playing, reversing, pausing, etc.
-	def __init__(self, parent, canvas):
+	def __init__(self, parent):
 		super().__init__(parent)
 		## instance variables
 		self.parent = parent

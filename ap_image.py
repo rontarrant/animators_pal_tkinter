@@ -25,7 +25,7 @@ from tkinter import Tk ## This must be limited so we don't replace PIL's Image c
 from tkinter import Canvas
 
 ## local
-from screen_aspect_ratios import *
+from ap_screen_aspect_ratios import *
 
 ## for debugging
 from icecream import install

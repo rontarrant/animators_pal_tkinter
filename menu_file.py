@@ -7,10 +7,9 @@ import os
 import sys
 
 ## local
-from set_preferences import Preferences
 from ap_image_collection import APImageCollection
-from image_ap import APImage
-from fr_video_canvas import VideoCanvas
+from ap_image import APImage
+from vdo_vw_canvas import VideoCanvas
 
 '''
 Dependency Injection

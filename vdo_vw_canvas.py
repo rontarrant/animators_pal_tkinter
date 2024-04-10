@@ -8,7 +8,7 @@ from tkinter.ttk import *
 
 ## local
 from ap_image_collection import APImageCollection
-from image_ap import APImage
+from ap_image import APImage
 
 ## for debugging
 from icecream import install

@@ -6,9 +6,9 @@ from tkinter import *
 from tkinter.ttk import *
 
 ## local
-from set_fps_radio import FPSRadioSet
-from set_direction_radio import DirectionRadioSet
-from set_shoot_on import ShootOnSet
+from vdo_vw_set_fps_radio import FPSRadioSet
+from vdo_vw_set_direction_radio import DirectionRadioSet
+from vdo_vw_set_shoot_on import ShootOnSet
 
 class VideoSettingsFrame(Labelframe):
 	def __init__(self, parent):

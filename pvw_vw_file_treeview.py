@@ -36,7 +36,7 @@ class FileTreeview(Treeview):
 		}
 
 		## configure properties
-		self.pack(expand = True, fill = BOTH)
+		self.grid(sticky = (N, E, W, S))
 		self.cid_generator(column_count)
 		self._configure_columns(column_specs)
 		self._configure_headings(heading_specs)
