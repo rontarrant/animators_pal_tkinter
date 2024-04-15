@@ -2,11 +2,12 @@
 vdo_monkey_frame.py
 Logic that goes between video data and view
 '''
+## figure out why this frame is too wide
 from ap_image_collection import *
 from ap_settings import *
 from ap_screen_aspect_ratios import *
 
-from vdo_vw_settings import *
+from vdo_vw_set_monkey_frame import *
 from vdo_vw_canvas import *
 from vdo_vw_controls import *
 
@@ -29,10 +30,21 @@ class VideoMonkeyFrame(Frame):
 		video_canvas = VideoCanvas(self)
 		video_controls = VideoControlsFrame(self)
 
-		video_settings_frame.grid(row = 0, column = 3, rowspan = 2, columnspan = 10, sticky = (N, E, W, S))
-		video_canvas.grid(row = 2, column = 3, rowspan = 10, columnspan = 10, sticky = (N, E, W, S))
-		video_controls.grid(row = 12, column = 3, columnspan = 10, sticky = (N, E, W, S))
+		video_settings_frame.grid(row = 0, column = 0, rowspan = 2, columnspan = 10, sticky = (N, E, W, S))
+		video_canvas.grid(row = 2, column = 0, rowspan = 10, columnspan = 10, sticky = (N, E, W, S))
+		video_controls.grid(row = 12, column = 0, columnspan = 10, sticky = (N, E, W, S))
 
 	## go-between methods
 	def show_next_frame(self):
 		pass
+
+## testing
+if __name__ == "__main__":
+	width = 10 * 128
+	height = 13 * 72
+	print("width: ", width, ", height: ", height)
+	window = Tk()
+	window.configure(width = width, height = height)
+	videomonkeyframe = VideoMonkeyFrame(window)
+	videomonkeyframe.grid()
+	window.mainloop()

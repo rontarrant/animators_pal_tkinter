@@ -603,13 +603,23 @@ screen_aspect_ratios = {
 
 ## testing
 if __name__ == "__main__":
-	print("8k VistaVision:")
-	print("\taspect ratio: ", screen_aspect_ratios["8k"]["VistaVision"]["conform_ratio"][0])
-	print("\tpillar width: ", screen_aspect_ratios["8k"]["VistaVision"]["format"]["pillars"])
-	print("\twidth: ", screen_aspect_ratios["8k"]["VistaVision"]["format"]["width"])
-	print("\theight: ", screen_aspect_ratios["8k"]["VistaVision"]["format"]["height"])
-	print("1080p HDTV:")
-	print("\taspect ratio: ", screen_aspect_ratios["1080p"]["HDTV"]["conform_ratio"][0])
-	print("\tpillar width: ", screen_aspect_ratios["1080p"]["HDTV"]["format"]["pillars"])
-	print("\twidth: ", screen_aspect_ratios["1080p"]["HDTV"]["format"]["width"])
-	print("\theight: ", screen_aspect_ratios["1080p"]["HDTV"]["format"]["height"])
+	for screen_size, properties in screen_aspect_ratios.items(): ## show the screen sizes
+		print(screen_size) ##  (8k, 6k, ..., 1080p, 720p)
+		
+		for item, property in properties.items(): ## width, height, resolution (by name)
+			if item == "width":
+				print("\t" + item + ":", property)
+			elif item == "height":
+				print("\t" + item + ":", property)
+			else: ## ClassicTV, IMAX, ... Anamorphic Widescreen, MGM 65
+				print("\t" + item)
+
+				for resolution_property, sub_property in property.items():
+					print("\t\t" + resolution_property) ## conform_ratio, format
+					
+					if resolution_property == "conform_ratio":
+						print("\t\t\t" + str(sub_property[0]))
+						print("\t\t\t" + str(sub_property[1]))
+					elif resolution_property == "format":
+						for dimension, value in sub_property.items(): ## pillars, video width, video height
+							print("\t\t\t\t" + dimension + ": " + str(value))

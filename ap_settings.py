@@ -12,65 +12,84 @@ FORWARD: int = 1
 REVERSE: int = -1
 
 class APSettings():
-	_direction: int = FORWARD ## default: play from first frame to last
-	_direction_default: int = FORWARD
-	_shoot_on: int = 1 ## default: every frame different
-	_shoot_on_default: int = 1
-	_fps: int = 24 ## default: 24 frames per second
+	_direction: int = FORWARD
+	_direction_default: int = FORWARD ## default: play from first frame to last
+	_shoot_on: int = 1
+	_shoot_on_default: int = 1 ## default: each image held for one frame
+	_fps: int = 24
+	_fps_default = 24	## default: 24 frames per second
 	_crop_to: int = [] ## 2-element list for frame ratio (16:9, 3:4, etc.)
 	_resize_to: int = [] ## 2-element list for frame size (8k, 6k, 4k, etc.)
+	_aspect_ratio: str = "16:9"
+	_aspect_ratio_default: str = "16:9" ## default: HD
+	_resolution: int = [1920, 1080]
+	_resolution_default: int = [1920, 1080] ## default: HD
 	
-	@property
-	def direction(self):
+	def get_aspect_ratio(self):
+		return self._aspect_ratio
+	
+	def set_aspect_ratio(self, value):
+		if type(value) == str:
+			self._aspect_ratio = value
+		else:
+			self._aspect_ratio = self._aspect_ratio_default
+	
+	def get_resolution(self):
+		return self._resolution
+	
+	def set_resolution(self, value):
+		if type(value) == list:
+			if len(value) == 2:
+				self._resolution = value
+			else:
+				self._resolution = self.resolution_default
+	
+	def get_direction(self):
+		print("get direction: ", self._direction)
 		return self._direction
 	
-	@direction.setter
-	def direction(self, value):
-		if value == FORWARD or value == REVERSE:
+	def set_direction(self, value):
+		if type(value) == FORWARD or value == REVERSE:
 			self._direction = value
 		else:
-			## set to default
 			self._direction = self._direction_default
+		print("set direction: ", self._direction)
 
-	@property
-	def shoot_on(self):
+	def get_shoot_on(self):
+		print("shoot_on: ", self._shoot_on)
 		return self._shoot_on
 	
-	@shoot_on.setter
-	def shoot_on(self, value):
+	def set_shoot_on(self, value):
 		if value > 0 and value < 10:
 			self._shoot_on = value
 		else:
-			## set to default
 			self._shoot_on = self._shoot_on_default
+		print("shoot_on: ", self._shoot_on)
 
-	@property
-	def fps(self):
+	def get_fps(self):
+		print("fps: ", self._fps)
 		return self._fps
 	
-	@fps.setter
-	def fps(self, value):
+	def set_fps(self, value):
 		if value == 12 or value == 18 or value == 24 or value == 30 or value == 60:
 			self._fps = value
 		else:
-			self._fps = 24 ## set to default on error
+			self._fps = 24
+		
+		print("fps: ", self._fps)
 
-	@property
-	def crop_to(self):
+	def get_crop_to(self):
 		return self._crop_to
 	
-	@crop_to.setter
-	def crop_to(self, value: list[int]):
+	def set_crop_to(self, value: list[int]):
 		if type(value) == list:
 			if len(value) == 2:
 				self._crop_to = value
 	
-	@property
-	def resize_to(self):
+	def get_resize_to(self):
 		return self._resize_to
 		
-	@resize_to.setter
-	def resize_to(self, value: list[int]):
+	def set_resize_to(self, value: list[int]):
 		if type(value) == list:
 			if len(value) == 2:
 				self._resize_to = value

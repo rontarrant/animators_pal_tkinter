@@ -28,18 +28,7 @@ class Window(Tk):
 	project_name = None
 
 	def __init__(self, *args, **kwargs):
-		'''
-		You'll notice that MainFrame is instantiated before the Menubar.
-		This is because the menu system needs access to the video_canvas
-		and the treeframe for communication purposes during runtime.
-		These variables (video_canvas and treeframe) are injected
-		into the Menubar which injects it into the File menu which passes
-		them along to the add_images() method. There, they are used to
-		push a list of file names into the Treeview and push the first
-		image in the list onto the VideoCanvas.
-		'''
 		working_dir = os.path.abspath(os.path.dirname(sys.argv[0]))
-
 		super().__init__(*args, **kwargs)
 
 		## ATTRIBUTE stuff

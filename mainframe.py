@@ -29,8 +29,11 @@ class MainFrame(Frame):
 		## insert frames for each window area
 		preview_monkey_frame.grid(row = 0, column = 0, rowspan = 13, columnspan = 3, sticky = (N, E, W, S))
 		video_monkey_frame.grid(row = 0, column = 3, rowspan = 13, columnspan = 10, sticky = (N, E, W, S))
-	
-	def show_frames(self):
-		## # ic(self.winfo_children())
-		pass
-		
+
+## testing
+if __name__ == "__main__":
+	window = Tk()
+	window.configure(width = 1280, height = 950)
+	mainframe = MainFrame(window)
+	mainframe.grid()
+	window.mainloop()

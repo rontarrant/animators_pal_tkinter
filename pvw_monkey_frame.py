@@ -38,4 +38,11 @@ class PreviewMonkeyFrame(Frame):
 	
 	def preview_thumbnail(self):
 		pass
-		
+
+## testing
+if __name__ == "__main__":
+	window = Tk()
+	window.configure(width = 1280, height = 806)
+	previewmonkeyframe = PreviewMonkeyFrame(window)
+	previewmonkeyframe.grid()
+	window.mainloop()

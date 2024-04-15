@@ -168,8 +168,6 @@ class VideoControlsFrame(Frame):
 if __name__ == "__main__":
 	window = Tk()
 	window.configure(width = 1280, height = 840)
-	video_canvas = VideoCanvas(window)
-	video_controls = VideoControlsFrame(window, video_canvas)
-	video_canvas.grid(row = 0)
+	video_controls = VideoControlsFrame(window)
 	video_controls.grid(row = 1)
 	window.mainloop()
