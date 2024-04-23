@@ -30,9 +30,18 @@ def main():
 
 class Window(Tk):
 	def __init__(self, *args, **kwargs):
+		self.var = 1
 		super().__init__(*args, **kwargs)
-		direction_radio_set = DirectionRadioSet(self)
+		direction_radio_set = DirectionRadioSet(self, self.getter, self.setter)
 		direction_radio_set.pack(ipadx = 20, ipady = 10)
+
+	def getter(self):
+		print("self.var: ", self.var)
+		return self.var
+		
+	def setter(self, value):
+		self.var = value
+		print("self.var: ", self.var)
 
 if __name__ == "__main__":
 	main()

@@ -5,7 +5,6 @@ Logic that goes between video data and view
 ## figure out why this frame is too wide
 from ap_image_collection import *
 from ap_settings import *
-from ap_screen_aspect_ratios import *
 
 from vdo_vw_set_monkey_frame import *
 from vdo_vw_canvas import *

@@ -4,7 +4,6 @@ Logic that goes between the preview data and view
 '''
 from ap_image_collection import *
 from ap_settings import *
-from ap_screen_aspect_ratios import *
 
 from pvw_vw_file_treeview import *
 from pvw_vw_thumbnail_canvas import *

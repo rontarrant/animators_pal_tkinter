@@ -1,6 +1,8 @@
-screen_formats = { 
+screen_resolutions = { 
 	"8k": 
 	{
+		"width": 7680,
+		"height": 4320,
 		"ClassicTV": 
 		{
 			"pillars": 960,
@@ -46,6 +48,8 @@ screen_formats = {
 	},
 	"6k": 
 	{
+		"width": 6144,
+		"height": 3456,
 		"ClassicTV": 
 		{
 			"pillars": 768,
@@ -91,6 +95,8 @@ screen_formats = {
 	},
 	"5k": 
 	{
+		"width": 5120,
+		"height": 2880,
 		"ClassicTV": 
 		{
 			"pillars": 640,
@@ -136,6 +142,8 @@ screen_formats = {
 	},
 	"4k": 
 	{
+		"width": 3840,
+		"height": 2160,
 		"ClassicTV": 
 		{
 			"pillars": 480,
@@ -181,6 +189,8 @@ screen_formats = {
 	},
 	"3k": 
 	{
+		"width": 2880,
+		"height": 1620,
 		"ClassicTV": 
 		{
 			"pillars": 360,
@@ -226,6 +236,8 @@ screen_formats = {
 	},
 	"2k": 
 	{
+		"width": 2048,
+		"height": 1152,
 		"ClassicTV": 
 		{
 			"pillars": 256,
@@ -271,6 +283,8 @@ screen_formats = {
 	},
 	"1080p": 
 	{
+		"width": 1920,
+		"height": 1080,
 		"ClassicTV": 
 		{
 			"pillars": 240,
@@ -316,6 +330,8 @@ screen_formats = {
 	},
 	"720p": 
 	{
+		"width": 1280,
+		"height": 720,
 		"ClassicTV": 
 		{
 			"pillars": 160,
@@ -363,11 +379,19 @@ screen_formats = {
 
 ## testing
 if __name__ == "__main__":
-	for screen_format, properties in screen_formats.items(): ## show the screen sizes
-		print(screen_format) ##  (8k, 6k, ..., 1080p, 720p)
+	for resolution, properties in screen_resolutions.items(): ## show the screen sizes
+		print(resolution) ##  (8k, 6k, ..., 1080p, 720p)
 		
-		for format_name, format_properties in properties.items(): ## width, height, resolution (by name)
-			print("\t", format_name)
-			
-			for property, value in format_properties.items():
-				print("\t\t", property, value)
+		for item, property in properties.items(): ## width, height, resolution (by name)
+			if item == "width":
+				print("\t" + item + ":", property)
+			elif item == "height":
+				print("\t" + item + ":", property)
+			else: ## ClassicTV, IMAX, ... Anamorphic Widescreen, MGM 65
+				print("\t" + item)
+
+				for resolution_property, sub_property in property.items():
+					print("\t\t" + resolution_property, sub_property) ## pillars, width, height
+
+## direct access
+print("VistaVision width @ 6k: ", screen_resolutions["6k"]["VistaVision"]["width"])

@@ -1,4 +1,4 @@
-screen_ratios = {
+projection_ratios = {
 	"ClassicTV": 
 	{
 		"ratio": "4:3",
@@ -37,8 +37,18 @@ screen_ratios = {
 }
 
 ## testing
-for ratio, properties in screen_ratios.items():
+for ratio, properties in projection_ratios.items():
 	print(ratio)
 	
 	for item, specs in properties.items():
 		print("\t", item, ":", specs)
+
+## direct access
+print(projection_ratios["CinemaScope"]["ratio"])
+
+## direct access to numerator and denominator
+numerator, denominator = projection_ratios["CinemaScope"]["ratio"].split(":")
+print("numerator: ", numerator, ", denominator: ", denominator)
+## use of numerator and denominator
+result = int(numerator) / int(denominator)
+print("result: ", result)

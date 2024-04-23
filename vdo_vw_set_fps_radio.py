@@ -42,9 +42,18 @@ def main():
 
 class Window(Tk):
 	def __init__(self, *args, **kwargs):
+		self.var = 24
 		super().__init__(*args, **kwargs)
-		fps_radio_set = FPSRadioSet(self)
+		fps_radio_set = FPSRadioSet(self, self.getter, self.setter)
 		fps_radio_set.pack(ipadx = 20, ipady = 10)
+
+	def getter(self):
+		print("self.var: ", self.var)
+		return self.var
+		
+	def setter(self, value):
+		self.var = value
+		print("self.var: ", self.var)
 
 if __name__ == "__main__":
 	main()

@@ -25,7 +25,6 @@ from tkinter import Tk ## This must be limited so we don't replace PIL's Image c
 from tkinter import Canvas
 
 ## local
-from ap_screen_aspect_ratios import *
 
 ## for debugging
 from icecream import install
@@ -192,7 +191,7 @@ if __name__ == "__main__":
 	canvas = Canvas(window, width = 1920, height = 1080)
 	canvas.pack()
 	## load an image
-	image_file_name = "D:/Documents/Programming/PythonCode/tkinter/animators_pal/research/image_sequence/Lisa_Turnaround_1920x1080_0000.png"
+	image_file_name = "D:/Documents/Programming/PythonCode/tkinter/animators_pal/image_sequence/Lisa_seq_01_0000.png"
 	my_ap_image = APImage(image_file_name)
 	
 	## # ic(my_ap_image.file_name)
