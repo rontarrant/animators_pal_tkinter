@@ -5,43 +5,43 @@ screen_resolutions = {
 		"height": 4320,
 		"ClassicTV": 
 		{
-			"pillars": 960,
+			"displacement": 960,
 			"width": 5760,
 			"height": 4320
 		},
 		"IMAX": 
 		{
-			"pillars": 870,
-			"width": 5940,
+			"displacement": 751,
+			"width": 6178,
 			"height": 4320
 		},
 		"HDTV": 
 		{
-			"pillars": 0,
+			"displacement": 0,
 			"width": 7680,
 			"height": 4320
 		},
 		"VistaVision": 
 		{
-			"pillars": 84,
+			"displacement": 84,
 			"width": 7680,
 			"height": 4151
 		},
 		"CinemaScope":
 		{
-			"pillars": 514,
+			"displacement": 514,
 			"width": 7680,
 			"height": 3291
 		},
 		"Anamorphic Widescreen": 
 		{
-			"pillars": 553,
+			"displacement": 553,
 			"width": 7680,
 			"height": 3213
 		},
 		"MGM 65": 
 		{
-			"pillars": 769,
+			"displacement": 769,
 			"width": 7680,
 			"height": 2783
 		}
@@ -52,43 +52,43 @@ screen_resolutions = {
 		"height": 3456,
 		"ClassicTV": 
 		{
-			"pillars": 768,
+			"displacement": 768,
 			"width": 4608,
 			"height": 3456
 		},
 		"IMAX":
 		{
-			"pillars": 696,
-			"width": 4752,
+			"displacement": 601,
+			"width": 4942,
 			"height": 3456
 		},
 		"HDTV": 
 		{
-			"pillars": 0,
+			"displacement": 0,
 			"width": 6144,
 			"height": 3456
 		},
 		"VistaVision": 
 		{
-			"pillars": 67,
+			"displacement": 67,
 			"width": 6144,
 			"height": 3321
 		},
 		"CinemaScope": 
 		{
-			"pillars": 411,
+			"displacement": 411,
 			"width": 6144,
 			"height": 2633
 		},
 		"Anamorphic Widescreen": 
 		{
-			"pillars": 433,
+			"displacement": 433,
 			"width": 6144,
 			"height": 2571
 		},
 		"MGM 65": 
 		{
-			"pillars": 615,
+			"displacement": 615,
 			"width": 6144,
 			"height": 2226
 		}
@@ -99,43 +99,43 @@ screen_resolutions = {
 		"height": 2880,
 		"ClassicTV": 
 		{
-			"pillars": 640,
+			"displacement": 640,
 			"width": 3840,
 			"height": 2880
 		},
 		"IMAX": 
 		{
-			"pillars": 580,
-			"width": 3960,
+			"displacement": 501,
+			"width": 4118,
 			"height": 2880
 		},
 		"HDTV": 
 		{
-			"pillars": 0,
+			"displacement": 0,
 			"width": 5120,
 			"height": 2880
 		},
 		"VistaVision": 
 		{
-			"pillars": 56,
+			"displacement": 56,
 			"width": 5120,
 			"height": 2768
 		},
 		"CinemaScope": 
 		{
-			"pillars": 343,
+			"displacement": 343,
 			"width": 5120,
 			"height": 2194
 		},
 		"Anamorphic Widescreen": 
 		{
-			"pillars": 369,
+			"displacement": 369,
 			"width": 5120,
 			"height": 2142
 		},
 		"MGM 65": 
 		{
-			"pillars": 512,
+			"displacement": 512,
 			"width": 5120,
 			"height": 1855
 		}
@@ -146,43 +146,43 @@ screen_resolutions = {
 		"height": 2160,
 		"ClassicTV": 
 		{
-			"pillars": 480,
+			"displacement": 480,
 			"width": 2880,
 			"height": 2160
 		},
 		"IMAX": 
 		{
-			"pillars": 435,
-			"width": 2970,
+			"displacement": 376,
+			"width": 3088,
 			"height": 2160
 		},
 		"HDTV": 
 		{
-			"pillars": 0,
+			"displacement": 0,
 			"width": 3840,
 			"height": 2160
 		},
 		"VistaVision": 
 		{
-			"pillars": 42,
+			"displacement": 42,
 			"width": 3840,
 			"height": 2076
 		},
 		"CinemaScope": 
 		{
-			"pillars": 257,
+			"displacement": 257,
 			"width": 3840,
 			"height": 1646
 		},
 		"Anamorphic Widescreen": 
 		{
-			"pillars": 277,
+			"displacement": 277,
 			"width": 3840,
 			"height": 1607
 		},
 		"MGM 65": 
 		{
-			"pillars": 384,
+			"displacement": 384,
 			"width": 3840,
 			"height": 1391
 		}
@@ -193,43 +193,43 @@ screen_resolutions = {
 		"height": 1620,
 		"ClassicTV": 
 		{
-			"pillars": 360,
+			"displacement": 360,
 			"width": 360,
 			"height": 2160
 		},
 		"IMAX": 
 		{
-			"pillars": 326,
-			"width": 2228,
+			"displacement": 282,
+			"width": 2316,
 			"height": 1620
 		},
 		"HDTV": 
 		{
-			"pillars": 0,
+			"displacement": 0,
 			"width": 2880,
 			"height": 1620
 		},
 		"VistaVision": 
 		{
-			"pillars": 32,
+			"displacement": 32,
 			"width": 2880,
 			"height": 1557
 		},
 		"CinemaScope": 
 		{
-			"pillars": 193,
+			"displacement": 193,
 			"width": 2880,
 			"height": 1234
 		},
 		"Anamorphic Widescreen": 
 		{
-				"pillars": 207,
+				"displacement": 207,
 				"width": 2880,
 				"height": 1205
 		},
 		"MGM 65": 
 		{
-			"pillars": 288,
+			"displacement": 288,
 			"width": 2880,
 			"height": 1043
 		}
@@ -240,43 +240,43 @@ screen_resolutions = {
 		"height": 1152,
 		"ClassicTV": 
 		{
-			"pillars": 256,
+			"displacement": 256,
 			"width": 1536,
 			"height": 1152
 		},
 		"IMAX": 
 		{
-			"pillars": 232,
-			"width": 1584,
+			"displacement": 200,
+			"width": 1648,
 			"height": 1152
 		},
 		"HDTV": 
 		{
-			"pillars": 0,
+			"displacement": 0,
 			"width": 2048,
 			"height": 1152
 		},
 		"VistaVision": 
 		{
-			"pillars": 22,
+			"displacement": 22,
 			"width": 2048,
 			"height": 1107
 		},
 		"CinemaScope": 
 		{
-			"pillars": 137,
+			"displacement": 137,
 			"width": 2048,
 			"height": 878
 		},
 		"Anamorphic Widescreen": 
 		{
-			"pillars": 148,
+			"displacement": 148,
 			"width": 2048,
 			"height": 857
 		},
 		"MGM 65": 
 		{
-			"pillars": 205,
+			"displacement": 205,
 			"width": 2048,
 			"height": 742
 		}
@@ -287,43 +287,43 @@ screen_resolutions = {
 		"height": 1080,
 		"ClassicTV": 
 		{
-			"pillars": 240,
+			"displacement": 240,
 			"width": 1440,
 			"height": 1080
 		},
 		"IMAX": 
 		{
-			"pillars": 218,
-			"width": 1485,
+			"displacement": 188,
+			"width": 1544,
 			"height": 1080
 		},
 		"HDTV": 
 		{
-			"pillars": 0,
+			"displacement": 0,
 			"width": 1920,
 			"height": 1080
 		},
 		"VistaVision": 
 		{
-			"pillars": 21,
+			"displacement": 21,
 			"width": 1920,
 			"height": 1038
 		},
 		"CinemaScope": 
 		{
-			"pillars": 129,
+			"displacement": 129,
 			"width": 1920,
 			"height": 823
 		},
 		"Anamorphic Widescreen": 
 		{
-			"pillars": 138,
+			"displacement": 138,
 			"width": 1920,
 			"height": 803
 		},
 		"MGM 65": 
 		{
-			"pillars": 192,
+			"displacement": 192,
 			"width": 1920,
 			"height": 696
 		}
@@ -334,43 +334,43 @@ screen_resolutions = {
 		"height": 720,
 		"ClassicTV": 
 		{
-			"pillars": 160,
+			"displacement": 160,
 			"width": 960,
 			"height": 720
 		},
 		"IMAX": 
 		{
-			"pillars": 145,
-			"width": 990,
+			"displacement": 125,
+			"width": 1030,
 			"height": 720
 		},
 		"HDTV": 
 		{
-			"pillars": 0,
+			"displacement": 0,
 			"width": 1280,
 			"height": 720
 		},
 		"VistaVision": 
 		{
-			"pillars": 14,
+			"displacement": 14,
 			"width": 1280,
 			"height": 692
 		},
 		"CinemaScope": 
 		{
-			"pillars": 86,
+			"displacement": 86,
 			"width": 1280,
 			"height": 549
 		},
 		"Anamorphic Widescreen": 
 		{
-			"pillars": 92,
+			"displacement": 92,
 			"width": 1280,
 			"height": 536
 		},
 		"MGM 65": 
 		{
-			"pillars": 128,
+			"displacement": 128,
 			"width": 1280,
 			"height": 464
 		}
@@ -379,6 +379,7 @@ screen_resolutions = {
 
 ## testing
 if __name__ == "__main__":
+	'''
 	for resolution, properties in screen_resolutions.items(): ## show the screen sizes
 		print(resolution) ##  (8k, 6k, ..., 1080p, 720p)
 		
@@ -391,7 +392,13 @@ if __name__ == "__main__":
 				print("\t" + item)
 
 				for resolution_property, sub_property in property.items():
-					print("\t\t" + resolution_property, sub_property) ## pillars, width, height
+					print("\t\t" + resolution_property, sub_property) ## displacement, width, height
+	'''
 
-## direct access
-print("VistaVision width @ 6k: ", screen_resolutions["6k"]["VistaVision"]["width"])
+	## direct access
+	print("direct access:")
+	print("VistaVision width @ 6k: ", screen_resolutions["6k"]["VistaVision"]["width"])
+	## set a resolution
+	resolution = "6k"
+	print("key: ", resolution)
+	print(screen_resolutions[resolution])

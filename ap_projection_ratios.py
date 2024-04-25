@@ -7,7 +7,7 @@ projection_ratios = {
 	"IMAX": 
 	{
 		"ratio": "22:16",
-		"ratio_fraction": "1.9:1",
+		"ratio_fraction": "1.43:1",
 	},
 	"HDTV": 
 	{
@@ -37,18 +37,21 @@ projection_ratios = {
 }
 
 ## testing
-for ratio, properties in projection_ratios.items():
-	print(ratio)
+if __name__ == "__main__":
+	for ratio, properties in projection_ratios.items():
+		print(ratio)
+		
+		for item, specs in properties.items():
+			print("\t", item, ":", specs)
+
+	## direct access
+	print(projection_ratios["CinemaScope"]["ratio"])
+
+	## direct access to numerator and denominator
+	numerator, denominator = projection_ratios["CinemaScope"]["ratio"].split(":")
+	print("numerator: ", numerator, ", denominator: ", denominator)
+	## use of numerator and denominator
+	result = int(numerator) / int(denominator)
+	print("result: ", result)
 	
-	for item, specs in properties.items():
-		print("\t", item, ":", specs)
-
-## direct access
-print(projection_ratios["CinemaScope"]["ratio"])
-
-## direct access to numerator and denominator
-numerator, denominator = projection_ratios["CinemaScope"]["ratio"].split(":")
-print("numerator: ", numerator, ", denominator: ", denominator)
-## use of numerator and denominator
-result = int(numerator) / int(denominator)
-print("result: ", result)
+	

@@ -31,8 +31,8 @@ class VideoImageInfoSet(Frame):
 	def __init__(self, parent, format_getter, format_setter,
 								frame_size_getter, frame_size_setter,
 								image_size_getter, image_size_setter,
-								pillar_displacement_getter, pillar_displacement_setter,
-								letterbox_displacement_getter, letterbox_displacement_setter,
+								pillar_getter, pillar_setter,
+								letterbox_getter, letterbox_setter,
 								*args, **kwargs):
 		## init
 		super().__init__(parent, *args, **kwargs)
@@ -49,10 +49,10 @@ class VideoImageInfoSet(Frame):
 		## populate
 		self.video_settings_banner = BannerLabel(self)
 		self.resolution_set = ResolutionSet(self)
-		self.aspect_ratio_set = AspectRatioSet(self)
+		self.projection_set = ProjectionSet(self)
 		self.pillar_set = PillarDisplacementSet(self)
 		self.letterbox_set = LetterboxSet(self)
-		self.image_size_set = ImageSizeSet(self)
+		self.image_size_set = ImageSizeOriginalSet(self)
 
 	def populate_grid(self):
 		## set up a grid
@@ -62,13 +62,13 @@ class VideoImageInfoSet(Frame):
 		self.video_settings_banner.grid(column = 0, row = 0, columnspan = 2, pady = (15, 10))
 		## column 0
 		self.resolution_set.label.grid(column = 0, row = 1, sticky = E, padx = self.padx)
-		self.aspect_ratio_set.label.grid(column = 0, row = 2, sticky = E, padx = self.padx_east)
+		self.projection_set.label.grid(column = 0, row = 2, sticky = E, padx = self.padx_east)
 		self.pillar_set.label.grid(column = 0, row = 3, sticky = E, padx = self.padx)
 		self.letterbox_set.label.grid(column = 0, row = 4, sticky = E, padx = self.padx)
 		self.image_size_set.label.grid(column = 0, row = 5, sticky = E, padx = self.padx)
 		## column 1
 		self.resolution_set.option_menu.grid(column = 1, row = 1, sticky = W, padx = self.padx)
-		self.aspect_ratio_set.option_menu.grid(column = 1, row = 2, sticky = W, padx = self.padx)
+		self.projection_set.option_menu.grid(column = 1, row = 2, sticky = W, padx = self.padx)
 		self.pillar_set.value_label.grid(column = 1, row = 3, sticky = W, padx = self.padx_west)
 		self.letterbox_set.value_label.grid(column = 1, row = 4, sticky = W, padx = self.padx_west)
 		self.image_size_set.value_label.grid(column = 1, row = 5, sticky = W, padx = self.padx_west)
@@ -83,38 +83,64 @@ class BannerLabel(Label):
 class ResolutionSet(Frame):
 	def __init__(self, parent, *args, **kwargs):
 		super().__init__(parent, *args, **kwargs)
-		## these resolutions all have a 16:9 ratio
-		self.options = ["8k", "6k", "5k", "4k", "3k", "2k", "1080p", "720p"]
+		
+		## build and configure options for OptionMenu
+		self.options: list = []
+		self.build_options()
 		self.selection = StringVar()
-		self.option_menu = OptionMenu(parent, self.selection, *self.options)
+		#self.selection.set(self.options[6])
 		self.selection.trace('w', self.show)
+		## instantiate OptionMenu & set default (arg #3)
+		self.option_menu = OptionMenu(parent, self.selection, self.options[6], *self.options)
 
 		self.label = Label(parent, text = "Resolution")
 
+	def build_options(self):
+		for ratio, properties in screen_resolutions.items():
+			#print("ratio: ", ratio, ", properties: ", properties)
+			option = ratio + " (" + str(properties["width"]) + "x" + str(properties["height"]) + ")"
+			self.options.append(option)
+
 	def show(self, *args):
+		for option in self.options:
+			if option == self.selection.get():
+				#print("got it: ", self.selection.get())
+				pass
+				
 		print(self.selection.get())
 	
 	def get(self):
-		return self.resolution
+		return self.resolution.get()
 	
-	def set(self, value):
-		self.resolution = value
+	def set(self, width: int, height: int):
+		pass
 	
-class AspectRatioSet(Frame):
+class ProjectionSet(Frame):
 	def __init__(self, parent, *args, **kwargs):
 		super().__init__(parent, *args, **kwargs)
-		self.options = ["Classic TV (4:3)", "IMAX (22:16)", "HDTV (16:9)", 
-							"Vistavision (37:20)", "CinemaScope (21:9)", 
-							"Anamorphic Widescreen (239:100)", "MGM 65 (69:25)"]
+		## build & configure options
+		self.options = [] ## empty list
+		self.build_options() ## add items
+		self.selection = StringVar(parent) ## instantiate associated variable
+		self.selection.trace('w', self.show) ## same as binding a callback
+		## instantiate menu & set default (arg #3)
+		self.option_menu = OptionMenu(parent, self.selection, self.options[2], *self.options)
 		
 		self.label = Label(parent, text = "Aspect Ratio")
 		
-		self.selection = StringVar(parent)
-		self.option_menu = OptionMenu(parent, self.selection, *self.options)
-		self.selection.trace('w', self.show)
+	def build_options(self):
+		for ratio, properties in projection_ratios.items():
+			option = ratio + " (" + properties["ratio"] + ")"
+			self.options.append(option)
 		
 	def show(self, *args):
 		print(self.selection.get())
+		
+	def get(self):
+		return self.selection.get()
+		
+	def set(self, value):
+		pass
 
 class PillarDisplacementSet(Frame):
 	def __init__(self, parent, *args, **kwargs):
@@ -144,13 +170,13 @@ class LetterboxSet(Frame):
 		self.height.set(value)
 
 
-class ImageSizeSet(Frame):
+class ImageSizeOriginalSet(Frame):
 	width  = 0
 	height = 0
 	
 	def __init__(self, parent, *args, **kwargs):
 		super().__init__(parent, *args, **kwargs)
-		self.label = Label(parent, text = "Image Size")
+		self.label = Label(parent, text = "Original Image Size")
 		self.value_label = Label(parent, text = "1920 x 1080")
 		
 	def set(self, width, height):
