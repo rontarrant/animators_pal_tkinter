@@ -1,3 +1,5 @@
+from constants import *
+
 projection_ratios = {
 	"ClassicTV": 
 	{
@@ -6,9 +8,9 @@ projection_ratios = {
 	},
 	"IMAX": 
 	{
-		"ratio": "22:16",
-		"ratio_fraction": "1.43:1",
-	},
+		"ratio": "19:10",
+		"ratio_fraction": "1.9:1",
+},
 	"HDTV": 
 	{
 		"ratio": "16:9",
@@ -54,4 +56,7 @@ if __name__ == "__main__":
 	result = int(numerator) / int(denominator)
 	print("result: ", result)
 	
+	projection = "MGM 65"
 	
+	print("projection: ", projection)
+	print("ratio: ", projection_ratios[projection]["ratio"])

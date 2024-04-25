@@ -7,10 +7,7 @@ from tkinter import *
 from tkinter.ttk import *
 
 ## local
-
-## constants
-FORWARD: int = 1
-REVERSE: int = -1
+from constants import *
 
 class APSettings():
 	_direction: int = FORWARD
@@ -20,6 +17,7 @@ class APSettings():
 	_fps: int = 24
 	_fps_default = 24	## default: 24 frames per second
 	_displacement: int = 0 ## width of pillars or letterboxes
+	_displacement_direction = NEUTRAL ## HDTV & 1080p, no pillars or letterboxing
 	_projection: str = "HDTV"
 	_projection_default: str = "HDTV" ## default: HD
 	_resolution: str = "1080p"
