@@ -9,6 +9,7 @@ from tkinter.ttk import *
 ## local
 from ap_image_collection import APImageCollection
 from ap_image import APImage
+from ap_constants import *
 
 ## for debugging
 from icecream import install
@@ -16,17 +17,10 @@ install()
 ic.configureOutput(includeContext = True)
 
 class VideoCanvas(Canvas):
-	## constants
-	REVERSE = -1 ## play backwards
-	FORWARD = 1 ## play forward
-	PAUSE = 2
-	STOP = 0 ## halt playback and goto start frame
-	LOOP_ON = True
-	LOOP_OFF = False
-	status = [STOP, LOOP_OFF] ## default
+	status = [AP_STOP, AP_LOOP_OFF] ## default
 	## defaults
 	frame_num = 0
-	looping_status = LOOP_OFF
+	looping_status = AP_LOOP_OFF
 	fps: int = 24 ## can also be 18, 25, or 30
 	delay: int = 0
 	shoot_on: int = 1 ## 1's, 2's, 3's up to 9's
@@ -68,7 +62,7 @@ class VideoCanvas(Canvas):
 
 	def show_next_frame(self, frame_num):
 		match self.status:
-			case (self.FORWARD, self.LOOP_OFF):
+			case (AP_FORWARD, AP_LOOP_OFF):
 				self.delete("all")
 
 				if frame_num == len(self.image_collection.images) - 1: ## If we hit the last frame, stop and rewind to frame 001
@@ -84,11 +78,11 @@ class VideoCanvas(Canvas):
 					self.winfo_toplevel().after(self.delay, self.show_next_frame, (frame_num + 1) % len(self.image_collection.images))
 					ic("go to next frame: ", frame_num, self.frame_num, self.status)
 					
-			case (self.REVERSE, self.LOOP_OFF):
+			case (AP_REVERSE, AP_LOOP_OFF):
 				self.delete("all") 
 				
 				if frame_num == 0:
-					self.status[0] = self.STOP
+					self.status[0] = AP_STOP
 					self.frame_num = frame_num ## remember the last frame displayed
 					self.last_button.change_button_image()
 					self.show_next_frame(frame_num)
@@ -98,9 +92,9 @@ class VideoCanvas(Canvas):
 				
 				if frame_num == 0:
 					# ic("beginning of images")
-					self.status[0] = self.STOP
+					self.status[0] = AP_STOP
 									
-			case (self.FORWARD, self.LOOP_ON):
+			case (AP_FORWARD, AP_LOOP_ON):
 
 				self.delete("all") 
 				self.create_image(0, 0, anchor = "nw", image = self.image_collection.images[frame_num].tk_image) 
@@ -108,18 +102,18 @@ class VideoCanvas(Canvas):
 				self.last_button.change_button_image()
 				# ic()
 				
-			case (self.REVERSE, self.LOOP_ON):
+			case (AP_REVERSE, AP_LOOP_ON):
 				self.delete("all") 
 				self.create_image(0, 0, anchor = "nw", image = self.image_collection.images[frame_num].tk_image) 
 				self.winfo_toplevel().after(self.delay, self.show_next_frame, (frame_num - 1) % len(self.image_collection.images))
 				self.last_button.change_button_image()
 				# ic()
 			
-			case (self.PAUSE, self.LOOP_OFF):
+			case (AP_PAUSE, AP_LOOP_OFF):
 				# ic()
 				pass
 				
-			case (self.PAUSE, self.LOOP_ON):
+			case (AP_PAUSE, AP_LOOP_ON):
 				# ic()
 				pass
 				

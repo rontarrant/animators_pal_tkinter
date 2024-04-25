@@ -18,7 +18,7 @@ from tkinter.ttk import *
 from tkinter import font
 
 ## local
-from ap_projection_ratios import *
+from ap_projection_sizes import *
 from ap_screen_resolutions import *
 
 ## for debugging
@@ -28,8 +28,8 @@ ic.configureOutput(includeContext = True)
 
 class VideoImageInfoSet(Frame):
 		
-	def __init__(self, parent, format_getter, format_setter,
-								frame_size_getter, frame_size_setter,
+	def __init__(self, parent, resolution_getter, resolution_setter,
+								projection_getter, projection_setter,
 								image_size_getter, image_size_setter,
 								pillar_getter, pillar_setter,
 								letterbox_getter, letterbox_setter,
@@ -196,7 +196,7 @@ if __name__ == "__main__":
 		def __init__(self, *args, **kwargs):
 			## properties
 			self.format = "8k"
-			self.frame_size = [7680, 4320]
+			self.projection = [7680, 4320]
 			self.image_size = []
 			self.pillar_displacement = 0
 			self.letterbox_displacment = 0
@@ -205,29 +205,29 @@ if __name__ == "__main__":
 			super().__init__(*args, **kwargs)
 			
 			## populate
-			info_widget_set = VideoImageInfoSet(self, self.format_getter, self.format_setter,
-									self.frame_size_getter, self.frame_size_setter,
+			info_widget_set = VideoImageInfoSet(self, self.resolution_getter, self.resolution_setter,
+									self.projection_getter, self.projection_setter,
 									self.image_size_getter, self.image_size_setter,
 									self.pillar_displacement_getter, self.pillar_displacement_setter,
 									self.letterbox_displacement_getter, self.letterbox_displacement_setter)
 									
 			info_widget_set.pack(ipadx = 20, ipady = 10)
 
-		def format_getter(self):
+		def resolution_getter(self):
 			print("self.format: ", self.format)
 			return self.format
 			
-		def format_setter(self, value):
+		def resolution_setter(self, value):
 			self.format = value
 			print("self.format: ", self.format)
 
-		def frame_size_getter(self):
-			print("self.frame_size: ", self.frame_size)
-			return self.frame_size
+		def projection_getter(self):
+			print("self.projection: ", self.projection)
+			return self.projection
 			
-		def frame_size_setter(self, value):
-			self.frame_size = value
-			print("self.frame_size: ", self.frame_size)
+		def projection_setter(self, value):
+			self.projection = value
+			print("self.projection: ", self.projection)
 
 		def image_size_getter(self):
 			print("self.image_size: ", self.image_size)
