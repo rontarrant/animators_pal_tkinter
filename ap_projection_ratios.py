@@ -1,3 +1,5 @@
+from constants import *
+
 projection_ratios = {
 	"ClassicTV": 
 	{
@@ -6,7 +8,12 @@ projection_ratios = {
 	"IMAX": 
 	{
 		"ratio": "19:10",
+<<<<<<< HEAD
 	},
+=======
+		"ratio_fraction": "1.9:1",
+},
+>>>>>>> 277bb15fb706f288d3397dab5ab11ef82b72dcfe
 	"HDTV": 
 	{
 		"ratio": "16:9",

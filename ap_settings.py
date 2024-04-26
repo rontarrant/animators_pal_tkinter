@@ -6,6 +6,7 @@ from tkinter import *
 from tkinter.ttk import *
 
 ## local
+<<<<<<< HEAD
 from ap_constants import *
 '''
 Following is a list of the class properties in APSettings:
@@ -40,13 +41,25 @@ _original_image_height:
 	: possible range: anything up to the dimensions of a digital photo
 	: defaults: N/A
 '''
+=======
+from constants import *
+
+>>>>>>> 277bb15fb706f288d3397dab5ab11ef82b72dcfe
 class APSettings():
 	_direction: int = AP_FORWARD
 	_direction_default: int = AP_FORWARD
 	_shoot_on: int = 1
 	_shoot_on_default: int = 1
 	_fps: int = 24
+<<<<<<< HEAD
 	_fps_default = 24
+=======
+	_fps_default = 24	## default: 24 frames per second
+	_displacement: int = 0 ## width of pillars or letterboxes
+	_displacement_direction = NEUTRAL ## HDTV & 1080p, no pillars or letterboxing
+	_projection: str = "HDTV"
+	_projection_default: str = "HDTV" ## default: HD
+>>>>>>> 277bb15fb706f288d3397dab5ab11ef82b72dcfe
 	_resolution: str = "1080p"
 	_resolution_default: str = "1080p" ## default: HD
 	_projection: str = "HDTV"
