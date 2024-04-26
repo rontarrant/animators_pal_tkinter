@@ -7,20 +7,56 @@ from tkinter.ttk import *
 
 ## local
 from ap_constants import *
+'''
+Following is a list of the class properties in APSettings:
 
+_direction:
+	: which direction the video is to be played
+	: can be either AP_FORWARD or AP_REVERSE
+	: default: AP_FORWARD
+_shoot_on:
+	: how long to display each image
+	: can be 1 ... 9
+	: default: 1
+_fps:
+	: speed of playback in frames per second
+	: can be 18, 24, or 30
+	: default: 24
+_displacement:
+	: width of pillars in pillarbox mode or
+	: height of letterboxing in letterbox mode
+	: possible values: based on resolution & projection size
+	: default: 0
+_displacement_direction:
+	: images are displaced within the frame 
+	  either horizontally, vertically or not at all
+	  if the aspect ratio of the image matches the 
+	  projection size
+	: possible values: AP_NEUTRAL, AP_VERTICAL, AP_HORIZONTAL
+	: default: AP_NEUTRAL (to match HDTV/1080p)
+_original_image_width:
+_original_image_height:
+	: width and height of the image on disk
+	: possible range: anything up to the dimensions of a digital photo
+	: defaults: N/A
+'''
 class APSettings():
 	_direction: int = AP_FORWARD
-	_direction_default: int = AP_FORWARD ## default: play from first frame to last
+	_direction_default: int = AP_FORWARD
 	_shoot_on: int = 1
-	_shoot_on_default: int = 1 ## default: each image held for one frame
+	_shoot_on_default: int = 1
 	_fps: int = 24
-	_fps_default = 24	## default: 24 frames per second
-	_displacement: int = 0 ## width of pillars or letterboxes
-	_displacement_direction = AP_NEUTRAL ## HDTV & 1080p, no pillars or letterboxing
-	_projection: str = "HDTV"
-	_projection_default: str = "HDTV" ## default: HD
+	_fps_default = 24
 	_resolution: str = "1080p"
 	_resolution_default: str = "1080p" ## default: HD
+	_projection: str = "HDTV"
+	_projection_default: str = "HDTV" ## default: HD
+	_displacement: int = 0 ## if pillars > 0, letterbox = 0; vice versa
+	_displacement_direction = AP_NEUTRAL ## HDTV & 1080p, no pillars or letterboxing
+	_original_image_width: int = 1920
+	_original_image_width_default: int = 1920
+	_original_image_height: int = 1080
+	_original_image_height_default: int = 1080
 	
 	def get_direction(self):
 		return self._direction
@@ -49,15 +85,6 @@ class APSettings():
 		else:
 			self._fps = 24
 		
-	def get_displacement(self):
-		return self._displacement
-	
-	def set_displacement(self, value):
-		if type(value) == int:
-			self._displacement = value
-		else:
-			self._displacement = self._displacement_default
-	
 	def get_resolution(self):
 		return self._resolution
 	
@@ -75,6 +102,25 @@ class APSettings():
 			self._projection = value
 		else:
 			self._projection = self.projection_default
+			
+	def get_displacement(self):
+		return self._displacement
+	
+	def set_displacement(self, value):
+		if type(value) == int:
+			self._displacement = value
+		else:
+			self._displacement = self._original_image_width_default
+
+	def get_original_image_width(self):
+		return self._original_image_width
+	
+	def set_original_image_height(self, value):
+		if type(value) == int:
+			self._original_image_height = value
+		else:
+			self._original_image_height = self._original_image_height_default
+
 
 ## testing
 if __name__ == "__main__":

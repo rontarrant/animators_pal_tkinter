@@ -15,11 +15,14 @@ TODO:
 ## tkinter
 from tkinter import *
 from tkinter.ttk import *
-from tkinter import font
 
 ## local
-from ap_projection_sizes import *
-from ap_screen_resolutions import *
+from vdo_vw_set_banner_label import *
+from vdo_vw_set_resolution import *
+from vdo_vw_set_projection import *
+from vdo_vw_set_pillar_displacement import *
+from vdo_vw_set_letterbox_displacement import *
+from vdo_vw_set_image_size_original import *
 
 ## for debugging
 from icecream import install
@@ -27,8 +30,8 @@ install()
 ic.configureOutput(includeContext = True)
 
 class VideoImageInfoSet(Frame):
-		
-	def __init__(self, parent, resolution_getter, resolution_setter,
+	def __init__(self, parent,
+								resolution_getter, resolution_setter,
 								projection_getter, projection_setter,
 								image_size_getter, image_size_setter,
 								pillar_getter, pillar_setter,
@@ -38,21 +41,33 @@ class VideoImageInfoSet(Frame):
 		super().__init__(parent, *args, **kwargs)
 		self.configure(borderwidth = 2, relief = "ridge")
 		
-		self.padx = 20
-		self.padx_east = 20
-		self.padx_west = 27
-
-		self.instantiate_children()
-		self.populate_grid()
-
-	def instantiate_children(self):
+		self.padx = 1
+		self.padx_east = 5
+		self.padx_west = 7
+		## setters and getters
+		self.resolution_getter = resolution_getter
+		self.resolution_setter = resolution_setter
+		self.projection_getter = projection_getter
+		self.projection_setter = projection_setter
+		self.image_size_getter = image_size_getter
+		self.image_size_setter = image_size_setter
+		self.pillar_getter = pillar_getter
+		self.pillar_setter = pillar_setter
+		self.letterbox_getter = letterbox_getter
+		self.letterbox_setter = letterbox_setter
+		
+		self.populate()
+	
+	def populate(self):
 		## populate
 		self.video_settings_banner = BannerLabel(self)
 		self.resolution_set = ResolutionSet(self)
 		self.projection_set = ProjectionSet(self)
 		self.pillar_set = PillarDisplacementSet(self)
-		self.letterbox_set = LetterboxSet(self)
+		self.letterbox_set = LetterboxDisplacementSet(self)
 		self.image_size_set = ImageSizeOriginalSet(self)
+		
+		self.populate_grid()
 
 	def populate_grid(self):
 		## set up a grid
@@ -73,118 +88,30 @@ class VideoImageInfoSet(Frame):
 		self.letterbox_set.value_label.grid(column = 1, row = 4, sticky = W, padx = self.padx_west)
 		self.image_size_set.value_label.grid(column = 1, row = 5, sticky = W, padx = self.padx_west)
 
-class BannerLabel(Label):
-	def __init__(self, parent):
-		super().__init__(parent)
-		self.text = "Video & Image Info"
-		self.display_font = font.Font(family = "System", size = 14, weight = "bold")
-		self.config(text = self.text, font = self.display_font)
-		
-class ResolutionSet(Frame):
-	def __init__(self, parent, *args, **kwargs):
-		super().__init__(parent, *args, **kwargs)
-		
-		## build and configure options for OptionMenu
-		self.options: list = []
-		self.build_options()
-		self.selection = StringVar()
-		#self.selection.set(self.options[6])
-		self.selection.trace('w', self.show)
-		## instantiate OptionMenu & set default (arg #3)
-		self.option_menu = OptionMenu(parent, self.selection, self.options[6], *self.options)
-
-		self.label = Label(parent, text = "Resolution")
-
-	def build_options(self):
-		for ratio, properties in screen_resolutions.items():
-			#print("ratio: ", ratio, ", properties: ", properties)
-			option = ratio + " (" + str(properties["width"]) + "x" + str(properties["height"]) + ")"
-			self.options.append(option)
-
-	def show(self, *args):
-		for option in self.options:
-			if option == self.selection.get():
-				#print("got it: ", self.selection.get())
-				pass
-				
-		print(self.selection.get())
-	
-	def get(self):
-		return self.resolution.get()
-	
-	def set(self, width: int, height: int):
+	def recalculate_info(self):
 		pass
+		## call this after any change in the video settings
+		## to update all video/image info fields
+		
+	def update_resolution(self, value):
+		## update the setting, then
+		self.recalculate_info()
+		
+	def update_projection(self, value):
+		## update the setting, then
+		self.recalculate_info()
+		
+	def update_pillar_displacement(self):
+		## update the setting, then
+		self.recalculate_info()
+		
+	def update_letterbox_displacement(self):
+		## update the setting, then
+		self.recalculate_info()
 	
-class ProjectionSet(Frame):
-	def __init__(self, parent, *args, **kwargs):
-		super().__init__(parent, *args, **kwargs)
-		## build & configure options
-		self.options = [] ## empty list
-		self.build_options() ## add items
-		self.selection = StringVar(parent) ## instantiate associated variable
-		self.selection.trace('w', self.show) ## same as binding a callback
-		## instantiate menu & set default (arg #3)
-		self.option_menu = OptionMenu(parent, self.selection, self.options[2], *self.options)
-		
-		self.label = Label(parent, text = "Aspect Ratio")
-		
-	def build_options(self):
-		for ratio, properties in projection_ratios.items():
-			option = ratio + " (" + properties["ratio"] + ")"
-			self.options.append(option)
-		
-	def show(self, *args):
-		print(self.selection.get())
-		
-	def get(self):
-		return self.selection.get()
-		
-	def set(self, value):
-		pass
-
-class PillarDisplacementSet(Frame):
-	def __init__(self, parent, *args, **kwargs):
-		super().__init__(parent, *args, **kwargs)
-		self.label = Label(parent, text = "Pillar Displacement")
-		self.value_label = Label(parent, text = "0")
-		self.width = IntVar()
-	
-	def get(self):
-		return self.width.get()
-		
-	def set(self, value):
-		self.width.set(value)
-
-class LetterboxSet(Frame):
-	def __init__(self, parent, *args, **kwargs):
-		super().__init__(parent, *args, **kwargs)
-		
-		self.label = Label(parent, text = "Letterbox Displacement")
-		self.value_label = Label(parent, text = "0")
-		self.height = IntVar()
-
-	def get(self):
-		return self.height.get()
-		
-	def set(self, value):
-		self.height.set(value)
-
-
-class ImageSizeOriginalSet(Frame):
-	width  = 0
-	height = 0
-	
-	def __init__(self, parent, *args, **kwargs):
-		super().__init__(parent, *args, **kwargs)
-		self.label = Label(parent, text = "Original Image Size")
-		self.value_label = Label(parent, text = "1920 x 1080")
-		
-	def set(self, width, height):
-		self.width = size[0]
-		self.height = size[1]
-	
-	def get(self):
-		return self.width, self.height
+	def update_original_image_size(self):
+		## update the setting, then
+		self.recalculate_info()
 
 ## testing
 if __name__ == "__main__":
@@ -205,7 +132,8 @@ if __name__ == "__main__":
 			super().__init__(*args, **kwargs)
 			
 			## populate
-			info_widget_set = VideoImageInfoSet(self, self.resolution_getter, self.resolution_setter,
+			info_widget_set = VideoImageInfoSet(self,
+									self.resolution_getter, self.resolution_setter,
 									self.projection_getter, self.projection_setter,
 									self.image_size_getter, self.image_size_setter,
 									self.pillar_displacement_getter, self.pillar_displacement_setter,
