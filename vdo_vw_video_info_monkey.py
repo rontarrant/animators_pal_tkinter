@@ -8,8 +8,6 @@ TODO:
 - set aspect ratio
 - calculate pillar size
 - calculate letterbox size
-
-
 '''
 
 ## tkinter
@@ -23,6 +21,7 @@ from vdo_vw_set_projection import *
 from vdo_vw_set_pillar_displacement import *
 from vdo_vw_set_letterbox_displacement import *
 from vdo_vw_set_image_size_original import *
+from ap_constants import *
 
 ## for debugging
 from icecream import install
@@ -30,13 +29,8 @@ install()
 ic.configureOutput(includeContext = True)
 
 class VideoImageInfoSet(Frame):
-	def __init__(self, parent,
-								resolution_getter, resolution_setter,
-								projection_getter, projection_setter,
-								image_size_getter, image_size_setter,
-								pillar_getter, pillar_setter,
-								letterbox_getter, letterbox_setter,
-								*args, **kwargs):
+	def __init__(self, parent,	resolution,	projection,
+					image_size,	displacement, *args, **kwargs):
 		## init
 		super().__init__(parent, *args, **kwargs)
 		self.configure(borderwidth = 2, relief = "ridge")
@@ -45,16 +39,10 @@ class VideoImageInfoSet(Frame):
 		self.padx_east = 5
 		self.padx_west = 7
 		## setters and getters
-		self.resolution_getter = resolution_getter
-		self.resolution_setter = resolution_setter
-		self.projection_getter = projection_getter
-		self.projection_setter = projection_setter
-		self.image_size_getter = image_size_getter
-		self.image_size_setter = image_size_setter
-		self.pillar_getter = pillar_getter
-		self.pillar_setter = pillar_setter
-		self.letterbox_getter = letterbox_getter
-		self.letterbox_setter = letterbox_setter
+		self.resolution = resolution
+		self.projection = projection
+		self.image_size = image_size
+		self.displacement = displacement
 		
 		self.populate()
 	
@@ -109,7 +97,7 @@ class VideoImageInfoSet(Frame):
 		## update the setting, then
 		self.recalculate_info()
 	
-	def update_original_image_size(self):
+	def update_image_size(self):
 		## update the setting, then
 		self.recalculate_info()
 
@@ -120,66 +108,65 @@ if __name__ == "__main__":
 		window.mainloop()
 
 	class Window(Tk):
+		_resolution: str = "1080p"
+		_resolution_default: str = "1080p"
+		_projection: str = "HDTV"
+		_projection_default: str = "HDTV"
+		_displacement: int = 0
+		_displacement_direction = AP_NEUTRAL
+		_image_size: list = [1920, 1080]
+		_image_width_default: list = [1920, 1080]
+	
 		def __init__(self, *args, **kwargs):
-			## properties
-			self.format = "8k"
-			self.projection = [7680, 4320]
-			self.image_size = []
-			self.pillar_displacement = 0
-			self.letterbox_displacment = 0
-			
-			## init
 			super().__init__(*args, **kwargs)
 			
 			## populate
-			info_widget_set = VideoImageInfoSet(self,
-									self.resolution_getter, self.resolution_setter,
-									self.projection_getter, self.projection_setter,
-									self.image_size_getter, self.image_size_setter,
-									self.pillar_displacement_getter, self.pillar_displacement_setter,
-									self.letterbox_displacement_getter, self.letterbox_displacement_setter)
+			info_widget_set = VideoImageInfoSet(self, self.resolution,
+									self.projection, self.displacement,
+									self.image_size)
 									
 			info_widget_set.pack(ipadx = 20, ipady = 10)
 
-		def resolution_getter(self):
-			print("self.format: ", self.format)
-			return self.format
-			
-		def resolution_setter(self, value):
-			self.format = value
-			print("self.format: ", self.format)
+		@property
+		def resolution(self):
+			print("self._resolution: ", self._resolution)
+			return self._resolution
+		
+		@resolution.setter
+		def resolution(self, value):
+			self._resolution = value
+			print("self._resolution: ", self._resolution)
 
-		def projection_getter(self):
-			print("self.projection: ", self.projection)
-			return self.projection
-			
-		def projection_setter(self, value):
-			self.projection = value
-			print("self.projection: ", self.projection)
+		@property
+		def projection(self):
+			print("self._projection: ", self._projection)
+			return self._projection
+		
+		@projection.setter
+		def projection(self, value):
+			self._projection = value
+			print("self._projection: ", self._projection)
 
-		def image_size_getter(self):
-			print("self.image_size: ", self.image_size)
-			return self.image_size
-			
-		def image_size_setter(self, value):
-			self.image_size = value
-			print("self.image_size: ", self.image_size)
-
-		def pillar_displacement_getter(self):
-			print("self.pillar_displacement: ", self.pillar_displacement)
-			return self.pillar_displacement
-			
-		def pillar_displacement_setter(self, value):
-			self.pillar_displacement = value
-			print("self.pillar_displacement: ", self.pillar_displacement)
-
-		def letterbox_displacement_getter(self):
-			print("self.letterbox_displacement: ", self.letterbox_displacement)
-			return self.letterbox_displacement
-			
-		def letterbox_displacement_setter(self, value):
-			self.letterbox_displacement = value
-			print("self.letterbox_displacement: ", self.letterbox_displacement)
+		@property
+		def displacement(self):
+			print("self._displacement: ", self._displacement)
+			return self._displacement
+		
+		@displacement.setter
+		def displacement(self, value):
+			self._displacement = value
+			print("self._displacement: ", self._displacement)
+		
+		@property
+		def image_size(self):
+			print("self._image_size: ", self._image_size)
+			return self._image_size
+		
+		@image_size.setter
+		def image_size(self, value):
+			self._image_size[0] = value[0]
+			self._image_size[1] = value[1]
+			print("self._image_size: ", self._image_size)
 
 	main()
 
