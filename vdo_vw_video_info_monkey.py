@@ -80,6 +80,7 @@ class VideoImageInfoSet(Frame):
 		pass
 		## call this after any change in the video settings
 		## to update all video/image info fields
+		## this is just so I have a change to commit
 		
 	def update_resolution(self, value):
 		## update the setting, then

@@ -17,5 +17,3 @@ class LetterboxDisplacementSet(Frame):
 		
 	def set(self, value):
 		self.height.set(value)
-
-
