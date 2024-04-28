@@ -52,7 +52,7 @@ class VideoImageInfoSet(Frame):
 		self.projection_set = ProjectionSet(self)
 		self.pillar_set = PillarDisplacementSet(self)
 		self.letterbox_set = LetterboxSet(self)
-		self.image_size_set = ImageSizeOriginalSet(self)
+		self.image_size_set = ImageSizeSet(self)
 
 	def populate_grid(self):
 		## set up a grid
@@ -170,7 +170,7 @@ class LetterboxSet(Frame):
 		self.height.set(value)
 
 
-class ImageSizeOriginalSet(Frame):
+class ImageSizeSet(Frame):
 	width  = 0
 	height = 0
 	

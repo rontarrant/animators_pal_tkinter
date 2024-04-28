@@ -12,8 +12,5 @@ class LetterboxDisplacementSet(Frame):
 		self.value_label = Label(parent, text = "0")
 		self.height = IntVar()
 
-	def get(self):
-		return self.height.get()
-		
-	def set(self, value):
-		self.height.set(value)
+	def update(self, value):
+		self.text(value)

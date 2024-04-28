@@ -26,9 +26,5 @@ class ProjectionSet(Frame):
 	def show(self, *args):
 		print(self.selection.get())
 		
-	def get(self):
-		return self.selection.get()
-		
-	def set(self, value):
-		pass
-
+	def update(self, value):
+		self.selection.set(value)

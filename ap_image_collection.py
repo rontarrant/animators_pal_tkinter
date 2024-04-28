@@ -33,7 +33,7 @@ class APImageCollection():
 		pass
 		
 	def add(self, image):
-		## a list of dictionaries
+		## a list of APImages
 		self._images.append(image)
 	
 	def list_image_types(self):

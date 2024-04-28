@@ -35,8 +35,8 @@ _displacement_direction:
 	  projection size
 	: possible values: AP_NEUTRAL, AP_VERTICAL, AP_HORIZONTAL
 	: default: AP_NEUTRAL (to match HDTV/1080p)
-_original_image_width:
-_original_image_height:
+_image_width:
+_image_height:
 	: width and height of the image on disk
 	: possible range: anything up to the dimensions of a digital photo
 	: defaults: N/A
@@ -53,85 +53,112 @@ class APSettings():
 	_resolution_default: str = "1080p"
 	_projection: str = "HDTV"
 	_projection_default: str = "HDTV"
-	_displacement: int = 0
-	_displacement_direction = AP_NEUTRAL
-	_original_image_width: int = 1920
-	_original_image_width_default: int = 1920
-	_original_image_height: int = 1080
-	_original_image_height_default: int = 1080
+	_pillar_displacement: int = 0
+	_pillar_displacement_default = 0
+	_letterbox_displacement: int = 0
+	_leterbox_displacement_default = 0
+	_image_width: int = 1920
+	_image_width_default: int = 1920
+	_image_height: int = 1080
+	_image_height_default: int = 1080
 	
-	def get_direction(self):
+	@property
+	def direction(self):
 		return self._direction
 	
-	def set_direction(self, value):
+	@direction.setter
+	def direction(self, value):
 		if type(value) == AP_FORWARD or value == AP_REVERSE:
 			self._direction = value
 		else:
 			self._direction = self._direction_default
 
-	def get_shoot_on(self):
+	@property
+	def shoot_on(self):
 		return self._shoot_on
 	
-	def set_shoot_on(self, value):
+	@shoot_on.setter
+	def shoot_on(self, value):
 		if value > 0 and value < 10:
 			self._shoot_on = value
 		else:
 			self._shoot_on = self._shoot_on_default
-		
-	def get_fps(self):
+	
+	@property
+	def fps(self):
 		return self._fps
 	
-	def set_fps(self, value):
+	@fps.setter
+	def fps(self, value):
 		if value == 12 or value == 18 or value == 24 or value == 30 or value == 60:
 			self._fps = value
 		else:
 			self._fps = 24
-		
-	def get_resolution(self):
+	
+	@property
+	def resolution(self):
 		return self._resolution
 	
-	def set_resolution(self, value):
+	@resolution.setter
+	def resolution(self, value):
 		if type(value) == str:
 			self._resolution = value
 		else:
 			self._resolution = self.resolution_default
 
-	def get_projection(self):
+	@property
+	def projection(self):
 		return self._projection
 	
-	def set_projection(self, value):
+	@projection.setter
+	def projection(self, value):
 		if type(value) == str:
 			self._projection = value
 		else:
 			self._projection = self.projection_default
-			
-	def get_displacement(self):
-		return self._displacement
 	
-	def set_displacement(self, value):
+	@property
+	def pillar_displacement(self):
+		return self._pillar_displacement
+	
+	@pillar_displacement.setter
+	def pillar_displacement(self, value):
 		if type(value) == int:
-			self._displacement = value
+			self._pillar_displacement = value
 		else:
-			self._displacement = self._original_image_width_default
+			self._pillar_displacement = self._pillar_displacement_default
 
-	def get_original_image_width(self):
-		return self._original_image_width
+	@property
+	def letterbox_displacement(self):
+		return self._letterbox_displacement
 	
-	def set_original_image_height(self, value):
+	@letterbox_displacement.setter
+	def letterbox_displacement(self, value):
 		if type(value) == int:
-			self._original_image_height = value
+			self._letterbox_displacement = value
 		else:
-			self._original_image_height = self._original_image_height_default
+			self._letterbox_displacement = self._letterbox_default
+
+	@property
+	def original_image_width(self):
+		return self._image_width
+	
+	@original_image_width.setter
+	def original_image_height(self, value):
+		if type(value) == int:
+			self._image_height = value
+		else:
+			self._image_height = self._image_height_default
 
 
 ## testing
 if __name__ == "__main__":
 	settings = APSettings()
 	print("test direction:")
-	settings.set_direction(-2)
-	print("\tsetting to -2: ", settings.get_direction())
-	settings.set_direction(-1)
-	print("\tsetting to -1: ", settings.get_direction())
+	settings.direction = -2
+	print("\tsetting to -2: ", settings.direction)
+	settings.direction = -1
+	print("\tsetting to -1: ", settings.direction)
 
 	print("test shoot_on:")
 	settings.shoot_on = 9
@@ -145,15 +172,12 @@ if __name__ == "__main__":
 	settings.fps = 18
 	print("\tsetting to 18:", settings.fps)
 
-	print("test displacement:")
-	settings.displacement = 870
-	print("\tset to 870 - " + str(settings.displacement))
+	print("test pillar displacement:")
+	settings.pillar_displacement = 870
+	print("\tset to 870 - " + str(settings.pillar_displacement))
 
 	print("test resolution:")
-	settings.displacement = 192
-	print("\tset to 192 - height: ", settings.displacement)
+	settings.resolution = "8k"
+	print("\tset to 8k: ", settings.resolution)
 
-	print("test projection:")
-	settings.displacement = 192
-	print("\tset to 192 - height: ", settings.displacement)
 

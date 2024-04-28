@@ -2,7 +2,7 @@
 from tkinter import *
 from tkinter.ttk import *
 
-class ImageSizeOriginalSet(Frame):
+class ImageSizeSet(Frame):
 	width  = 0
 	height = 0
 	
@@ -11,9 +11,5 @@ class ImageSizeOriginalSet(Frame):
 		self.label = Label(parent, text = "Original Image Size")
 		self.value_label = Label(parent, text = "1920 x 1080")
 		
-	def set(self, width, height):
-		self.width = size[0]
-		self.height = size[1]
-	
-	def get(self):
-		return self.width, self.height
+	def update(self, width, height):
+		self.text(str(width) + " x " + str(height))

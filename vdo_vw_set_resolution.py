@@ -23,10 +23,13 @@ class ResolutionSet(Frame):
 
 	def build_options(self):
 		for ratio, properties in screen_resolutions.items():
-			ic("ratio: ", ratio, ", properties: ", properties)
+			#ic("ratio: ", ratio, ", properties: ", properties)
 			option = ratio + " (" + str(properties["width"]) + "x" + str(properties["height"]) + ")"
 			self.options.append(option)
 
+	def update(self, value):
+		self.selection.set(value)
+		
 	def show(self, *args):
 		## get projection  
 		print(self.selection.get())
