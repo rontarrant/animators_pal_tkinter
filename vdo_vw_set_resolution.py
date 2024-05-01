@@ -19,6 +19,7 @@ class ResolutionSet(Frame):
 		self.build_options()
 		self.selection = StringVar()
 		self.selection.trace_add("write", self.set_resolution)
+		self.ui_ready = False
 
 		## populate
 		self.label = Label(self, text = "Resolution")
@@ -44,9 +45,15 @@ class ResolutionSet(Frame):
 			#ic("ghost_option: ", self.ghost_options)
 
 	def set_resolution(self, *args):
+		if not self.ui_ready:
+			return
+			
 		self.settings.resolution = self.selection.get()
 		self.post_info()
-	
+
+	def set_ui_ready(self):
+		self.ui_ready = True
+
 ## testing
 def main():
 	window = Window()

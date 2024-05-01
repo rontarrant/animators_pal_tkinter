@@ -80,38 +80,38 @@ class APSettings():
 	def direction(self, value):
 		if type(value) == AP_FORWARD or value == AP_REVERSE:
 			self._direction.set(value)
-			ic()
+			#ic()
 		else:
 			self._direction.set(self._direction_default.get())
-			ic()
+			#ic()
 
 	@property
 	def fps(self):
-		ic()
+		#ic()
 		return self._fps.get()
 	
 	@fps.setter
 	def fps(self, value):
 		if value == 18 or value == 24 or value == 30:
 			self._fps.set(value)
-			ic()
+			#ic()
 		else:
 			self._fps.set(self._fps_default.get())
-			ic()
+			#ic()
 	
 	@property
 	def shoot_on(self):
-		ic(self._shoot_on.get())
+		#ic(self._shoot_on.get())
 		return self._shoot_on.get()
 	
 	@shoot_on.setter
 	def shoot_on(self, value):
 		if value > 0 and value < 10:
 			self._shoot_on.set(value)
-			ic(self._shoot_on.get())
+			#ic(self._shoot_on.get())
 		else:
 			self._shoot_on.set(self._shoot_on_default.get())
-			ic(self._shoot_on.get())
+			#ic(self._shoot_on.get())
 	
 	@property
 	def resolution(self):
