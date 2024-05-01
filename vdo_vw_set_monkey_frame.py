@@ -24,12 +24,12 @@ class VideoSettingsFrame(Labelframe):
 		self.grid_columnconfigure(10, weight = 1)
 
 		## children
-		direction = DirectionRadioSet(self, settings.get_direction, settings.set_direction)
+		direction = DirectionRadioSet(self)
 		separator1 = Separator(self, orient = VERTICAL)
-		fps = FPSRadioSet(self, settings.get_fps, settings.set_fps)
+		fps = FPSRadioSet(self)
 		separator2 = Separator(self, orient = VERTICAL)
 		separator3 = Separator(self, orient = VERTICAL)
-		shoot_on = ShootOnSet(self, settings.get_shoot_on, settings.set_shoot_on)
+		shoot_on = ShootOnSet(self)
 		separator4 = Separator(self, orient = VERTICAL)
 		## layout
 		## because of a peculiarity in how padding works, to get the space

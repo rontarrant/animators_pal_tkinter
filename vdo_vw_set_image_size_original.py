@@ -2,14 +2,38 @@
 from tkinter import *
 from tkinter.ttk import *
 
+## local
+from ap_screen_resolutions import *
+from ap_settings import *
+
 class ImageSizeSet(Frame):
-	width  = 0
-	height = 0
-	
-	def __init__(self, parent, *args, **kwargs):
+	def __init__(self, parent, padx, padx_west, *args, **kwargs):
 		super().__init__(parent, *args, **kwargs)
-		self.label = Label(parent, text = "Original Image Size")
-		self.value_label = Label(parent, text = "1920 x 1080")
+
+		self.settings = APSettings()
+		self.columnconfigure(0, minsize = 260)
+		self.columnconfigure(1, minsize = 260)
+
+		self.label = Label(self, text = "Original Image Size")
+		self.value_label = Label(self, text = "1920 x 1080")
 		
+		self.label.grid(row = 0, column = 0, sticky = E, padx = padx)
+		self.value_label.grid(row = 0, column = 1, sticky = W, padx = padx_west)
+	
 	def update(self, width, height):
-		self.text(str(width) + " x " + str(height))
+		self.value_label.text(str(width) + " x " + str(height))
+
+## testing
+def main():
+	window = Window()
+	window.mainloop()
+
+class Window(Tk):
+	def __init__(self, *args, **kwargs):
+		super().__init__(*args, **kwargs)
+		self.settings = APSettings()
+		image_size_set = ImageSizeSet(self, 10, 20)
+		image_size_set.pack(ipadx = 20, ipady = 10)
+
+if __name__ == "__main__":
+	main()

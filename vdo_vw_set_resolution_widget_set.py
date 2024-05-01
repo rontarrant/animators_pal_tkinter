@@ -28,7 +28,7 @@ class ResolutionWidgetSet(Frame):
 		self.pack_propagate()
 		label.pack(side = LEFT, anchor = "e", padx = 5)
 		option_menu.pack(side = LEFT, anchor = "w", padx = 5)
-		self.selection.trace('w', self.show)
+		self.selection.trace_add("write"'w', self.show)
 		self.selection.set(options[6])
 		
 	def show(self, *args):

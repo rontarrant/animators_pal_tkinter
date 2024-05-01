@@ -8,4 +8,3 @@ class BannerLabel(Label):
 		self.text = "Video & Image Info"
 		self.display_font = font.Font(family = "System", size = 14, weight = "bold")
 		self.config(text = self.text, font = self.display_font)
-		

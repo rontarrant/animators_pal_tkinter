@@ -89,7 +89,7 @@ class ResolutionSet(Frame):
 		self.build_options()
 		self.selection = StringVar()
 		#self.selection.set(self.options[6])
-		self.selection.trace('w', self.show)
+		self.selection.trace_add("write"'w', self.show)
 		## instantiate OptionMenu & set default (arg #3)
 		self.option_menu = OptionMenu(parent, self.selection, self.options[6], *self.options)
 
@@ -122,7 +122,7 @@ class ProjectionSet(Frame):
 		self.options = [] ## empty list
 		self.build_options() ## add items
 		self.selection = StringVar(parent) ## instantiate associated variable
-		self.selection.trace('w', self.show) ## same as binding a callback
+		self.selection.trace_add("write"'w', self.show) ## same as binding a callback
 		## instantiate menu & set default (arg #3)
 		self.option_menu = OptionMenu(parent, self.selection, self.options[2], *self.options)
 		

@@ -1,13 +1,16 @@
 from tkinter import *
 from tkinter.ttk import *
 
+## local
+from ap_settings import *
+
 class DirectionRadioSet(Labelframe):
-	def __init__(self, parent, getter, setter, *args, **kwargs):
+	def __init__(self, parent, *args, **kwargs):
 		super().__init__(parent, *args, **kwargs)
 		## instance
 		self.config(text = "direction")
 		var = IntVar() ## used in preferences
-		setter = setter
+		self.settings = APSettings()
 		## child widgets
 		radio1 = Radiobutton(self, text = "Forward", variable = var, value = 1)
 		radio2 = Radiobutton(self, text = "Reverse", variable = var, value = -1)
@@ -18,10 +21,13 @@ class DirectionRadioSet(Labelframe):
 		## layout
 		radio1.grid(row = 0, column = 0, sticky = "w", padx = 10)
 		radio2.grid(row = 1, column = 0, sticky = "w", padx = 10)
-		## configure children
-		radio1.config(command = lambda: setter(var.get()))
-		radio2.config(command = lambda: setter(var.get()))
-		var.set(getter())
+		## bind callbacks
+		radio1.config(command = lambda: self.set_direction(var.get()))
+		radio2.config(command = lambda: self.set_direction(var.get()))
+		var.set(self.settings.direction)
+		
+	def set_direction(self, value):
+		self.settings.direction = value
 	
 ## testing
 def main():
@@ -30,18 +36,10 @@ def main():
 
 class Window(Tk):
 	def __init__(self, *args, **kwargs):
-		self.var = 1
 		super().__init__(*args, **kwargs)
-		direction_radio_set = DirectionRadioSet(self, self.getter, self.setter)
+		self.settings = APSettings()
+		direction_radio_set = DirectionRadioSet(self)
 		direction_radio_set.pack(ipadx = 20, ipady = 10)
-
-	def getter(self):
-		print("self.var: ", self.var)
-		return self.var
-		
-	def setter(self, value):
-		self.var = value
-		print("self.var: ", self.var)
 
 if __name__ == "__main__":
 	main()

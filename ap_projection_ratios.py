@@ -1,31 +1,31 @@
 from constants import *
 
 projection_ratios = {
-	"ClassicTV": 
+	"ClassicTV (4:3)": 
 	{
 		"ratio": "4:3",
 	},
-	"IMAX": 
+	"IMAX (19:10)": 
 	{
 		"ratio": "19:10",
 	},
-	"HDTV": 
+	"HDTV (16:9)": 
 	{
 		"ratio": "16:9",
 	},
-	"VistaVision": 
+	"VistaVision (37:20)": 
 	{
 		"ratio": "37:20",
 	},
-	"CinemaScope":
+	"CinemaScope (21:9)":
 	{
 		"ratio": "21:9",
 	},
-	"Anamorphic Widescreen": 
+	"Anamorphic Widescreen(239:100)": 
 	{
 		"ratio": "239:100",
 	},
-	"MGM 65": 
+	"MGM 65 (69:25)": 
 	{
 		"ratio": "69:25",
 	}

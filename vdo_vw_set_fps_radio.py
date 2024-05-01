@@ -1,16 +1,20 @@
 from tkinter import *
 from tkinter.ttk import *
 
+## local
+from ap_settings import *
+
 ## for debugging
 from icecream import install
 install()
 ic.configureOutput(includeContext = True)
 
 class FPSRadioSet(Labelframe):
-	def __init__(self, parent, getter, setter, *args, **kwargs):
+	def __init__(self, parent, *args, **kwargs):
 		super().__init__(parent, *args, **kwargs)
 		## attributes
 		self.config(text = "fps")
+		self.settings = APSettings()
 		var = IntVar() ## used in preferences
 		## child widgets
 		radio1 = Radiobutton(self, text = "18 fps", variable = var, value = 18)
@@ -26,15 +30,14 @@ class FPSRadioSet(Labelframe):
 		radio2.grid(row = 1, column = 0, sticky = "e", padx = 10)
 		radio3.grid(row = 2, column = 0, sticky = "e", padx = 10)
 		## configure children
-		radio1.config(command = lambda: setter(var.get()))
-		radio2.config(command = lambda: setter(var.get()))
-		radio3.config(command = lambda: setter(var.get()))
+		radio1.config(command = lambda: self.set_fps(var.get()))
+		radio2.config(command = lambda: self.set_fps(var.get()))
+		radio3.config(command = lambda: self.set_fps(var.get()))
 		## default
-		var.set(getter())
+		var.set(self.settings.fps)
 	
-	def select(self, parent):
-		# ic(self.var.get())
-		pass
+	def set_fps(self, value):
+		self.settings.fps = value
 
 def main():
 	window = Window()
@@ -42,18 +45,9 @@ def main():
 
 class Window(Tk):
 	def __init__(self, *args, **kwargs):
-		self.var = 24
 		super().__init__(*args, **kwargs)
-		fps_radio_set = FPSRadioSet(self, self.getter, self.setter)
+		settings = APSettings()
+		fps_radio_set = FPSRadioSet(self)
 		fps_radio_set.pack(ipadx = 20, ipady = 10)
-
-	def getter(self):
-		print("self.var: ", self.var)
-		return self.var
-		
-	def setter(self, value):
-		self.var = value
-		print("self.var: ", self.var)
-
 if __name__ == "__main__":
 	main()
