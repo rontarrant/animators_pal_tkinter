@@ -14,7 +14,7 @@ class FPSRadioSet(Labelframe):
 		super().__init__(parent, *args, **kwargs)
 		## attributes
 		self.config(text = "fps")
-		self.settings = APSettings()
+		self.settings = APSettings.get_instance()
 		var = IntVar() ## used in preferences
 		## child widgets
 		radio1 = Radiobutton(self, text = "18 fps", variable = var, value = 18)

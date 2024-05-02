@@ -9,7 +9,7 @@ from ui_ready import *
 class ResolutionSet(Frame):
 	def __init__(self, parent, padx, post_info, *args, **kwargs):
 		super().__init__(parent, *args, **kwargs)
-		self.settings = APSettings()
+		self.settings = APSettings.get_instance()
 		self.post_info = post_info
 		self.columnconfigure(0, minsize = 260)
 		self.columnconfigure(1, minsize = 260)
@@ -20,7 +20,7 @@ class ResolutionSet(Frame):
 		self.build_options()
 		self.selection = StringVar()
 		self.selection.trace_add("write", self.set_resolution)
-		self.ui_ready = UIReady()
+		self.ui_ready = UIReady.get_instance()
 
 		## populate
 		self.label = Label(self, text = "Resolution")
@@ -47,7 +47,7 @@ class ResolutionSet(Frame):
 
 	def set_resolution(self, *args):
 		if self.ui_ready.ui_ready == False:
-			ic(self.ui_ready.ui_ready)
+			#ic(self.ui_ready.ui_ready)
 			return
 			
 		self.settings.resolution = self.selection.get()

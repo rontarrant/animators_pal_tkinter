@@ -47,6 +47,19 @@ _image_height:
 	: defaults: N/A
 '''
 class APSettings():
+	# Create a private class attribute to store the single instance
+	__instance = None
+	
+	@staticmethod
+	def get_instance():
+		"""
+		Static method to access the single instance of APSettings
+		"""
+		if APSettings.__instance is None:
+			APSettings.__instance = APSettings()
+
+		return APSettings.__instance
+
 	def __init__(self, *args, **kwargs):
 		## Use the name of the class to declare class variables
 		## within a class method.
@@ -71,7 +84,7 @@ class APSettings():
 		APSettings._image_width_default = IntVar(value = 1920)
 		APSettings._image_height = IntVar(value = 1080)
 		APSettings._image_height_default = IntVar(value = 1080)
-	
+
 	@property
 	def direction(self):
 		return self._direction.get()

@@ -36,8 +36,8 @@ class VideoImageInfoSet(Frame):
 		self.padx = 1
 		self.padx_east = 5
 		self.padx_west = 7
-		self.settings = APSettings()
-		self.ui_ready = UIReady()
+		self.settings = APSettings.get_instance()
+		self.ui_ready = UIReady.get_instance()
 		
 		super().__init__(parent)
 		

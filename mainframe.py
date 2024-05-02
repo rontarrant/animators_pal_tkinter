@@ -15,7 +15,7 @@ class MainFrame(Frame):
 		super().__init__(window)
 		# configure
 		self.grid() ## place the MainFrame in the window
-		self.ui_ready = UIReady()
+		self.ui_ready = UIReady.get_instance()
 		# populate
 		video_mim_frame = VideoMiMFrame(self)
 		preview_mim_frame = PreviewMiMFrame(self)
@@ -31,7 +31,7 @@ class MainFrame(Frame):
 		## insert frames for each window area
 		preview_mim_frame.grid(row = 0, column = 0, rowspan = 13, columnspan = 3, sticky = (N, E, W, S))
 		video_mim_frame.grid(row = 0, column = 3, rowspan = 13, columnspan = 10, sticky = (N, E, W, S))
-		self.ui_ready.set()
+		self.ui_ready.ui_ready = True
 		
 
 ## testing

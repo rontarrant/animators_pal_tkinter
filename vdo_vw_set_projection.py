@@ -11,9 +11,9 @@ class ProjectionSet(Frame):
 	def __init__(self, parent, padx, post_info, *args, **kwargs):
 		super().__init__(parent, *args, **kwargs)
 		## build & configure options
-		self.settings = APSettings()
+		self.settings = APSettings.get_instance()
 		self.post_info = post_info
-		self.ui_ready = UIReady()
+		self.ui_ready = UIReady.get_instance()
 
 		self.columnconfigure(0, minsize = 260)
 		self.columnconfigure(1, minsize = 260)

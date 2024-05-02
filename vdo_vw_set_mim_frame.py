@@ -9,7 +9,6 @@ from tkinter.ttk import *
 from vdo_vw_set_fps_radio import FPSRadioSet
 from vdo_vw_set_direction_radio import DirectionRadioSet
 from vdo_vw_set_shoot_on import ShootOnSet
-from ap_settings import *
 
 class VideoSettingsFrame(Labelframe):
 	def __init__(self, parent):
@@ -17,7 +16,6 @@ class VideoSettingsFrame(Labelframe):
 		self.parent = parent
 		self.config(text = "Video Output Settings")
 		self.config(width = 1280, height = 144)
-		settings = APSettings()
 		self.grid_propagate(False)
 		self.grid(sticky = (N, E, W, S))
 		self.grid_columnconfigure(0, weight = 1)

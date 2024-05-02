@@ -10,6 +10,7 @@ import sys
 from ap_image_collection import APImageCollection
 from ap_image import APImage
 from vdo_vw_canvas import VideoCanvas
+from ap_settings import *
 
 '''
 Dependency Injection
@@ -25,6 +26,7 @@ class FileMenu(Menu):
 		self.image_collection = APImageCollection()
 		super().__init__(menubar)
 		items = self.index ## shortcut to item index
+		self.settings = APSettings.get_instance()
 		## CONFIGURE
 		self.assign_filetypes()
 		self.add_command(label = "New", command = self.file_new)
@@ -155,7 +157,15 @@ class FileMenu(Menu):
 
 	def save_mp4(self, event = None):
 		# ic("saving MP4 video...")
-		pass
+		all_variables = vars(APSettings)
+		class_variables = {key: value for key, value in vars(APSettings).items()}
+
+		for variable, value in class_variables.items():
+			if isinstance(value, (IntVar, StringVar)):
+				# Access the stored value using `get()`
+				print(f"{variable}: {value.get()}")
+			else:
+				print(f"{variable}: {value}")
 
 	def exit(self, event = None):
 		# ic("exiting...")

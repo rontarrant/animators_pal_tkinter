@@ -10,7 +10,7 @@ class ImageSizeSet(Frame):
 	def __init__(self, parent, padx, padx_west, *args, **kwargs):
 		super().__init__(parent, *args, **kwargs)
 
-		self.settings = APSettings()
+		self.settings = APSettings.get_instance()
 		self.columnconfigure(0, minsize = 260)
 		self.columnconfigure(1, minsize = 260)
 

@@ -4,12 +4,10 @@ from tkinter.ttk import *
 
 ## local
 from ap_screen_resolutions import *
-from ap_settings import *
 
 class PillarDisplacementSet(Frame):
 	def __init__(self, parent, padx, padx_west, *args, **kwargs):
 		super().__init__(parent, *args, **kwargs)
-		self.settings = APSettings()
 		self.columnconfigure(0, minsize = 260)
 		self.columnconfigure(1, minsize = 260)
 		
@@ -32,7 +30,6 @@ def main():
 class Window(Tk):
 	def __init__(self, *args, **kwargs):
 		super().__init__(*args, **kwargs)
-		self.settings = APSettings()
 		pillar_displacement_set = PillarDisplacementSet(self, 10, 20)
 		pillar_displacement_set.pack(ipadx = 20, ipady = 10)
 
