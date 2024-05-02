@@ -5,6 +5,7 @@ from tkinter.ttk import *
 ## local
 from ap_projection_ratios import *
 from ap_settings import *
+from ui_ready import *
 
 class ProjectionSet(Frame):
 	def __init__(self, parent, padx, post_info, *args, **kwargs):
@@ -12,7 +13,7 @@ class ProjectionSet(Frame):
 		## build & configure options
 		self.settings = APSettings()
 		self.post_info = post_info
-		self.ui_ready = False
+		self.ui_ready = UIReady()
 
 		self.columnconfigure(0, minsize = 260)
 		self.columnconfigure(1, minsize = 260)
@@ -32,7 +33,7 @@ class ProjectionSet(Frame):
 			self.options.append(option)
 		
 	def set_projection(self, *args):
-		if not self.ui_ready:
+		if not self.ui_ready.ui_ready:
 			return
 			
 		self.settings.projection = self.selection.get()

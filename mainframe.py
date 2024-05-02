@@ -8,12 +8,14 @@ from tkinter.ttk import *
 ## local
 from pvw_monkey_frame import *
 from vdo_monkey_frame import *
+from ui_ready import *
 
 class MainFrame(Frame):
 	def __init__(self, window):
 		super().__init__(window)
 		# configure
 		self.grid() ## place the MainFrame in the window
+		self.ui_ready = UIReady()
 		# populate
 		video_monkey_frame = VideoMonkeyFrame(self)
 		preview_monkey_frame = PreviewMonkeyFrame(self)
@@ -29,6 +31,8 @@ class MainFrame(Frame):
 		## insert frames for each window area
 		preview_monkey_frame.grid(row = 0, column = 0, rowspan = 13, columnspan = 3, sticky = (N, E, W, S))
 		video_monkey_frame.grid(row = 0, column = 3, rowspan = 13, columnspan = 10, sticky = (N, E, W, S))
+		self.ui_ready.set()
+		
 
 ## testing
 if __name__ == "__main__":

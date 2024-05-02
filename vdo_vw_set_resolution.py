@@ -4,6 +4,7 @@ from tkinter.ttk import *
 ## locals
 from ap_screen_resolutions import *
 from ap_settings import *
+from ui_ready import *
 
 class ResolutionSet(Frame):
 	def __init__(self, parent, padx, post_info, *args, **kwargs):
@@ -19,7 +20,7 @@ class ResolutionSet(Frame):
 		self.build_options()
 		self.selection = StringVar()
 		self.selection.trace_add("write", self.set_resolution)
-		self.ui_ready = False
+		self.ui_ready = UIReady()
 
 		## populate
 		self.label = Label(self, text = "Resolution")
@@ -45,7 +46,7 @@ class ResolutionSet(Frame):
 			#ic("ghost_option: ", self.ghost_options)
 
 	def set_resolution(self, *args):
-		if not self.ui_ready:
+		if not self.ui_ready.ui_ready:
 			return
 			
 		self.settings.resolution = self.selection.get()

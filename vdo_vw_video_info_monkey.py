@@ -24,6 +24,7 @@ from vdo_vw_set_projection import *
 from vdo_vw_set_pillar_displacement import *
 from vdo_vw_set_letterbox_displacement import *
 from vdo_vw_set_image_size_original import *
+from ui_ready import *
 
 ## for debugging
 from icecream import install
@@ -36,6 +37,7 @@ class VideoImageInfoSet(Frame):
 		self.padx_east = 5
 		self.padx_west = 7
 		self.settings = APSettings()
+		self.ui_ready = UIReady()
 		
 		super().__init__(parent)
 		
@@ -61,12 +63,8 @@ class VideoImageInfoSet(Frame):
 		self.pillar_set.grid(column = 0, row = 3)
 		self.letterbox_set.grid(column = 0, row = 4)
 		self.image_size_set.grid(column = 0, row = 5)
-		self.after(0, self.ui_ready)
+		self.after(0, self.ui_ready.set())
 
-	def ui_ready(self):
-		self.resolution_set.set_ui_ready()
-		self.projection_set.set_ui_ready()
-		
 	def post_info(self):
 		## look up width & height using resolution in screen_resolutions
 		## look up projection using resolution in screen_resolutions
