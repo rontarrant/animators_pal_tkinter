@@ -42,10 +42,10 @@ class VideoImageInfoSet(Frame):
 		super().__init__(parent)
 		
 		self.columnconfigure(0, minsize = 520)
-		self.configure(borderwidth = 2, relief = "ridge")
+		self.configure(borderwidth = 1)
 		self.grid()
 		## populate
-		self.video_settings_banner = BannerLabel(self)
+		#self.video_settings_banner = BannerLabel(self)
 		self.resolution_set = ResolutionSet(self, self.padx, self.post_info)
 		self.projection_set = ProjectionSet(self, self.padx, self.post_info)
 		self.pillar_set = PillarDisplacementSet(self, self.padx, self.padx_west)
@@ -57,7 +57,7 @@ class VideoImageInfoSet(Frame):
 	def populate_grid(self):
 		## set up a grid
 		## populate
-		self.video_settings_banner.grid(column = 0, row = 0, pady = 5)
+		#self.video_settings_banner.grid(column = 0, row = 0, pady = 5)
 		self.resolution_set.grid(column = 0, row = 1)
 		self.projection_set.grid(column = 0, row = 2)
 		self.pillar_set.grid(column = 0, row = 3)

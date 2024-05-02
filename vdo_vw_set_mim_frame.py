@@ -9,6 +9,7 @@ from tkinter.ttk import *
 from vdo_vw_set_fps_radio import FPSRadioSet
 from vdo_vw_set_direction_radio import DirectionRadioSet
 from vdo_vw_set_shoot_on import ShootOnSet
+from vdo_vw_video_info_mim import *
 
 class VideoSettingsFrame(Labelframe):
 	def __init__(self, parent):
@@ -29,6 +30,8 @@ class VideoSettingsFrame(Labelframe):
 		separator3 = Separator(self, orient = VERTICAL)
 		shoot_on = ShootOnSet(self)
 		separator4 = Separator(self, orient = VERTICAL)
+		info = VideoImageInfoSet(self)
+		separator5 = Separator(self, orient = VERTICAL)
 		## layout
 		## because of a peculiarity in how padding works, to get the space
 		## on the left to match that on the right, padx needs to be applied
@@ -40,6 +43,8 @@ class VideoSettingsFrame(Labelframe):
 		separator2.grid(row = 0, column = 4, padx = 2)
 		shoot_on.grid(row = 0, column = 7, padx = 2)
 		separator4.grid(row = 0, column = 8, padx = 2)
+		info.grid(row = 0, column = 9, padx = 2)
+		separator5.grid(row = 0, column = 10, padx = 2)
 		
 ## testing
 if __name__ == "__main__":
