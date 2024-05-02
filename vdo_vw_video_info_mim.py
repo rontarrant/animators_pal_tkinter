@@ -63,12 +63,15 @@ class VideoImageInfoSet(Frame):
 		self.pillar_set.grid(column = 0, row = 3)
 		self.letterbox_set.grid(column = 0, row = 4)
 		self.image_size_set.grid(column = 0, row = 5)
-		self.after(0, self.ui_ready.set())
+		self.after(0, self.go_time)
+		
+	def go_time(self):
+		self.ui_ready.ui_ready = True
 
 	def post_info(self):
 		## look up width & height using resolution in screen_resolutions
 		## look up projection using resolution in screen_resolutions
-		#ic(self.settings.resolution, self.settings.projection)
+		ic(self.settings.resolution, self.settings.projection)
 		resolution = screen_resolutions[self.settings.resolution]
 		projection_dictionary = {self.settings.projection: resolution[self.settings.projection]}
 		#ic(projection_dictionary)
@@ -79,13 +82,13 @@ class VideoImageInfoSet(Frame):
 			self.pillar_set.update(self.settings.pillar_displacement)
 			self.settings.letterbox_displacement = 0
 			self.letterbox_set.update(self.settings.letterbox_displacement)
-			#ic(self.settings.pillar_displacement)
+			ic(self.settings.pillar_displacement)
 		else:
 			self.settings.letterbox_displacement = projection_dictionary[self.settings.projection]["displacement"]
 			self.letterbox_set.update(self.settings.letterbox_displacement)
 			self.settings.pillar_displacement = 0
 			self.pillar_set.update(self.settings.pillar_displacement)
-			#ic(self.settings.letterbox_displacement)
+			ic(self.settings.letterbox_displacement)
 		## look up original image width & height in:
 		##	image_collection.images.width & image_collection.images.height
 		## fill in image width & height settings

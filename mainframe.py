@@ -6,8 +6,8 @@ from tkinter import *
 from tkinter.ttk import *
 
 ## local
-from pvw_monkey_frame import *
-from vdo_monkey_frame import *
+from pvw_mim_frame import *
+from vdo_mim_frame import *
 from ui_ready import *
 
 class MainFrame(Frame):
@@ -17,8 +17,8 @@ class MainFrame(Frame):
 		self.grid() ## place the MainFrame in the window
 		self.ui_ready = UIReady()
 		# populate
-		video_monkey_frame = VideoMonkeyFrame(self)
-		preview_monkey_frame = PreviewMonkeyFrame(self)
+		video_mim_frame = VideoMiMFrame(self)
+		preview_mim_frame = PreviewMiMFrame(self)
 		
 		# layout
 		## set the row and column minimum sizes
@@ -29,8 +29,8 @@ class MainFrame(Frame):
 			self.grid_columnconfigure(column, minsize = 128)
 			
 		## insert frames for each window area
-		preview_monkey_frame.grid(row = 0, column = 0, rowspan = 13, columnspan = 3, sticky = (N, E, W, S))
-		video_monkey_frame.grid(row = 0, column = 3, rowspan = 13, columnspan = 10, sticky = (N, E, W, S))
+		preview_mim_frame.grid(row = 0, column = 0, rowspan = 13, columnspan = 3, sticky = (N, E, W, S))
+		video_mim_frame.grid(row = 0, column = 3, rowspan = 13, columnspan = 10, sticky = (N, E, W, S))
 		self.ui_ready.set()
 		
 

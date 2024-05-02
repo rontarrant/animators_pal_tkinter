@@ -1,8 +1,8 @@
 '''
-ap_menu_monkey.py
+ap_menu_mim.py
 Logic that goes between application data and the menu view
 '''
-class MenuMonkey():
+class MenuMiM():
 	def __init__(self, *args **kwargs):
 		## data classes
 	

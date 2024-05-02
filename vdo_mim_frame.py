@@ -1,16 +1,16 @@
 '''
-vdo_monkey_frame.py
+vdo_mim_frame.py
 Logic that goes between video data and view
 '''
 ## figure out why this frame is too wide
 from ap_image_collection import *
 from ap_settings import *
 
-from vdo_vw_set_monkey_frame import *
+from vdo_vw_set_mim_frame import *
 from vdo_vw_canvas import *
 from vdo_vw_controls import *
 
-class VideoMonkeyFrame(Frame):
+class VideoMiMFrame(Frame):
 	def __init__(self, parent, *args, **kwargs):
 		super().__init__(parent)
 		## data classes (decide which [if any] methods need to be passed to these)
@@ -44,6 +44,6 @@ if __name__ == "__main__":
 	print("width: ", width, ", height: ", height)
 	window = Tk()
 	window.configure(width = width, height = height)
-	videomonkeyframe = VideoMonkeyFrame(window)
-	videomonkeyframe.grid()
+	videomimframe = VideoMiMFrame(window)
+	videomimframe.grid()
 	window.mainloop()

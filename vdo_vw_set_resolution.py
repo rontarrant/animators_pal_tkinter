@@ -46,7 +46,8 @@ class ResolutionSet(Frame):
 			#ic("ghost_option: ", self.ghost_options)
 
 	def set_resolution(self, *args):
-		if not self.ui_ready.ui_ready:
+		if self.ui_ready.ui_ready == False:
+			ic(self.ui_ready.ui_ready)
 			return
 			
 		self.settings.resolution = self.selection.get()

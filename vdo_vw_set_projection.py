@@ -33,15 +33,13 @@ class ProjectionSet(Frame):
 			self.options.append(option)
 		
 	def set_projection(self, *args):
-		if not self.ui_ready.ui_ready:
+		if self.ui_ready.ui_ready == False:
+			ic(self.ui_ready.ui_ready)
 			return
 			
 		self.settings.projection = self.selection.get()
 		self.post_info()
 
-	def set_ui_ready(self):
-		self.ui_ready = True
-		
 ## testing
 def main():
 	window = Window()

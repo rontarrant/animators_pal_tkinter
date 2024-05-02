@@ -38,8 +38,8 @@ class Window(Tk):
 
 		## POPULATION stuff
 		mainframe = MainFrame(self)
-		show_next_frame = self.nametowidget(".!mainframe.!videomonkeyframe").show_next_frame
-		build_new_image_list = self.nametowidget(".!mainframe.!previewmonkeyframe").build_new_image_list
+		show_next_frame = self.nametowidget(".!mainframe.!videomimframe").show_next_frame
+		build_new_image_list = self.nametowidget(".!mainframe.!previewmimframe").build_new_image_list
 		self._menubar = Menubar(self, show_next_frame, build_new_image_list)
 
 		## CONFIGURE window stuff

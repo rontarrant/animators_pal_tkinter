@@ -1,5 +1,5 @@
 '''
-pvw_monkey_frame.py
+pvw_mim_frame.py
 Logic that goes between the preview data and view
 '''
 from ap_image_collection import *
@@ -8,7 +8,7 @@ from ap_settings import *
 from pvw_vw_file_treeview import *
 from pvw_vw_thumbnail_canvas import *
 
-class PreviewMonkeyFrame(Frame):
+class PreviewMiMFrame(Frame):
 	def __init__(self, parent, *args, **kwargs):
 		super().__init__(parent)
 		## data classes (decide which [if any] methods need to be passed to these)
@@ -42,6 +42,6 @@ class PreviewMonkeyFrame(Frame):
 if __name__ == "__main__":
 	window = Tk()
 	window.configure(width = 1280, height = 806)
-	previewmonkeyframe = PreviewMonkeyFrame(window)
-	previewmonkeyframe.grid()
+	previewmimframe = PreviewMiMFrame(window)
+	previewmimframe.grid()
 	window.mainloop()
