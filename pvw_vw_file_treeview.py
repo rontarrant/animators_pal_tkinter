@@ -18,7 +18,7 @@ class FileTreeview(Treeview):
 		super().__init__(parent)
 		self.grid()
 		## make sure we have a collection of images
-		self.image_collection = APImageCollection()
+		self.image_collection = APImageCollection.get_instance()
 
 		## total width: 380
 		column_specs = {

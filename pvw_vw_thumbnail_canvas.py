@@ -29,7 +29,7 @@ class ThumbnailCanvas(Canvas):
 		## configure
 		super().__init__(parent, width = self.target_width, height = self.target_height, bg = self.colour)
 		self.parent = parent
-		self.image_collection = APImageCollection()
+		self.image_collection = APImageCollection.get_instance()
 		self.config(width = self.target_width, height = self.target_height)
 		## population
 		self.grid()
@@ -92,8 +92,8 @@ class ThumbnailCanvas(Canvas):
 		# ic(self.pillow_thumbnail_image)
 		self.thumbnail_image = ImageTk.PhotoImage(self.pillow_thumbnail_image)
 		# ic(self.thumbnail_image)
-		self.canvas.create_rectangle(0, 0, 384, 216, fill = "black")
-		self.canvas.create_image(self.pillars, self.letters, anchor = 'nw', image = self.thumbnail_image)
+		self.create_rectangle(0, 0, 384, 216, fill = "black")
+		self.create_image(self.pillars, self.letters, anchor = 'nw', image = self.thumbnail_image)
 
 		
 ## testing

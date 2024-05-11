@@ -30,7 +30,7 @@ class VideoCanvas(Canvas):
 	direction: int = 1 ## default: forward (-1 = reverse)
 	first_frame_hold: int = 1 ## valid: 1 to 90
 	last_frame_hold: int = 1 ## valid: 1 to 90
-	image_collection = APImageCollection()
+	image_collection = APImageCollection.get_instance()
 	last_button = None ## which button was last pressed (let's us restore the
 							 ## default image if loop is turned off)
 
@@ -41,6 +41,11 @@ class VideoCanvas(Canvas):
 		## configure
 		self.config(bg = self.colour, width = self.width, height = self.height)
 		self.delay = self.fps2ms(self.fps)
+
+	def fps2ms(self, fps):
+		value = int(round(1000 / fps))
+		
+		return value
 
 	'''
 	Recursive... takes the next frame as its argument.
@@ -55,18 +60,13 @@ class VideoCanvas(Canvas):
 	Because only playback is time-critical, all other actions
 	are handled directly by the button callbacks.
 	'''
-	def fps2ms(self, fps):
-		value = int(round(1000 / fps))
-		
-		return value
-
 	def show_next_frame(self, frame_num):
 		match self.status:
 			case (AP_FORWARD, AP_LOOP_OFF):
 				self.delete("all")
 
 				if frame_num == len(self.image_collection.images) - 1: ## If we hit the last frame, stop and rewind to frame 001
-					self.status[0] = self.STOP
+					self.status[0] = AP_STOP
 					self.frame_num = frame_num ## remember the last frame displayed (NOTE: may want to jump back to the beginning)
 					self.last_button.change_button_image()
 					## need to switch the callback from pause_callback() to play_callback()

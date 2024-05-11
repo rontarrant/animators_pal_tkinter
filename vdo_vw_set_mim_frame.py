@@ -22,7 +22,7 @@ class VideoSettingsFrame(Labelframe):
 		self.grid_columnconfigure(0, weight = 1)
 		self.grid_columnconfigure(10, weight = 1)
 
-		## children
+		## CHILDREN
 		direction = DirectionRadioSet(self)
 		separator1 = Separator(self, orient = VERTICAL)
 		fps = FPSRadioSet(self)

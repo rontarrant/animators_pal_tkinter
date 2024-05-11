@@ -14,7 +14,15 @@ class VideoMiMFrame(Frame):
 	def __init__(self, parent, *args, **kwargs):
 		super().__init__(parent)
 		## data classes (decide which [if any] methods need to be passed to these)
-		ap_image_collection = APImageCollection
+		ap_image_collection = APImageCollection.get_instance()
+		self.settings = APSettings.get_instance()
+		
+		## playback_control() arguments
+		PLAY = 1
+		HALT = 0
+		self.action_mode = None ## default
+		self.play_direction = self.settings.direction
+		self.current_button = None
 
 		# layout
 		## set the row and column minimum sizes
@@ -23,19 +31,21 @@ class VideoMiMFrame(Frame):
 		
 		for column in range(10):
 			self.grid_columnconfigure(column, minsize = 128)
-			
+		
+		## CHILDREN
 		## view classes (decide which [if any] methods need to be passed to these)
-		video_settings_frame = VideoSettingsFrame(self)
-		video_canvas = VideoCanvas(self)
-		video_controls = VideoControlsFrame(self)
+		self.video_settings_frame = VideoSettingsFrame(self)
+		self.video_canvas = VideoCanvas(self)
+		self.video_controls = VideoControlsFrame(self)
 
-		video_settings_frame.grid(row = 0, column = 0, rowspan = 2, columnspan = 10, sticky = (N, E, W, S))
-		video_canvas.grid(row = 2, column = 0, rowspan = 10, columnspan = 10, sticky = (N, E, W, S))
-		video_controls.grid(row = 12, column = 0, columnspan = 10, sticky = (N, E, W, S))
+		self.video_settings_frame.grid(row = 0, column = 0, rowspan = 2, columnspan = 10, sticky = (N, E, W, S))
+		self.video_canvas.grid(row = 2, column = 0, rowspan = 10, columnspan = 10, sticky = (N, E, W, S))
+		self.video_controls.grid(row = 12, column = 0, columnspan = 10, sticky = (N, E, W, S))
 
-	## go-between methods
-	def show_next_frame(self):
-		pass
+	## where the action is
+	## mode (PLAY, HALT)
+	def playback_control(self, mode, direction, button, frame_number):
+		self.video_canvas.show_next_frame(frame_number)
 
 ## testing
 if __name__ == "__main__":

@@ -23,7 +23,7 @@ class FileMenu(Menu):
 	def __init__(self, menubar, window, video_canvas, treeframe):
 		self.label_text = "File"
 		self.window = window
-		self.image_collection = APImageCollection()
+		self.image_collection = APImageCollection.get_instance()
 		super().__init__(menubar)
 		items = self.index ## shortcut to item index
 		self.settings = APSettings.get_instance()
@@ -110,7 +110,7 @@ class FileMenu(Menu):
 		from multiple sources to create a longer animation. In fact,
 		the same sequence can be added over and over, if desired.
 		'''
-		prefs = Preferences()
+		#prefs = Preferences()
 		
 		## change initialdir to point at the stored location
 		## when you figure that shit out

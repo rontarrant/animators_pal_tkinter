@@ -23,8 +23,21 @@ ic.configureOutput(includeContext = True)
 ## or how often it's instantiated throughout the
 ## other modules.
 class APImageCollection():
+	# Create a private class attribute to store the single instance
+	__instance = None
+	
 	_images = [] ## a list of lists containing file name and data
 	
+	@staticmethod
+	def get_instance():
+		"""
+		Static method to access the single instance of APSettings
+		"""
+		if APImageCollection.__instance is None:
+			APImageCollection.__instance = APImageCollection()
+
+		return APImageCollection.__instance
+		
 	@property
 	def images(self):
 		return self._images
