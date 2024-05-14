@@ -5,6 +5,7 @@ Logic that goes between video data and view
 ## figure out why this frame is too wide
 from ap_image_collection import *
 from ap_settings import *
+from ap_video_flags import *
 
 from vdo_vw_set_mim_frame import *
 from vdo_vw_canvas import *
@@ -13,16 +14,18 @@ from vdo_vw_controls import *
 class VideoMiMFrame(Frame):
 	def __init__(self, parent, *args, **kwargs):
 		super().__init__(parent)
-		## data classes (decide which [if any] methods need to be passed to these)
+		## external stuff needed for playback
 		ap_image_collection = APImageCollection.get_instance()
 		self.settings = APSettings.get_instance()
-		
-		## playback_control() arguments
-		PLAY = 1
-		HALT = 0
-		self.action_mode = None ## default
+		self.flags = APVideoFlags()
+		## local playback criteria
+		## Not sure which of these are needed locally
+		self.loop_state = self.flags.LOOP_OFF
+		self.delay = self.fps2ms(self.settings.fps)
+		self.mode = None ## default
 		self.play_direction = self.settings.direction
 		self.current_button = None
+		self.current_frame = 0 ## default: first frame
 
 		# layout
 		## set the row and column minimum sizes
@@ -44,8 +47,83 @@ class VideoMiMFrame(Frame):
 
 	## where the action is
 	## mode (PLAY, HALT)
-	def playback_control(self, mode, direction, button, frame_number):
-		self.video_canvas.show_next_frame(frame_number)
+	def playback_control(self, button_id, direction, mode):
+		self.video_canvas.show_next_frame(current_frame)
+		first_frame = 0 ## always the same, but for clarity, let's give it a name
+		last_frame = len(self.image_collection.images) - 1
+		
+		match button_id:
+			case self.flags.LOOP_ID: ## swap loop state
+				match self.loop_state:
+					case self.flags.LOOP_ON:
+						## set self.loop_state = off
+						self.loop_state = self.flags.LOOP_OFF
+						ic("loop is OFF")
+					case self.flags.LOOP_OFF:
+						## set self.loop_state = on
+						self.loop_state = self.flags.LOOP_ON
+						ic("loop is ON")
+			case _: ## everything except self.flags.LOOP_ID
+				match mode:
+					case self.flags.PLAY:
+						match direction:
+							case self.flags.DIRECTION_FORWARD:
+								match self.loop_state:
+									case self.flags.LOOP_ON:
+										if self.current_frame == last_frame:
+											self.current_frame = 0
+										else:
+											self.current_frame += 1
+									case self.flags.LOOP_OFF:
+										if self.current_frame == last_frame:
+											mode = APVideoFlags.HALT
+										else:
+											self.current_frame += 1
+							case self.flags.DIRECTION_REVERSE:
+								match self.loop_state:
+									case self.flags.LOOP_ON:
+										if self.current_frame == first_frame:
+											self.current_frame = 0
+										else:
+											self.current_frame -= 1
+									case self.flags.LOOP_OFF:
+										if self.current_frame == first_frame:
+											mode = APVideoFlags.HALT
+										else:
+											self.current_frame -= 1
+					case self.flags.HALT:
+						match button_id: ## FORWARD_PAUSE, REVERSE_PAUSE, FORWARD_STOP, REVERSE_STOP, GOTO_END, GOTO_START
+							case self.flags.FORWARD_PAUSE_ID:
+								## change forward button image from Pause to Play
+								ic()
+							case self.flags.REVERSE_PAUSE_ID:
+								## change reverse button image from Pause to Play
+								ic()
+							case self.flags.FORWARD_STOP_ID:
+								## change forward button image from Pause to Play
+								## reset to first frame in the collection
+								self.current_frame = 0
+								ic()
+							case self.flags.REVERSE_STOP_ID:
+								## change reverse button image from Pause to Play
+								## reset to last image in the collection
+								self.current_frame = len(self.image_collection.images) - 1
+								ic()
+							case self.flags.GOTO_END_ID:
+								## reset to last image in the collection
+								self.current_frame = len(self.image_collection.images) - 1
+								ic()
+							case self.flags.GOTO_START_ID:
+								## reset to first frame in the collection
+								self.current_frame = 0
+								ic()
+								
+				## delay, then show next frame
+				self.winfo_toplevel().after(self.delay, self.playback_control(button_id, mode, direction, self.current_frame))
+
+		## THIS MAY NOT GO HERE
+		def fps2ms(self, fps):
+			value = int(round(1000 / fps))
 
 ## testing
 if __name__ == "__main__":
