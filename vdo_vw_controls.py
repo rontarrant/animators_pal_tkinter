@@ -67,93 +67,44 @@ class VideoControlsFrame(Frame):
 		self.loop_button.grid(row = 0, column = 8, padx = 5)
 		
 		## BUTTON BINDINGS
-		self.goto_start_button.bind("<ButtonRelease-1>", self.goto_start_callback)
-		self.step_backward_button.bind("<ButtonRelease-1>", self.step_backward_callback)
-		self.play_reverse_button.bind("<ButtonRelease-1>", self.play_reverse_callback)
-		self.stop_button.bind("<ButtonRelease-1>", self.stop_callback)
-		self.play_forward_button.bind("<ButtonRelease-1>", self.play_forward_callback)
-		self.step_forward_button.bind("<ButtonRelease-1>", self.step_forward_callback)
-		self.goto_end_button.bind("<ButtonRelease-1>", self.goto_end_callback)
-		self.loop_button.bind("<ButtonRelease-1>", self.loop_switch)
+		self.goto_start_button.config(command = self.goto_start_callback)
+		self.step_backward_button.config(command = self.step_backward_callback)
+		self.play_reverse_button.config(command = self.play_reverse_callback)
+		self.stop_button.config(command =  self.stop_callback)
+		self.play_forward_button.config(command =  self.play_forward_callback)
+		self.step_forward_button.config(command =  self.step_forward_callback)
+		self.goto_end_button.config(command =  self.goto_end_callback)
+		self.loop_button.config(command =  self.loop_switch)
 
 	def goto_start_callback(self): ## goes to first frame
-		## ic()
-		canvas.status[0] = canvas.STOP
-		canvas.frame_num = 0
-		canvas.show_next_frame(canvas.frame_num)
-		canvas.last_button = self.goto_start_button
+		ic()
 		
 	def step_backward_callback(self): ## goes back one frame
-		## ic()
-		canvas.status[0] = canvas.STOP
-		
-		if canvas.frame_num > 0:
-			canvas.frame_num -= 1
-			
-		canvas.show_next_frame(canvas.frame_num)
-		canvas.last_button = step_backward_button
+		ic()
 
 	def play_reverse_callback(self): ## plays video at normal speed; pauses at current frame
-		# ic("play")
-		canvas.status[0] = canvas.FORWARD
-		canvas.last_button = self.play_button
-		self.play_reverse_button.bind("<ButtonRelease-1>", self.pause_reverse_callback)
-		canvas.show_next_frame(canvas.frame_num)
-		ic("play is over")
+		ic("play")
 	
 	def pause_reverse_callback(self): ## plays video at normal speed; pauses at current frame
-		# ic("pause")
-		canvas.status[0] = canvas.PAUSE
-		canvas.last_button = self.play_button
-		self.play_reverse_button.bind("<ButtonRelease-1>", self.play_reverse_callback)
-		canvas.show_next_frame(canvas.frame_num)
+		ic("pause")
 		
 	def stop_callback(self): ## stops video, rewinds to first frame
-		## ic()
-		## If the Pause button is visible, this should swap it back to the Play button.
-		if self.play_button.swapped == True:
-			self.play_button.change_button_image()
-		elif self.play_reverse_button.swapped == True:
-			self.play_reverse_button.change_button_image()
+		ic()
 				
 	def play_forward_callback(self): ## plays video at normal speed; pauses at current frame
-		# ic("play")
-		canvas.status[0] = canvas.FORWARD
-		canvas.last_button = self.play_button
-		self.play_button.bind("<ButtonRelease-1>", self.pause_forward_callback)
-		canvas.show_next_frame(canvas.frame_num)
-		ic("play is over")
+		ic("play")
 	
 	def pause_forward_callback(self): ## plays video at normal speed; pauses at current frame
-		# ic("pause")
-		canvas.status[0] = canvas.PAUSE
-		canvas.last_button = self.play_button
-		self.play_button.bind("<ButtonRelease-1>", self.play_callback)
-		canvas.show_next_frame(canvas.frame_num)
+		ic("pause")
 
 	def step_forward_callback(self): ## goes forward one frame
-		## ic()
-
-		canvas.status[0] = canvas.STOP
+		ic()
 		
-		if canvas.frame_num < len(canvas.image_collection.images) - 1:
-			canvas.frame_num += 1
-			
-		canvas.show_next_frame(canvas.frame_num)
-		canvas.last_button = self.step_forward_button
-	
 	def goto_end_callback(self): ## goes to last frame
-		## ic()
-		canvas.status[0] = canvas.STOP
-		canvas.frame_num = len(canvas.image_collection.images) - 1
-		canvas.show_next_frame(canvas.frame_num)
-		canvas.last_button = self.goto_end_button
+		ic()
 	
 	def loop_switch(self): ## turns on/off looping
-		## ic("")
-		canvas.status[1] = not canvas.status[1]
-		canvas.last_button = self.loop_button
-		## ic(args)
+		ic("")
 
 ## testing
 if __name__ == "__main__":
