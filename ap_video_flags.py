@@ -16,24 +16,29 @@ class APVideoFlags():
 
 	def __init__(self):
 		## modes
-		APVideoFlags.PLAY = 1
-		APVideoFlags.HALT = 0
+		APVideoFlags.MODE_PLAY = "MODE PLAY"
+		APVideoFlags.MODE_HALT = "MODE HALT"
+		APVideoFlags.MODE_NONE = "MODE NONE"
 		## video control buttons
-		APVideoFlags.FORWARD_PLAY_ID = 100
-		APVideoFlags.FORWARD_PAUSE_ID = 110
-		APVideoFlags.FORWARD_STOP_ID = 120
-		APVideoFlags.REVERSE_PLAY_ID = 200
-		APVideoFlags.REVERSE_PAUSE_ID = 210
-		APVideoFlags.REVERSE_STOP_ID = 220
-		APVideoFlags.GOTO_END_ID = 300
-		APVideoFlags.GOTO_START_ID = 400
-		APVideoFlags.LOOP_ID = 500
+		APVideoFlags.STOP_ID = "STOP"
+		APVideoFlags.FORWARD_PLAY_ID = "FORWARD PLAY"
+		APVideoFlags.FORWARD_PAUSE_ID = "FORWARD PAUSE"
+		APVideoFlags.FORWARD_STOP_ID = "FORWARD STOP"
+		APVideoFlags.REVERSE_PLAY_ID = "REVERSE PLAY"
+		APVideoFlags.REVERSE_PAUSE_ID = "REVERSE PAUSE"
+		APVideoFlags.REVERSE_STOP_ID = "REVERSE STOP"
+		APVideoFlags.REVERSE_STEP_ID = "REVERSE STEP"
+		APVideoFlags.FORWARD_STEP_ID = "FORWARD STEP"
+		APVideoFlags.GOTO_END_ID = "GO TO END"
+		APVideoFlags.GOTO_START_ID = "GO TO START"
+		APVideoFlags.LOOP_ID = "LOOP"
 		## loop switch IDs
-		APVideoFlags.LOOP_ON = 510
-		APVideoFlags.LOOP_OFF = 520
+		APVideoFlags.LOOP_ON = "LOOP ON"
+		APVideoFlags.LOOP_OFF = "LOOP OFF"
 		## directions
-		APVideoFlags.DIRECTION_FORWARD = 600
-		APVideoFlags.DIRECTION_REVERSE = 610
+		APVideoFlags.DIRECTION_NONE = "DIRECTION NEUTRAL"
+		APVideoFlags.DIRECTION_FORWARD = "DIRECTION FORWARD"
+		APVideoFlags.DIRECTION_REVERSE = "DIRECTION REVERSE"
 		
 		## keep track of the current frame
 		APVideoFlags.frame_number = 0

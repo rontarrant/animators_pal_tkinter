@@ -39,7 +39,7 @@ class VideoMiMFrame(Frame):
 		## view classes (decide which [if any] methods need to be passed to these)
 		self.video_settings_frame = VideoSettingsFrame(self)
 		self.video_canvas = VideoCanvas(self)
-		self.video_controls = VideoControlsFrame(self)
+		self.video_controls = VideoControlsFrame(self, self.playback_control)
 
 		self.video_settings_frame.grid(row = 0, column = 0, rowspan = 2, columnspan = 10, sticky = (N, E, W, S))
 		self.video_canvas.grid(row = 2, column = 0, rowspan = 10, columnspan = 10, sticky = (N, E, W, S))
@@ -48,7 +48,7 @@ class VideoMiMFrame(Frame):
 	## where the action is
 	## mode (PLAY, HALT)
 	def playback_control(self, button_id, direction, mode):
-		self.video_canvas.show_next_frame(current_frame)
+		self.video_canvas.show_next_frame(self.current_frame)
 		first_frame = 0 ## always the same, but for clarity, let's give it a name
 		last_frame = len(self.image_collection.images) - 1
 		
@@ -121,9 +121,9 @@ class VideoMiMFrame(Frame):
 				## delay, then show next frame
 				self.winfo_toplevel().after(self.delay, self.playback_control(button_id, mode, direction, self.current_frame))
 
-		## THIS MAY NOT GO HERE
-		def fps2ms(self, fps):
-			value = int(round(1000 / fps))
+	## THIS MAY NOT GO HERE
+	def fps2ms(self, fps):
+		value = int(round(1000 / fps))
 
 ## testing
 if __name__ == "__main__":
