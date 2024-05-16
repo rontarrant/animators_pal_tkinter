@@ -116,7 +116,6 @@ class VideoControlsFrame(Frame):
 		self.playback_control(APVideoFlags.STOP_ID, APVideoFlags.DIRECTION_NONE, APVideoFlags.MODE_HALT)
 				
 	def forward_play_callback(self): ## plays video at normal speed; pauses at current frame
-		ic("play")
 		## button ID, direction, mode
 		self.playback_control(APVideoFlags.FORWARD_PLAY_ID, APVideoFlags.DIRECTION_FORWARD, APVideoFlags.MODE_PLAY)
 		self.forward_play_button.config(command =  self.forward_pause_callback)
@@ -125,8 +124,13 @@ class VideoControlsFrame(Frame):
 		ic("pause")
 		## button ID, direction, mode
 		self.playback_control(APVideoFlags.FORWARD_PAUSE_ID, APVideoFlags.DIRECTION_FORWARD, APVideoFlags.MODE_HALT)
-		self.forward_play_button.config(command =  self.forward_play_callback)
+		self.forward_play_button.config(command = self.forward_play_callback)
 
+	def forward_play_stop(self):
+		self.forward_play_button.config(command = self.forward_play_callback)
+		## switch image
+		self.forward_play_button.change_button_image()
+		
 	def forward_step_callback(self): ## goes forward one frame
 		ic()
 		## button ID, direction, mode

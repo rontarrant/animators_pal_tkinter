@@ -48,6 +48,7 @@ class VideoCanvas(Canvas):
 		return value
 
 	def show_next_frame(self, frame_num):
+		self.delete(ALL)
 		self.create_image(0, 0, anchor = "nw", image = self.image_collection.images[frame_num].tk_image)
 		'''
 		Keep the following comment until the delay stuff is worked out.
