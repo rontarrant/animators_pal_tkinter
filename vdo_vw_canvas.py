@@ -30,7 +30,6 @@ class VideoCanvas(Canvas):
 	direction: int = 1 ## default: forward (-1 = reverse)
 	first_frame_hold: int = 1 ## valid: 1 to 90
 	last_frame_hold: int = 1 ## valid: 1 to 90
-	image_collection = APImageCollection.get_instance()
 	last_button = None ## which button was last pressed (let's us restore the
 							 ## default image if loop is turned off)
 
@@ -38,6 +37,7 @@ class VideoCanvas(Canvas):
 		self.parent = parent
 		## instantiation
 		super().__init__(parent)
+		self.image_collection = APImageCollection.get_instance()
 		## configure
 		self.config(bg = self.colour, width = self.width, height = self.height)
 		self.delay = self.fps2ms(self.fps)

@@ -38,9 +38,9 @@ class Window(Tk):
 
 		## POPULATION stuff
 		mainframe = MainFrame(self)
-		playback_control = self.nametowidget(".!mainframe.!videomimframe").playback_control
+		video_canvas = self.nametowidget(".!mainframe.!videomimframe").video_canvas
 		build_new_image_list = self.nametowidget(".!mainframe.!previewmimframe").build_new_image_list
-		self._menubar = Menubar(self, playback_control, build_new_image_list)
+		self._menubar = Menubar(self, video_canvas, build_new_image_list)
 
 		## CONFIGURE window stuff
 		self.config(width = self.min_width, height = self.min_height)

@@ -100,7 +100,7 @@ class APSettings():
 
 	@property
 	def fps(self):
-		#ic()
+		#ic(self._fps.get())
 		return self._fps.get()
 	
 	@fps.setter
