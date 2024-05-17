@@ -21,13 +21,14 @@ class VideoControlsFrame(Frame):
 	## that's associated with the calling button
 	## callback. Except for LoopOn/LoopOff which
 	## passes a dummy mode ignored by the MiM.
-	def __init__(self, parent, playback_control):
+	def __init__(self, parent, playback_control, reverse_button_pressed):
 		super().__init__(parent)
 		
 		## instance variables
 		self.parent = parent
 		self.playback_control = playback_control
-		self.flags = APVideoFlags()
+		self.flags = APVideoFlags.get_instance()
+		self.reverse_button_pressed = reverse_button_pressed
 
 		self.configure(width = 1280, height = 72)
 		self.grid(sticky = (N, E, W, S))
@@ -101,6 +102,8 @@ class VideoControlsFrame(Frame):
 	def reverse_play_callback(self): ## plays video at normal speed; pauses at current frame
 		ic("play")
 		## button ID, direction, mode
+		self.flags.reverse_button_pressed = True
+		ic(self.flags.reverse_button_pressed)
 		self.playback_control(APVideoFlags.REVERSE_PLAY_ID, APVideoFlags.DIRECTION_REVERSE, APVideoFlags.MODE_PLAY)
 		self.reverse_play_button.config(command = self.reverse_pause_callback)
 	
@@ -109,7 +112,12 @@ class VideoControlsFrame(Frame):
 		## button ID, direction, mode
 		self.playback_control(APVideoFlags.REVERSE_PAUSE_ID, APVideoFlags.DIRECTION_REVERSE, APVideoFlags.MODE_HALT)
 		self.reverse_play_button.config(command = self.reverse_play_callback)
-	
+
+	def reverse_play_stop(self):
+		self.reverse_play_button.config(command = self.reverse_play_callback)
+		## switch image
+		self.reverse_play_button.change_button_image()
+
 	def stop_callback(self): ## stops video, rewinds to first frame
 		ic()
 		## button ID, direction, mode

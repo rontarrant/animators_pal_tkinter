@@ -17,7 +17,7 @@ class VideoMiMFrame(Frame):
 		## external stuff needed for playback
 		self.ap_image_collection = APImageCollection.get_instance()
 		self.settings = APSettings.get_instance()
-		self.flags = APVideoFlags()
+		self.flags = APVideoFlags.get_instance()
 		
 		## local playback criteria
 		## Not sure which of these are needed locally
@@ -28,6 +28,7 @@ class VideoMiMFrame(Frame):
 		self.play_direction = self.settings.direction
 		self.current_button = None
 		self.current_frame = 0 ## default: first frame
+		self.reverse_button_pressed = False
 
 		# layout
 		## set the row and column minimum sizes
@@ -41,7 +42,7 @@ class VideoMiMFrame(Frame):
 		## view classes (decide which [if any] methods need to be passed to these)
 		self.video_settings_frame = VideoSettingsFrame(self)
 		self.video_canvas = VideoCanvas(self)
-		self.video_controls = VideoControlsFrame(self, self.playback_control)
+		self.video_controls = VideoControlsFrame(self, self.playback_control, self.reverse_button_pressed)
 
 		self.video_settings_frame.grid(row = 0, column = 0, rowspan = 2, columnspan = 10, sticky = (N, E, W, S))
 		self.video_canvas.grid(row = 2, column = 0, rowspan = 10, columnspan = 10, sticky = (N, E, W, S))
@@ -52,7 +53,7 @@ class VideoMiMFrame(Frame):
 	def playback_control(self, button_id, direction, mode):
 		first_frame = 0 ## always the same, but for clarity, let's give it a name
 		last_frame = len(self.ap_image_collection.images) - 1
-		self.video_canvas.show_next_frame((self.current_frame + 1) % len(self.ap_image_collection.images))
+		self.video_canvas.show_next_frame((self.current_frame) % len(self.ap_image_collection.images))
 		
 		match button_id:
 			case self.flags.LOOP_ID: ## swap loop state
@@ -65,7 +66,7 @@ class VideoMiMFrame(Frame):
 						## set self.loop_state = on
 						self.loop_state = self.flags.LOOP_ON
 						ic("loop is ON")
-			case _: ## everything except self.flags.LOOP_ID
+			case _: ## all other buttons besides Loop Button
 				match mode:
 					case self.flags.MODE_PLAY:
 						match direction:
@@ -75,10 +76,11 @@ class VideoMiMFrame(Frame):
 										if self.current_frame == last_frame:
 											ic()
 											self.current_frame = 0
+											self.winfo_toplevel().after(self.delay, self.playback_control, button_id, direction, mode)
 										else:
 											ic()
-											self.winfo_toplevel().after(self.delay, self.playback_control, button_id, direction, mode)
 											self.current_frame += 1
+											self.winfo_toplevel().after(self.delay, self.playback_control, button_id, direction, mode)
 									case self.flags.LOOP_OFF:
 										if self.current_frame == last_frame:
 											mode = APVideoFlags.MODE_HALT
@@ -87,24 +89,35 @@ class VideoMiMFrame(Frame):
 											## switch callback
 											self.video_controls.forward_play_stop()
 										else:
-											self.winfo_toplevel().after(self.delay, self.playback_control, button_id, direction, mode)
 											self.current_frame += 1
+											self.winfo_toplevel().after(self.delay, self.playback_control, button_id, direction, mode)
 							case self.flags.DIRECTION_REVERSE:
+								ic(self.flags.reverse_button_pressed)
+								
+								if self.flags.reverse_button_pressed == True:
+									self.current_frame = last_frame
+									self.flags.reverse_button_pressed = False
+								
+								ic(self.reverse_button_pressed)
+								
 								match self.loop_state:
 									case self.flags.LOOP_ON:
 										if self.current_frame == first_frame:
 											ic()
-											self.current_frame = 0
+											self.current_frame = last_frame
+											self.winfo_toplevel().after(self.delay, self.playback_control, button_id, direction, mode)
 										else:
 											ic()
-											self.winfo_toplevel().after(self.delay, self.playback_control, button_id, direction, mode)
 											self.current_frame -= 1
+											self.winfo_toplevel().after(self.delay, self.playback_control, button_id, direction, mode)
 									case self.flags.LOOP_OFF:
 										if self.current_frame == first_frame:
 											ic()
 											mode = APVideoFlags.MODE_HALT
+											self.current_frame = last_frame
 											## switch button image back to Reverse Play
 											## switch callback
+											self.video_controls.reverse_play_stop()
 										else:
 											ic()
 											self.winfo_toplevel().after(self.delay, self.playback_control, button_id, direction, mode)

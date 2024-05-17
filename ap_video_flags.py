@@ -41,5 +41,21 @@ class APVideoFlags():
 		APVideoFlags.DIRECTION_REVERSE = "DIRECTION REVERSE"
 		
 		## keep track of the current frame
-		APVideoFlags.frame_number = 0
-		
+		APVideoFlags._reverse_button_pressed = False
+	
+	@property
+	def reverse_button_pressed(self):
+		return self._reverse_button_pressed
+	
+	@reverse_button_pressed.setter
+	def reverse_button_pressed(self, value):
+		self._reverse_button_pressed = value
+
+
+### testing
+flags = APVideoFlags.get_instance()
+print("before", flags.reverse_button_pressed)
+flags.reverse_button_pressed = True
+print("after", flags.reverse_button_pressed)
+flags.reverse_button_pressed = False
+print("after-after", flags.reverse_button_pressed)

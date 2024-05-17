@@ -48,6 +48,11 @@ class VideoCanvas(Canvas):
 		return value
 
 	def show_next_frame(self, frame_num):
+		## When a frame is drawn, canvas adds it to a queue.
+		## Each time a new frame is drawn, canvas draws every
+		## frame in the queue before drawing the new frame.
+		## The following line clears the queue so we get 
+		## the fastest possible draw time for each frame.
 		self.delete(ALL)
 		self.create_image(0, 0, anchor = "nw", image = self.image_collection.images[frame_num].tk_image)
 		'''
