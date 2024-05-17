@@ -21,14 +21,13 @@ class VideoControlsFrame(Frame):
 	## that's associated with the calling button
 	## callback. Except for LoopOn/LoopOff which
 	## passes a dummy mode ignored by the MiM.
-	def __init__(self, parent, playback_control, reverse_button_pressed):
+	def __init__(self, parent, playback_control):
 		super().__init__(parent)
 		
 		## instance variables
 		self.parent = parent
 		self.playback_control = playback_control
 		self.flags = APVideoFlags.get_instance()
-		self.reverse_button_pressed = reverse_button_pressed
 
 		self.configure(width = 1280, height = 72)
 		self.grid(sticky = (N, E, W, S))
@@ -125,6 +124,8 @@ class VideoControlsFrame(Frame):
 				
 	def forward_play_callback(self): ## plays video at normal speed; pauses at current frame
 		## button ID, direction, mode
+		self.flags.forward_button_pressed = True
+		ic(self.flags.forward_button_pressed)
 		self.playback_control(APVideoFlags.FORWARD_PLAY_ID, APVideoFlags.DIRECTION_FORWARD, APVideoFlags.MODE_PLAY)
 		self.forward_play_button.config(command =  self.forward_pause_callback)
 	

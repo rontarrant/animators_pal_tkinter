@@ -40,8 +40,9 @@ class APVideoFlags():
 		APVideoFlags.DIRECTION_FORWARD = "DIRECTION FORWARD"
 		APVideoFlags.DIRECTION_REVERSE = "DIRECTION REVERSE"
 		
-		## keep track of the current frame
+		## keep track of which play button was pressed
 		APVideoFlags._reverse_button_pressed = False
+		APVideoFlags._forward_button_pressed = False
 	
 	@property
 	def reverse_button_pressed(self):
@@ -50,6 +51,14 @@ class APVideoFlags():
 	@reverse_button_pressed.setter
 	def reverse_button_pressed(self, value):
 		self._reverse_button_pressed = value
+
+	@property
+	def forward_button_pressed(self):
+		return self._forward_button_pressed
+	
+	@forward_button_pressed.setter
+	def forward_button_pressed(self, value):
+		self._forward_button_pressed = value
 
 
 ### testing

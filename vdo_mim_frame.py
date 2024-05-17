@@ -42,7 +42,7 @@ class VideoMiMFrame(Frame):
 		## view classes (decide which [if any] methods need to be passed to these)
 		self.video_settings_frame = VideoSettingsFrame(self)
 		self.video_canvas = VideoCanvas(self)
-		self.video_controls = VideoControlsFrame(self, self.playback_control, self.reverse_button_pressed)
+		self.video_controls = VideoControlsFrame(self, self.playback_control)
 
 		self.video_settings_frame.grid(row = 0, column = 0, rowspan = 2, columnspan = 10, sticky = (N, E, W, S))
 		self.video_canvas.grid(row = 2, column = 0, rowspan = 10, columnspan = 10, sticky = (N, E, W, S))
@@ -71,6 +71,14 @@ class VideoMiMFrame(Frame):
 					case self.flags.MODE_PLAY:
 						match direction:
 							case self.flags.DIRECTION_FORWARD:
+								ic(self.flags.forward_button_pressed)
+								
+								if self.flags.forward_button_pressed == True:
+									self.current_frame = first_frame
+									self.flags.forward_button_pressed = False
+								
+								ic(self.flags.forward_button_pressed)
+								
 								match self.loop_state:
 									case self.flags.LOOP_ON:
 										if self.current_frame == last_frame:
@@ -98,7 +106,7 @@ class VideoMiMFrame(Frame):
 									self.current_frame = last_frame
 									self.flags.reverse_button_pressed = False
 								
-								ic(self.reverse_button_pressed)
+								ic(self.flags.reverse_button_pressed)
 								
 								match self.loop_state:
 									case self.flags.LOOP_ON:
