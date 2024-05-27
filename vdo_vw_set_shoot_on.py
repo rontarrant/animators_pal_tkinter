@@ -25,7 +25,7 @@ class ShootOnSet(Labelframe):
 		self.var.set(self.settings.shoot_on)
 		
 	def reset(self):
-		print("reset")
+		#print("reset")
 		self.spinbox.set(1)
 		self.label.config(text = "1's")
 		self.var.set(1)

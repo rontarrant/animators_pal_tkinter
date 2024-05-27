@@ -90,5 +90,5 @@ if __name__ == "__main__":
 		image_collection.add(image)
 		
 	for j in image_collection.images:
-		ic(j)
+		## ic(j)
 		pass

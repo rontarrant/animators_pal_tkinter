@@ -163,9 +163,11 @@ class FileMenu(Menu):
 		for variable, value in class_variables.items():
 			if isinstance(value, (IntVar, StringVar)):
 				# Access the stored value using `get()`
-				print(f"{variable}: {value.get()}")
+				#print(f"{variable}: {value.get()}")
+				pass
 			else:
-				print(f"{variable}: {value}")
+				#print(f"{variable}: {value}")
+				pass
 
 	def exit(self, event = None):
 		# ic("exiting...")
