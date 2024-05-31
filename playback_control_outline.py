@@ -41,7 +41,7 @@ def playback_control(button_id, mode, direction, frame_number):
 										mode = halt_mode
 									else:
 										frame_number += 1
-						case flags.DIRECTION_REVERSE:
+						case flags.DIRECTION_BOUNCE:
 							match loop_state:
 								case flags.LOOP_ON:
 									if frame_number == first_frame:
@@ -54,17 +54,17 @@ def playback_control(button_id, mode, direction, frame_number):
 									else:
 										frame_number -= 1
 				case flags.HALT:
-					match button_id: ## FORWARD_PAUSE, REVERSE_PAUSE, FORWARD_STOP, REVERSE_STOP, GOTO_END, GOTO_START
+					match button_id: ## FORWARD_PAUSE, BOUNCE_PAUSE, FORWARD_STOP, BOUNCE_STOP, GOTO_END, GOTO_START
 						case flags.FORWARD_PAUSE_ID:
 							## change forward button image from Pause to Play
 							## ic()
-						case flags.REVERSE_PAUSE_ID:
+						case flags.BOUNCE_PAUSE_ID:
 							## change reverse button image from Pause to Play
 							## ic()
 						case flags.FORWARD_STOP_ID:
 							## change forward button image from Pause to Play
 							## ic()
-						case flags.REVERSE_STOP_ID:
+						case flags.BOUNCE_STOP_ID:
 							## change reverse button image from Pause to Play
 							## ic()
 						case flags.GOTO_END_ID:

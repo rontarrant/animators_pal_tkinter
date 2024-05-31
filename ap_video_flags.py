@@ -4,7 +4,7 @@
 ##################
 ## - make sure all flags are needed
 ## - change MODE_PLAY to MODE_FORWARD
-## - add MODE_REVERSE
+## - add MODE_BOUNCE
 
 class APVideoFlags():
 	# Create a private class attribute to store the single instance
@@ -22,17 +22,17 @@ class APVideoFlags():
 
 	def __init__(self):
 		## modes
-		APVideoFlags.MODE_FORWARD = "MODE PLAY"
+		APVideoFlags.MODE_FORWARD = "MODE FORWARD"
 		APVideoFlags.MODE_HALT = "MODE HALT"
-		APVideoFlags.MODE_REVERSE = "MODE REVERSE"
+		APVideoFlags.MODE_BOUNCE = "MODE BOUNCE"
 		## video control buttons
 		APVideoFlags.STOP_ID = "STOP"
 		APVideoFlags.FORWARD_PLAY_ID = "FORWARD PLAY"
 		APVideoFlags.FORWARD_PAUSE_ID = "FORWARD PAUSE"
 		APVideoFlags.FORWARD_STOP_ID = "FORWARD STOP"
-		APVideoFlags.REVERSE_PLAY_ID = "REVERSE PLAY"
-		APVideoFlags.REVERSE_PAUSE_ID = "REVERSE PAUSE"
-		APVideoFlags.REVERSE_STOP_ID = "REVERSE STOP"
+		APVideoFlags.BOUNCE_PLAY_ID = "BOUNCE PLAY"
+		APVideoFlags.BOUNCE_PAUSE_ID = "BOUNCE PAUSE"
+		APVideoFlags.BOUNCE_STOP_ID = "BOUNCE STOP"
 		APVideoFlags.REVERSE_STEP_ID = "REVERSE STEP"
 		APVideoFlags.FORWARD_STEP_ID = "FORWARD STEP"
 		APVideoFlags.GOTO_END_ID = "GO TO END"

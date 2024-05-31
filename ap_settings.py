@@ -17,7 +17,7 @@ Following is a list of the class properties in APSettings:
 Video Playback Settings
 _direction:
 	: which direction the video is to be played
-	: can be either AP_FORWARD or AP_REVERSE
+	: can be either AP_FORWARD or AP_BOUNCE
 	: default: AP_FORWARD
 _shoot_on:
 	: how long to display each image
@@ -91,7 +91,7 @@ class APSettings():
 	
 	@direction.setter
 	def direction(self, value):
-		if type(value) == AP_FORWARD or value == AP_REVERSE:
+		if type(value) == AP_FORWARD or value == AP_BOUNCE:
 			self._direction.set(value)
 			#ic()
 		else:
