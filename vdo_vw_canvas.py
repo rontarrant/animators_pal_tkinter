@@ -17,10 +17,8 @@ install()
 ic.configureOutput(includeContext = True)
 
 class VideoCanvas(Canvas):
-	status = [AP_STOP, AP_LOOP_OFF] ## default
 	## defaults
 	frame_num = 0
-	looping_status = AP_LOOP_OFF
 	fps: int = 24 ## can also be 18, 25, or 30
 	delay: int = 0
 	shoot_on: int = 1 ## 1's, 2's, 3's up to 9's

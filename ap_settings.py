@@ -16,9 +16,8 @@ from ap_constants import *
 Following is a list of the class properties in APSettings:
 Video Playback Settings
 _direction:
-	: which direction the video is to be played
-	: can be either AP_FORWARD or AP_BOUNCE
-	: default: AP_FORWARD
+	: determines the order the loaded images
+	: will be written to the final video file
 _shoot_on:
 	: how long to display each image
 	: can be 1 ... 9

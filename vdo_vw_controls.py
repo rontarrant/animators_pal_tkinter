@@ -99,6 +99,8 @@ class VideoControlsFrame(Frame):
 	def stop_callback(self): ## stops video, rewinds to first frame
 		self.reset_last_frame()
 		##ic(self.mode)
+		## NEED TO KNOW IF PAGES ARE FLIPPING
+		## before doing any of this
 		match self.mode:
 			case self.flags.MODE_FORWARD:
 				self.reset_last_frame()
@@ -110,6 +112,8 @@ class VideoControlsFrame(Frame):
 				##ic()
 				self.playback_control(self.flags.BOUNCE_STOP_ID)
 				self.bounce_play_button.change_button_image()
+		
+		self.mode = self.flags.MODE_HALT
 			
 	def forward_play_stop(self):
 		##ic()
@@ -118,6 +122,7 @@ class VideoControlsFrame(Frame):
 		## switch image
 		self.forward_play_button.change_button_image()
 		self.playback_control(self.flags.FORWARD_STOP_ID)
+		self.mode = self.flags.MODE_HALT
 		
 	def forward_play_callback(self): ## plays video at normal speed; pauses at current frame
 		self.reset_last_frame()

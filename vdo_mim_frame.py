@@ -105,35 +105,26 @@ class VideoMiMFrame(Frame):
 	
 	def reverse_step(self):
 		ic(self.current_frame)
-		self.current_frame -= 1
-		
-		if self.current_frame <= self.FIRST_FRAME:
-			ic(self.current_frame)
-			self.current_frame = self.FIRST_FRAME
-			self.bounce_direction = -1
-			
-		self.video_canvas.show_next_frame(self.current_frame)
+		match self.current_frame:
+			case self.FIRST_FRAME:
+				pass
+			case _:
+				self.current_frame -= 1
+				self.video_canvas.show_next_frame(self.current_frame)
 
-	## Immediately after stopping bounce play, the first click
-	## on the step forward button doesn't do anything.
-	## The mechanism is the same as for reverse step which does
-	## work.
 	def forward_step(self):
 		ic(self.current_frame)
-		self.current_frame += 1
-		ic(self.current_frame)
-		
-		if self.current_frame >= self.LAST_FRAME:
-			ic(self.current_frame)
-			self.current_frame = self.LAST_FRAME
-			self.bounce_direction = 1
-			
-		self.video_canvas.show_next_frame(self.current_frame)
+		match self.current_frame:
+			case self.LAST_FRAME:
+				pass
+			case _:
+				self.current_frame += 1
+				self.video_canvas.show_next_frame(self.current_frame)
 
 	def play_forward(self):
 		match self.current_frame:
 			case self.LAST_FRAME:
-				self.current_frame = self.FIRST_FRAME
+				#self.current_frame = self.FIRST_FRAME
 				## switch button image back to Forward Play
 				## switch callback
 				self.video_controls.forward_play_stop()
@@ -154,21 +145,24 @@ class VideoMiMFrame(Frame):
 				self.winfo_toplevel().after_cancel(self.after_id)
 				self.after_id = None
 		
+		self.video_controls.mode = self.flags.MODE_HALT
+		
 	def play_bounce(self):
 		ic(self.current_frame)
+
+		match self.current_frame:
+			case self.FIRST_FRAME:
+				self.bounce_direction = 1
+			case self.LAST_FRAME:
+				self.bounce_direction = -1
 
 		if self.bouncing:  # Bounce Play is on
 			# flip the page
 			self.video_canvas.show_next_frame((self.current_frame) % self.LAST_FRAME)
 			# add 1 if playing forward, -1 if playing reverse
 			self.current_frame += self.bounce_direction
-
-			# if we're at the first or last frame...
-			if self.current_frame == self.LAST_FRAME or self.current_frame == self.FIRST_FRAME:
-				# change bounce_direction from 1 to -1 or from -1 to 1
-				self.bounce_direction *= -1
-
 			self.after_id = self.winfo_toplevel().after(self.delay, self.play_bounce)  # Approximately 24 frames per second
+			
 		ic(self.current_frame)
 
 	def pause_forward(self):
@@ -178,6 +172,8 @@ class VideoMiMFrame(Frame):
 		self.LAST_FRAME = len(self.ap_image_collection.images) - 1
 		
 	def call_a_halt(self):
+		self.video_controls.mode = self.flags.MODE_HALT
+		
 		if self.after_id:
 			self.winfo_toplevel().after_cancel(self.after_id)
 
