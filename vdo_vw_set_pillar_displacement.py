@@ -19,7 +19,7 @@ class PillarDisplacementSet(Frame):
 		self.value_label.grid(row = 0, column = 1, sticky = W, padx = padx_west)
 	
 	def update(self, value):
-		## ic(value)
+		## ## ic(value)
 		self.value_label.config(text = value)
 
 ## testing

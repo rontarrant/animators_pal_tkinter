@@ -52,7 +52,7 @@ class APImage():
 		self.height = shape[0]
 		self.ratio_flag = ""
 		self.set_ratio()
-		## # ic(self.width, self.height, self._ratio_flag)
+		## # ## ic(self.width, self.height, self._ratio_flag)
 	
 	@property
 	def pillow_image(self):
@@ -146,16 +146,16 @@ class APImage():
 		'''
 		##- subtract height from width:
 		difference = self.width / self.height
-		## # ic("difference: ", difference)
+		## # ## ic("difference: ", difference)
 		
 		if difference < 1.78:
 			self.ratio_flag = "pillarbox"
-			## # ic(self.ratio_flag)
+			## # ## ic(self.ratio_flag)
 		else:
 			self.ratio_flag = "letterbox"
-			## # ic(self.ratio_flag)
+			## # ## ic(self.ratio_flag)
 		
-		## # ic(self.ratio_flag)
+		## # ## ic(self.ratio_flag)
 
 	def config_resolution(self):
 		##- configure resolution (8k, 4k, 2k, HD, etc.)
@@ -194,11 +194,11 @@ if __name__ == "__main__":
 	image_file_name = "D:/Documents/Programming/PythonCode/tkinter/animators_pal/image_sequence/Lisa_seq_01_0000.png"
 	my_ap_image = APImage(image_file_name)
 	
-	## # ic(my_ap_image.file_name)
-	## # ic(my_ap_image.path)
-	## # ic(my_ap_image.width, my_ap_image.height)
+	## # ## ic(my_ap_image.file_name)
+	## # ## ic(my_ap_image.path)
+	## # ## ic(my_ap_image.width, my_ap_image.height)
 	#my_ap_image.convert_cv_to_tk()
-	## # ic(my_ap_image.tk_image.width(), my_ap_image.tk_image.height())
-	## # ic(type(my_ap_image.tk_image))
+	## # ## ic(my_ap_image.tk_image.width(), my_ap_image.tk_image.height())
+	## # ## ic(type(my_ap_image.tk_image))
 	canvas.create_image(0, 0, anchor = "nw", image = my_ap_image.tk_image)
 	window.mainloop()

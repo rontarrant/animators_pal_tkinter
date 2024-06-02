@@ -78,45 +78,45 @@ class VideoControlsFrame(Frame):
 		self.goto_end_button.config(command =  self.goto_end_callback)
 
 	def goto_start_callback(self): ## goes to first frame
-		## ic()
+		## ## ic()
 		self.reset_last_frame()
 		## button ID
 		self.playback_control(self.flags.GOTO_START_ID)
 		
 	def reverse_step_callback(self): ## goes back one frame
-		## ic()
+		## ## ic()
 		self.reset_last_frame()
 		## button ID
 		self.playback_control(self.flags.REVERSE_STEP_ID)
 
 	def bounce_play_callback(self): ## plays video at normal speed; pauses at current frame
 		self.mode = self.flags.MODE_BOUNCE
-		##ic(self.mode)
+		## ic(self.mode)
 		self.reset_last_frame()
 		## button ID
 		self.playback_control(self.flags.BOUNCE_PLAY_ID)
 
 	def stop_callback(self): ## stops video, rewinds to first frame
 		self.reset_last_frame()
-		##ic(self.mode)
+		## ic(self.mode)
 		## NEED TO KNOW IF PAGES ARE FLIPPING
 		## before doing any of this
 		match self.mode:
 			case self.flags.MODE_FORWARD:
 				self.reset_last_frame()
 				self.forward_play_button.config(command = self.forward_play_callback)
-				## switch image
+				ic(self.mode)
 				self.forward_play_button.change_button_image()
 				self.playback_control(self.flags.FORWARD_STOP_ID)
 			case self.flags.MODE_BOUNCE:
-				##ic()
+				ic(self.mode)
 				self.playback_control(self.flags.BOUNCE_STOP_ID)
 				self.bounce_play_button.change_button_image()
 		
 		self.mode = self.flags.MODE_HALT
 			
 	def forward_play_stop(self):
-		##ic()
+		#### ic()
 		self.reset_last_frame()
 		self.forward_play_button.config(command = self.forward_play_callback)
 		## switch image
@@ -127,34 +127,34 @@ class VideoControlsFrame(Frame):
 	def forward_play_callback(self): ## plays video at normal speed; pauses at current frame
 		self.reset_last_frame()
 		self.mode = self.flags.MODE_FORWARD
-		##ic(self.mode)
+		#### ic(self.mode)
 		## button ID
 		self.playback_control(self.flags.FORWARD_PLAY_ID)
 		self.forward_play_button.config(command =  self.forward_pause_callback)
 	
 	def forward_pause_callback(self): ## plays video at normal speed; pauses at current frame
-		## ic("pause")
+		## ## ic("pause")
 		self.reset_last_frame()
 		## button ID
 		self.playback_control(self.flags.FORWARD_PAUSE_ID)
-		## ic()
+		## ## ic()
 		self.forward_play_button.config(command = self.forward_play_callback)
-		## ic()
+		## ## ic()
 
 	def forward_step_callback(self): ## goes forward one frame
-		##ic()
+		#### ic()
 		self.reset_last_frame()
 		## button ID
 		self.playback_control(self.flags.FORWARD_STEP_ID)
 		
 	def goto_end_callback(self): ## goes to last frame
-		## ic()
+		## ## ic()
 		self.reset_last_frame()
 		## button ID
 		self.playback_control(self.flags.GOTO_END_ID)
 
 	def loop_switch(self): ## turns on/off looping
-		## ic("")
+		## ## ic("")
 		self.reset_last_frame()
 		## button ID
 		self.playback_control(self.flags.LOOP_ID)

@@ -51,10 +51,10 @@ class FileTreeview(Treeview):
 		'''
 		## find the selected item ID (iid) ie. row
 		selected_iid = self.selection()[0]
-		## # ic(self.selection())
+		## # ## ic(self.selection())
 		## get the full path and image file name
 		row_number = self.index(self.selection()[0])
-		## # ic(self.index(self.selection()[0]))
+		## # ## ic(self.index(self.selection()[0]))
 		preview_thumbnail(row_number)
 	
 	'''
@@ -99,7 +99,7 @@ class FileTreeview(Treeview):
 		self.inject_data(data)
 
 	def set_col_width(self, cid):
-		# ic(cid)
+		# ## ic(cid)
 		pass
 	'''
 	CID Generator
@@ -120,10 +120,10 @@ class FileTreeview(Treeview):
 					cid = "#" + str(i)
 					self._cids.append(cid)
 			else:
-				# ic("Too many columns")
+				# ## ic("Too many columns")
 				pass
 		else:
-			# ic("Not enough columns")
+			# ## ic("Not enough columns")
 			pass
 
 	def _configure_columns(self, specs):
@@ -143,7 +143,7 @@ class FileTreeview(Treeview):
 	## local testing - show all data rows
 	def list_rows(self):
 		for row in self.get_children():
-			# ic(self.item(row)['text'], self.item(row)['values'])
+			# ## ic(self.item(row)['text'], self.item(row)['values'])
 			pass
 		
 ## testing

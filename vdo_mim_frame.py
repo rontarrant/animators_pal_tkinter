@@ -38,7 +38,7 @@ class VideoMiMFrame(Frame):
 		
 		## Not sure which of these are needed locally
 		self.delay = self.fps2ms(self.settings.fps)
-		## ic(self.delay, self.settings.fps)
+		## ## ic(self.delay, self.settings.fps)
 		self.current_frame = 0 ## default: first frame
 
 		# layout
@@ -85,7 +85,7 @@ class VideoMiMFrame(Frame):
 	def stop_forward_play(self):
 		## reset to first frame in the collection
 		self.call_a_halt()
-		ic(self.current_frame)
+		## ic(self.current_frame)
 
 	def goto_end(self):
 		## reset to first frame in the collection
@@ -93,7 +93,7 @@ class VideoMiMFrame(Frame):
 		self.bounce_direction = -1
 		self.video_canvas.show_next_frame(self.current_frame)
 		#self.call_a_halt()	
-		ic()
+		## ic()
 		
 	def goto_start(self):
 		## reset to first frame in the collection
@@ -101,10 +101,10 @@ class VideoMiMFrame(Frame):
 		self.bounce_direction = 1
 		self.video_canvas.show_next_frame(self.current_frame)
 		#self.call_a_halt()	
-		ic(self.current_frame)
+		## ic(self.current_frame)
 	
 	def reverse_step(self):
-		ic(self.current_frame)
+		## ic(self.current_frame)
 		match self.current_frame:
 			case self.FIRST_FRAME:
 				pass
@@ -113,7 +113,7 @@ class VideoMiMFrame(Frame):
 				self.video_canvas.show_next_frame(self.current_frame)
 
 	def forward_step(self):
-		ic(self.current_frame)
+		## ic(self.current_frame)
 		match self.current_frame:
 			case self.LAST_FRAME:
 				pass
@@ -135,20 +135,23 @@ class VideoMiMFrame(Frame):
 				self.after_id = self.winfo_toplevel().after(self.delay, self.play_forward)
 
 	def toggle_bounce(self):
+		## ic(self.video_controls.mode)
 		self.bouncing = not self.bouncing
 		#self.bounce_button.config(text = self.button_text[self.bouncing])
 		
 		if self.bouncing:
+			## ic(self.video_controls.mode)
 			self.play_bounce()
 		else:
 			if self.after_id:
+				## ic(self.video_controls.mode)
 				self.winfo_toplevel().after_cancel(self.after_id)
 				self.after_id = None
 		
-		self.video_controls.mode = self.flags.MODE_HALT
+			self.video_controls.mode = self.flags.MODE_HALT
 		
 	def play_bounce(self):
-		ic(self.current_frame)
+		## ic(self.current_frame)
 
 		match self.current_frame:
 			case self.FIRST_FRAME:
@@ -163,7 +166,7 @@ class VideoMiMFrame(Frame):
 			self.current_frame += self.bounce_direction
 			self.after_id = self.winfo_toplevel().after(self.delay, self.play_bounce)  # Approximately 24 frames per second
 			
-		ic(self.current_frame)
+		## ic(self.current_frame)
 
 	def pause_forward(self):
 		self.call_a_halt()

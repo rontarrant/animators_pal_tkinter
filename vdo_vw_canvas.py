@@ -51,7 +51,7 @@ class VideoCanvas(Canvas):
 		## frame in the queue before drawing the new frame.
 		## The following line clears the queue so we get 
 		## the fastest possible draw time for each frame.
-		ic(frame_num)
+		## ic(frame_num)
 		self.delete(ALL)
 		self.create_image(0, 0, anchor = "nw", image = self.image_collection.images[frame_num].tk_image)
 		'''

@@ -42,12 +42,12 @@ class ResolutionSet(Frame):
 			## and short form as value and then use the short form as a key in screen_resolutions.
 			self.ghost_options[option] = ratio
 			#self.ghost_options.append(ghost_option)
-			#ic("option: ", option)
-			#ic("ghost_option: ", self.ghost_options)
+			### ic("option: ", option)
+			### ic("ghost_option: ", self.ghost_options)
 
 	def set_resolution(self, *args):
 		if self.ui_ready.ui_ready == False:
-			#ic(self.ui_ready.ui_ready)
+			### ic(self.ui_ready.ui_ready)
 			return
 			
 		self.settings.resolution = self.selection.get()
