@@ -3,16 +3,6 @@ vdo_mim_frame.py
 Logic that goes between video data and view
 '''
 
-###############################
-## TODO
-###############################
-## - separate each button's logic into its own method
-## - set up dependency injection for all methods
-## - add an class instance variable to contain an after_ID
-## - assign an after_ID to each call to after()
-## - each call to Pause or Stop triggers a call to after_cancel()
-## - change MODE_PLAY to MODE_FORWARD or MODE_REVERSE where appropriate
-
 from ap_image_collection import *
 from ap_settings import *
 from ap_video_flags import *
@@ -30,19 +20,18 @@ class VideoMiMFrame(Frame):
 		self.flags = APVideoFlags.get_instance()
 		
 		## local playback criteria
-		self.FIRST_FRAME = 0 ## always the same, but for clarity, let's give it a name
-		self.LAST_FRAME = 0
+		self.FIRST_FRAME = 0
+		self.LAST_FRAME = 0 ## updated in all button callbacks in vdo_vw_controls.py
+		self.current_frame = self.FIRST_FRAME
 		self.bouncing = False
 		self.bounce_direction = 1
 		self.after_id = None
 		
-		## Not sure which of these are needed locally
+		## this will likely be moved to ap_settings.py
 		self.delay = self.fps2ms(self.settings.fps)
-		## ## ic(self.delay, self.settings.fps)
-		self.current_frame = 0 ## default: first frame
 
-		# layout
-		## set the row and column minimum sizes
+		# LAYOUT CONFIG
+		## set row and column minimum sizes
 		for row in range(13):
 			self.grid_rowconfigure(row, minsize = 72)
 		
@@ -50,16 +39,17 @@ class VideoMiMFrame(Frame):
 			self.grid_columnconfigure(column, minsize = 128)
 		
 		## CHILDREN
-		## view classes (decide which [if any] methods need to be passed to these)
 		self.video_settings_frame = VideoSettingsFrame(self)
 		self.video_canvas = VideoCanvas(self)
-		self.video_controls = VideoControlsFrame(self, self.playback_control, self.reset_last_frame)
-
+		self.video_controls = VideoControlsFrame(self, self.playback_control, self.reset_last_frame, self.get_current_frame)
+		
+		## LAYOUT
 		self.video_settings_frame.grid(row = 0, column = 0, rowspan = 2, columnspan = 10, sticky = (N, E, W, S))
 		self.video_canvas.grid(row = 2, column = 0, rowspan = 10, columnspan = 10, sticky = (N, E, W, S))
 		self.video_controls.grid(row = 12, column = 0, columnspan = 10, sticky = (N, E, W, S))
 		
 	def playback_control(self, button_id):
+		ic(self.video_controls.mode, self.current_frame, self.LAST_FRAME)
 		match button_id:
 			case self.flags.FORWARD_PLAY_ID:
 				self.play_forward()
@@ -83,7 +73,6 @@ class VideoMiMFrame(Frame):
 				self.toggle_bounce()
 
 	def stop_forward_play(self):
-		## reset to first frame in the collection
 		self.call_a_halt()
 		## ic(self.current_frame)
 
@@ -98,10 +87,10 @@ class VideoMiMFrame(Frame):
 	def goto_start(self):
 		## reset to first frame in the collection
 		self.current_frame = self.FIRST_FRAME
-		self.bounce_direction = 1
 		self.video_canvas.show_next_frame(self.current_frame)
-		#self.call_a_halt()	
-		## ic(self.current_frame)
+		self.bounce_direction = 1
+		self.call_a_halt()	
+		ic(self.current_frame, self.video_controls.mode)
 	
 	def reverse_step(self):
 		## ic(self.current_frame)
@@ -124,20 +113,19 @@ class VideoMiMFrame(Frame):
 	def play_forward(self):
 		match self.current_frame:
 			case self.LAST_FRAME:
-				#self.current_frame = self.FIRST_FRAME
 				## switch button image back to Forward Play
-				## switch callback
 				self.video_controls.forward_play_stop()
 				self.call_a_halt()
+				ic(self.current_frame, self.video_controls.mode)
 			case _:
 				self.current_frame += 1
 				self.video_canvas.show_next_frame((self.current_frame) % self.LAST_FRAME)
 				self.after_id = self.winfo_toplevel().after(self.delay, self.play_forward)
+				ic(self.current_frame, self.video_controls.mode)
 
 	def toggle_bounce(self):
 		## ic(self.video_controls.mode)
 		self.bouncing = not self.bouncing
-		#self.bounce_button.config(text = self.button_text[self.bouncing])
 		
 		if self.bouncing:
 			## ic(self.video_controls.mode)
@@ -175,11 +163,17 @@ class VideoMiMFrame(Frame):
 		self.LAST_FRAME = len(self.ap_image_collection.images) - 1
 		
 	def call_a_halt(self):
+		## track that we're not in bounce or forward mode
+		## keeps the buttons from doing strange things
 		self.video_controls.mode = self.flags.MODE_HALT
 		
+		## if we have an open after_id, kill it
 		if self.after_id:
 			self.winfo_toplevel().after_cancel(self.after_id)
 
+	def get_current_frame(self):
+		return self.current_frame
+		
 	## THIS MAY NOT GO HERE
 	def fps2ms(self, fps):
 		value = int(round(1000 / fps))

@@ -8,6 +8,7 @@ from tkinter import *
 from vdo_vw_canvas import VideoCanvas
 from vdo_vw_image_button import ImageButton
 from ap_video_flags import *
+from ap_image_collection import *
 
 ## for debugging
 from icecream import install
@@ -17,13 +18,15 @@ ic.configureOutput(includeContext = True)
 class VideoControlsFrame(Frame):
 	## The button callbacks ID themselves
 	## to the MiM.
-	def __init__(self, parent, playback_control, reset_last_frame):
+	def __init__(self, parent, playback_control, reset_last_frame, get_current_frame):
 		super().__init__(parent)
 		
 		## instance variables
 		self.parent = parent
 		self.playback_control = playback_control
 		self.reset_last_frame = reset_last_frame
+		self.get_current_frame = get_current_frame
+		self.ap_image_collection = APImageCollection.get_instance()
 		
 		self.flags = APVideoFlags.get_instance()
 		self.mode = self.flags.MODE_HALT ## default
@@ -116,7 +119,6 @@ class VideoControlsFrame(Frame):
 		self.mode = self.flags.MODE_HALT
 			
 	def forward_play_stop(self):
-		#### ic()
 		self.reset_last_frame()
 		self.forward_play_button.config(command = self.forward_play_callback)
 		## switch image
@@ -125,12 +127,19 @@ class VideoControlsFrame(Frame):
 		self.mode = self.flags.MODE_HALT
 		
 	def forward_play_callback(self): ## plays video at normal speed; pauses at current frame
-		self.reset_last_frame()
-		self.mode = self.flags.MODE_FORWARD
-		#### ic(self.mode)
-		## button ID
-		self.playback_control(self.flags.FORWARD_PLAY_ID)
-		self.forward_play_button.config(command =  self.forward_pause_callback)
+		current_frame = self.get_current_frame()
+		
+		if current_frame == len(self.ap_image_collection.images) - 1:
+			ic(current_frame, len(self.ap_image_collection.images), self.mode)
+			self.forward_play_stop()
+		else:
+			ic(current_frame, len(self.ap_image_collection.images), self.mode)
+			self.reset_last_frame()
+			self.mode = self.flags.MODE_FORWARD
+			ic(self.mode)
+			## button ID
+			self.playback_control(self.flags.FORWARD_PLAY_ID)
+			self.forward_play_button.config(command =  self.forward_pause_callback)
 	
 	def forward_pause_callback(self): ## plays video at normal speed; pauses at current frame
 		## ## ic("pause")
