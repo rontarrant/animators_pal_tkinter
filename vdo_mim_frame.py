@@ -21,7 +21,7 @@ class VideoMiMFrame(Frame):
 		
 		## local playback criteria
 		self.FIRST_FRAME = 0
-		self.LAST_FRAME = 0 ## updated in all button callbacks in vdo_vw_controls.py
+		self.LAST_FRAME = -1 ## updated in all button callbacks in vdo_vw_controls.py
 		self.current_frame = self.FIRST_FRAME
 		self.bouncing = False
 		self.bounce_direction = 1
@@ -116,12 +116,14 @@ class VideoMiMFrame(Frame):
 				## switch button image back to Forward Play
 				self.video_controls.forward_play_stop()
 				self.call_a_halt()
-				## ic(self.current_frame, self.video_controls.mode)
+				ic(self.current_frame, self.video_controls.mode)
 			case _:
 				self.current_frame += 1
-				self.video_canvas.show_next_frame((self.current_frame) % self.LAST_FRAME)
+				self.video_canvas.show_next_frame(self.current_frame)
 				self.after_id = self.winfo_toplevel().after(self.delay, self.play_forward)
-				## ic(self.current_frame, self.video_controls.mode)
+				ic(self.current_frame, self.video_controls.mode)
+				
+		ic(self.current_frame)
 
 	def toggle_bounce(self):
 		## ic(self.video_controls.mode)
@@ -149,7 +151,7 @@ class VideoMiMFrame(Frame):
 
 		if self.bouncing:  # Bounce Play is on
 			# flip the page
-			self.video_canvas.show_next_frame((self.current_frame) % self.LAST_FRAME)
+			self.video_canvas.show_next_frame(self.current_frame)
 			# add 1 if playing forward, -1 if playing reverse
 			self.current_frame += self.bounce_direction
 			self.after_id = self.winfo_toplevel().after(self.delay, self.play_bounce)  # Approximately 24 frames per second

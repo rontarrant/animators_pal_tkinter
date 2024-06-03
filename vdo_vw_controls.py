@@ -120,11 +120,14 @@ class VideoControlsFrame(Frame):
 			
 	def forward_play_stop(self):
 		self.reset_last_frame()
+		## reset the callback
 		self.forward_play_button.config(command = self.forward_play_callback)
 		## switch image
 		self.forward_play_button.change_button_image()
 		self.playback_control(self.flags.FORWARD_STOP_ID)
 		self.mode = self.flags.MODE_HALT
+		## current_frame = self.get_current_frame()
+		## ic(current_frame)
 		
 	def forward_play_callback(self): ## plays video at normal speed; pauses at current frame
 		current_frame = self.get_current_frame()
@@ -140,6 +143,9 @@ class VideoControlsFrame(Frame):
 			## button ID
 			self.playback_control(self.flags.FORWARD_PLAY_ID)
 			self.forward_play_button.config(command =  self.forward_pause_callback)
+			
+		## current_frame = self.get_current_frame()
+		## ic(current_frame)
 	
 	def forward_pause_callback(self): ## plays video at normal speed; pauses at current frame
 		## ic("pause")
