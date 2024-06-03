@@ -76,28 +76,28 @@ class FileMenu(Menu):
 								("All formats", all_formats))
 
 	def file_new(self, event = None):
-		# ## ic(event)
-		# ## ic(self.window.project_name)
+		## ic(event)
+		## ic(self.window.project_name)
 		pass
 	
 	def file_open(self, event = None):
-		# ## ic()
+		## ic()
 		pass
 		
 	def file_save(self, event = None):
-		## # ## ic()
+		## ic()
 		if self.window.project_name == None:
-			## # ## ic(self.window.project_name)
+			## ic(self.window.project_name)
 			filedialog.asksaveasproject_name(filetypes = self.imagetypes)
 
 	def file_save_as(self, event = None):
-		# ## ic()
-		# ## ic(self.window.project_name)
+		## ic()
+		## ic(self.window.project_name)
 		pass
 
 	def file_close(self, event = None):
-		# ## ic()
-		# ## ic(self.window.project_name)
+		## ic()
+		## ic(self.window.project_name)
 		pass
 
 	def add_images(self, video_canvas, build_new_image_list, event = None):
@@ -115,7 +115,7 @@ class FileMenu(Menu):
 		## change initialdir to point at the stored location
 		## when you figure that shit out
 		temp = filedialog.askopenfilenames(filetypes = self.imagetypes, initialdir = ".")
-		#### # ## ic("temp: \n", temp)
+		## ic("temp: \n", temp)
 		
 		## make sure we have a collection of images
 		self.image_collection = APImageCollection()
@@ -133,30 +133,30 @@ class FileMenu(Menu):
 		## testing
 		'''
 		for index in self.image_collection.images:
-			## # ## ic("collection image: ", index)
+			## ic("collection image: ", index)
 		'''
 		video_canvas.show_next_frame(old_count) ## put 1st new frame in video_canvas
 		build_new_image_list(difference)
 
 		## testing
 		'''
-		## # ## ic("from the window:")
+		## ic("from the window:")
 
 		for image in self.window.image_files:
-			## # ## ic(image)
+			## ic(image)
 
-		## # ## ic("from prefs:")
+		## ic("from prefs:")
 
 		for image in prefs.image_file_name_list:
-			## # ## ic(image)
+			## ic(image)
 		'''
 
 	def build_mp4(self, event = None):
-		# ## ic("building MP4 video...")
+		## ic("building MP4 video...")
 		pass
 
 	def save_mp4(self, event = None):
-		# ## ic("saving MP4 video...")
+		## ic("saving MP4 video...")
 		all_variables = vars(APSettings)
 		class_variables = {key: value for key, value in vars(APSettings).items()}
 
@@ -170,5 +170,5 @@ class FileMenu(Menu):
 				pass
 
 	def exit(self, event = None):
-		# ## ic("exiting...")
+		## ic("exiting...")
 		pass

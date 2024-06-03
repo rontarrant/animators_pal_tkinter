@@ -53,10 +53,10 @@ class ThumbnailCanvas(Canvas):
 			divisor = image_height / self.target_height
 			self.thumb_width = int(image_width / divisor)
 		else:
-			# ## ic()
+			## ic()
 			pass
 		
-		## # ## ic(self.thumb_width, self.thumb_height)
+		## ic(self.thumb_width, self.thumb_height)
 
 	def set_image_placement(self):
 		if self.thumb_height == self.target_height: ## pillarbox mode
@@ -66,32 +66,32 @@ class ThumbnailCanvas(Canvas):
 			self.letters = (self.target_height - self.thumb_height) / 2
 			self.pillars = 0
 		
-		## # ## ic(self.pillars, self.letters)
+		## ic(self.pillars, self.letters)
 
 	def preview_thumbnail(self, image_number):
-		# ## ic(image_number)
+		## ic(image_number)
 		
 		## In the collection, find the image we want to thumbnail.
 		image = self.image_collection.images[image_number]
-		# ## ic(image.full_path)
+		## ic(image.full_path)
 		
 		## get the width and height of the image
 		image_width, image_height = image.dimensions
-		# ## ic(image_width, image_height)
+		## ic(image_width, image_height)
 		## get the ratio flag
 		self.ratio_flag = image.ratio_flag
-		# ## ic(self.ratio_flag)
+		## ic(self.ratio_flag)
 		
 		##- resize the image to fit within a 384x216 (thumbnail size) canvas
 		self.set_thumbnail_size(image_width, image_height)
 		## set placement of the image within the black background
 		self.set_image_placement()
 		##- overlay image onto black rectangle for pillarbox or letterbox effect
-		# ## ic(self.thumb_width, self.thumb_height)
+		## ic(self.thumb_width, self.thumb_height)
 		self.pillow_thumbnail_image = image.pillow_image.resize((self.thumb_width, self.thumb_height))
-		# ## ic(self.pillow_thumbnail_image)
+		## ic(self.pillow_thumbnail_image)
 		self.thumbnail_image = ImageTk.PhotoImage(self.pillow_thumbnail_image)
-		# ## ic(self.thumbnail_image)
+		## ic(self.thumbnail_image)
 		self.create_rectangle(0, 0, 384, 216, fill = "black")
 		self.create_image(self.pillars, self.letters, anchor = 'nw', image = self.thumbnail_image)
 

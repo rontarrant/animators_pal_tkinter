@@ -14,7 +14,7 @@ class ImageButton(Button):
 	def __init__(self, parent, image_up, image_down,
 					 alt_image_down = None, alt_image_up = None,
 					 *args, **kwargs):
-		### # ## ic(image_up, image_down)
+		## ic(image_up, image_down)
 		if alt_image_down != None and alt_image_up != None:
 			self.image_up = PhotoImage(file = image_up)
 			self.image_down = PhotoImage(file = image_down)
@@ -36,15 +36,15 @@ class ImageButton(Button):
 		self.changeable = True
 		
 	def change_button_image(self, event = None):
-		# ## ic(event)
+		## ic(event)
 		if self.changeable == True:
 			if self.image_state == False: ## we're in an unimage_state state; change to image_state state
-				# ## ic("image_state = True... altping images")
+				## ic("image_state = True... altping images")
 				self.image_state = True
 				self.live_image_up = self.image_alt_image_up
 				self.live_image_down = self.image_alt_image_down
 			else:
-				# ## ic("image_state = False")
+				## ic("image_state = False")
 				self.image_state = False
 				self.live_image_up = self.image_up
 				self.live_image_down = self.image_down

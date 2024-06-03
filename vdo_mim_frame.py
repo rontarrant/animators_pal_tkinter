@@ -49,7 +49,7 @@ class VideoMiMFrame(Frame):
 		self.video_controls.grid(row = 12, column = 0, columnspan = 10, sticky = (N, E, W, S))
 		
 	def playback_control(self, button_id):
-		ic(self.video_controls.mode, self.current_frame, self.LAST_FRAME)
+		## ic(self.video_controls.mode, self.current_frame, self.LAST_FRAME)
 		match button_id:
 			case self.flags.FORWARD_PLAY_ID:
 				self.play_forward()
@@ -90,7 +90,7 @@ class VideoMiMFrame(Frame):
 		self.video_canvas.show_next_frame(self.current_frame)
 		self.bounce_direction = 1
 		self.call_a_halt()	
-		ic(self.current_frame, self.video_controls.mode)
+		## ic(self.current_frame, self.video_controls.mode)
 	
 	def reverse_step(self):
 		## ic(self.current_frame)
@@ -116,12 +116,12 @@ class VideoMiMFrame(Frame):
 				## switch button image back to Forward Play
 				self.video_controls.forward_play_stop()
 				self.call_a_halt()
-				ic(self.current_frame, self.video_controls.mode)
+				## ic(self.current_frame, self.video_controls.mode)
 			case _:
 				self.current_frame += 1
 				self.video_canvas.show_next_frame((self.current_frame) % self.LAST_FRAME)
 				self.after_id = self.winfo_toplevel().after(self.delay, self.play_forward)
-				ic(self.current_frame, self.video_controls.mode)
+				## ic(self.current_frame, self.video_controls.mode)
 
 	def toggle_bounce(self):
 		## ic(self.video_controls.mode)

@@ -14,9 +14,9 @@ class HelpMenu(Menu):
 		self.add_command(label = "About", command = self.help_about)
 		
 	def help_help(self):
-		# ## ic()
+		## ic()
 		pass
 	
 	def help_about(self):
-		# ## ic("")
+		## ic("")
 		pass

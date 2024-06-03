@@ -34,7 +34,7 @@ class ProjectionSet(Frame):
 		
 	def set_projection(self, *args):
 		if self.ui_ready.ui_ready == False:
-			## ## ic(self.ui_ready.ui_ready)
+			## ic(self.ui_ready.ui_ready)
 			return
 			
 		self.settings.projection = self.selection.get()

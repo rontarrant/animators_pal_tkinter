@@ -50,9 +50,9 @@ class APImageCollection():
 		self._images.append(image)
 	
 	def list_image_types(self):
-		# ## ic("tk: ", image.tk_image)
-		# ## ic("pillow: ", image.pillow_image)
-		# ## ic("cv: ", image.cv_image)
+		## ic("tk: ", image.tk_image)
+		## ic("pillow: ", image.pillow_image)
+		## ic("cv: ", image.cv_image)
 		pass
 		
 	def remove(self, image_name: str, data: ImageTk.PhotoImage):
@@ -69,7 +69,7 @@ class APImageCollection():
 
 	def show_list(self):
 		for image in self._images.items():
-			# ## ic(image)
+			## ic(image)
 			pass
 
 ## testing
@@ -90,5 +90,5 @@ if __name__ == "__main__":
 		image_collection.add(image)
 		
 	for j in image_collection.images:
-		## ## ic(j)
+		## ic(j)
 		pass
