@@ -38,8 +38,8 @@ class ImageButton(Button):
 	def change_button_image(self, event = None):
 		## ic(event)
 		if self.changeable == True:
-			if self.image_state == False: ## we're in an unimage_state state; change to image_state state
-				## ic("image_state = True... altping images")
+			if self.image_state == False: ## we're in an unchanged state; switch to changed state
+				## ic("image_state = True... switching images")
 				self.image_state = True
 				self.live_image_up = self.image_alt_image_up
 				self.live_image_down = self.image_alt_image_down

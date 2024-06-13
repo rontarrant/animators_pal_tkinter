@@ -27,9 +27,6 @@ class VideoMiMFrame(Frame):
 		self.bounce_direction = 1
 		self.after_id = None
 		
-		## this will likely be moved to ap_settings.py
-		self.delay = self.fps2ms(self.settings.fps)
-
 		# LAYOUT CONFIG
 		## set row and column minimum sizes
 		for row in range(13):
@@ -120,7 +117,7 @@ class VideoMiMFrame(Frame):
 			case _:
 				self.current_frame += 1
 				self.video_canvas.show_next_frame(self.current_frame)
-				self.after_id = self.winfo_toplevel().after(self.delay, self.play_forward)
+				self.after_id = self.winfo_toplevel().after(self.settings.delay, self.play_forward)
 				ic(self.current_frame, self.video_controls.mode)
 				
 		ic(self.current_frame)
@@ -154,7 +151,7 @@ class VideoMiMFrame(Frame):
 			self.video_canvas.show_next_frame(self.current_frame)
 			# add 1 if playing forward, -1 if playing reverse
 			self.current_frame += self.bounce_direction
-			self.after_id = self.winfo_toplevel().after(self.delay, self.play_bounce)  # Approximately 24 frames per second
+			self.after_id = self.winfo_toplevel().after(self.settings.delay, self.play_bounce)  # Approximately 24 frames per second
 			
 		## ic(self.current_frame)
 
@@ -176,11 +173,6 @@ class VideoMiMFrame(Frame):
 	def get_current_frame(self):
 		return self.current_frame
 		
-	## THIS MAY NOT GO HERE
-	def fps2ms(self, fps):
-		value = int(round(1000 / fps))
-		return value
-
 ## testing
 if __name__ == "__main__":
 	width = 10 * 128

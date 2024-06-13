@@ -70,6 +70,7 @@ class APSettings():
 		APSettings._shoot_on_default = IntVar(value = 1)
 		APSettings._fps = IntVar(value = 24)
 		APSettings._fps_default = IntVar(value = 24)
+		APSettings._delay = IntVar(value = int(round(1000 / 24)))
 		
 		APSettings._resolution = StringVar(value = "1080p (1920x1080)")
 		APSettings._resolution_default = StringVar(value = "1080p (1920x1080)")
@@ -106,11 +107,17 @@ class APSettings():
 	def fps(self, value):
 		if value == 18 or value == 24 or value == 30:
 			self._fps.set(value)
-			## ic()
+			self._delay = self.fps2ms(value)
+			ic(self._fps.get(), self._delay)
 		else:
 			self._fps.set(self._fps_default.get())
-			## ic()
-	
+			self._delay = self.fps2ms(self._fps_default.get())
+			ic(self._fps.get(), self._delay)
+
+	@property
+	def delay(self):
+		return self._delay
+		
 	@property
 	def shoot_on(self):
 		## ic(self._shoot_on.get())
@@ -182,6 +189,9 @@ class APSettings():
 		else:
 			self._image_height.set(self._image_height_default.get())
 
+	def fps2ms(self, fps):
+		value = int(round(1000 / fps))
+		return value
 
 ## testing
 if __name__ == "__main__":
