@@ -47,6 +47,9 @@ class VideoMiMFrame(Frame):
 		
 	def playback_control(self, button_id):
 		## ic(self.video_controls.mode, self.current_frame, self.LAST_FRAME)
+		self.shoot_on = self.settings.shoot_on
+		##ic(self.shoot_on)
+		
 		match button_id:
 			case self.flags.FORWARD_PLAY_ID:
 				self.play_forward()
@@ -113,30 +116,23 @@ class VideoMiMFrame(Frame):
 				## switch button image back to Forward Play
 				self.video_controls.forward_play_stop()
 				self.call_a_halt()
-				ic(self.current_frame, self.video_controls.mode)
+				## ic(self.current_frame, self.video_controls.mode)
 			case _:
-				self.current_frame += 1
+				match self.shoot_on:
+					case 0:
+						self.current_frame += 1
+						self.shoot_on = self.settings.shoot_on
+						##ic(self.shoot_on, self.current_frame)
+					case _:
+						self.shoot_on -= 1
+						##ic(self.shoot_on, self.current_frame)
+
 				self.video_canvas.show_next_frame(self.current_frame)
 				self.after_id = self.winfo_toplevel().after(self.settings.delay, self.play_forward)
-				ic(self.current_frame, self.video_controls.mode)
+				## ic(self.current_frame, self.video_controls.mode)
 				
-		ic(self.current_frame)
+		## ic(self.current_frame)
 
-	def toggle_bounce(self):
-		## ic(self.video_controls.mode)
-		self.bouncing = not self.bouncing
-		
-		if self.bouncing:
-			## ic(self.video_controls.mode)
-			self.play_bounce()
-		else:
-			if self.after_id:
-				## ic(self.video_controls.mode)
-				self.winfo_toplevel().after_cancel(self.after_id)
-				self.after_id = None
-		
-			self.video_controls.mode = self.flags.MODE_HALT
-		
 	def play_bounce(self):
 		## ic(self.current_frame)
 
@@ -155,6 +151,21 @@ class VideoMiMFrame(Frame):
 			
 		## ic(self.current_frame)
 
+	def toggle_bounce(self):
+		## ic(self.video_controls.mode)
+		self.bouncing = not self.bouncing
+		
+		if self.bouncing:
+			## ic(self.video_controls.mode)
+			self.play_bounce()
+		else:
+			if self.after_id:
+				## ic(self.video_controls.mode)
+				self.winfo_toplevel().after_cancel(self.after_id)
+				self.after_id = None
+		
+			self.video_controls.mode = self.flags.MODE_HALT
+		
 	def pause_forward(self):
 		self.call_a_halt()
 		

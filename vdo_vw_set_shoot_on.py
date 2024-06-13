@@ -14,13 +14,13 @@ class ShootOnSet(Labelframe):
 		self.config(text = "shoot on...")
 		self.label = Label(self, text = "1's")
 		self.spinbox = NumericSpinbox(self, self.var)
-		self.button = Button(self, text = "Reset")
+		self.reset_button = Button(self, text = "Reset")
 		## config
-		self.button.config(command = self.reset)
+		self.reset_button.config(command = self.reset)
 		## layout
 		self.label.pack()
 		self.spinbox.pack()
-		self.button.pack()
+		self.reset_button.pack()
 		## config
 		self.var.set(self.settings.shoot_on)
 		
@@ -29,6 +29,7 @@ class ShootOnSet(Labelframe):
 		self.spinbox.set(1)
 		self.label.config(text = "1's")
 		self.var.set(1)
+		self.settings.shoot_on = 1
 		## ic(str(self.spinbox.get()))
 	
 class NumericSpinbox(Spinbox):

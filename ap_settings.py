@@ -70,7 +70,7 @@ class APSettings():
 		APSettings._shoot_on_default = IntVar(value = 1)
 		APSettings._fps = IntVar(value = 24)
 		APSettings._fps_default = IntVar(value = 24)
-		APSettings._delay = IntVar(value = int(round(1000 / 24)))
+		APSettings._delay = int(round(1000 / 24))
 		
 		APSettings._resolution = StringVar(value = "1080p (1920x1080)")
 		APSettings._resolution_default = StringVar(value = "1080p (1920x1080)")
@@ -114,6 +114,8 @@ class APSettings():
 			self._delay = self.fps2ms(self._fps_default.get())
 			ic(self._fps.get(), self._delay)
 
+	## For some reason, this refuses to work as an IntVar()
+	## So this gives direct access instead of using .get()
 	@property
 	def delay(self):
 		return self._delay
