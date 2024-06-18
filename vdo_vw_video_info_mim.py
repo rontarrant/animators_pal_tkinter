@@ -69,6 +69,7 @@ class VideoImageInfoSet(Frame):
 		self.ui_ready.ui_ready = True
 
 	def post_info(self):
+		ic()
 		## look up width & height using resolution in screen_resolutions
 		## look up projection using resolution in screen_resolutions
 		## ic(self.settings.resolution, self.settings.projection)
@@ -89,9 +90,10 @@ class VideoImageInfoSet(Frame):
 			self.settings.pillar_displacement = 0
 			self.pillar_set.update(self.settings.pillar_displacement)
 			## ic(self.settings.letterbox_displacement)
-		## look up original image width & height in:
-		##	image_collection.images.width & image_collection.images.height
-		## fill in image width & height settings
+			## look up original image width & height in:
+			self.image_size_set.update(self.image_collection.images.width, self.image_collection.images.height)
+			##	image_collection.images.width & image_collection.images.height
+			## fill in image width & height settings
 
 ## testing
 if __name__ == "__main__":

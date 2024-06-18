@@ -20,7 +20,7 @@ confusion if someone's looking over the code and sees one of these
 appear suddenly as if from nowhere. Also makes the code more portable.
 '''
 class FileMenu(Menu):
-	def __init__(self, menubar, window, video_canvas, treeframe):
+	def __init__(self, menubar, window, video_canvas, image_size_set, treeframe):
 		self.label_text = "File"
 		self.window = window
 		self.image_collection = APImageCollection.get_instance()
@@ -33,9 +33,9 @@ class FileMenu(Menu):
 		self.entryconfig(items("New"), accelerator = "(Ctrl-N)")
 		window.bind('<Control_L><n>', self.file_new)
 		
-		self.add_command(label = "Add Images", command = lambda: self.add_images(video_canvas, treeframe))
+		self.add_command(label = "Add Images", command = lambda: self.add_images(video_canvas, image_size_set, treeframe))
 		self.entryconfig(items("Add Images"), accelerator = "(Ctrl-A)")
-		window.bind('<Control_L><a>', lambda: self.add_images(video_canvas, treeframe))
+		window.bind('<Control_L><a>', lambda: self.add_images(video_canvas, image_size_set, treeframe))
 
 		self.add_command(label = "Open Project", command = self.file_open)
 		self.entryconfig(items("Open Project"), accelerator = "(Ctrl-O)")
@@ -100,7 +100,7 @@ class FileMenu(Menu):
 		## ic(self.window.project_name)
 		pass
 
-	def add_images(self, video_canvas, build_new_image_list, event = None):
+	def add_images(self, video_canvas, image_size_set, build_new_image_list, event = None):
 		'''
 		The askopenfilenames() dialog returns a tuple, but it'll be
 		easier to add to the image	list if it's an actual Python list.
@@ -136,6 +136,10 @@ class FileMenu(Menu):
 			## ic("collection image: ", index)
 		'''
 		video_canvas.show_next_frame(old_count) ## put 1st new frame in video_canvas
+		## store size of first new frame in settings
+		self.settings.image_width = self.image_collection.images[old_count].width
+		self.settings.image_height = self.image_collection.images[old_count].height
+		image_size_set.update(self.settings.image_width, self.settings.image_height)
 		build_new_image_list(difference)
 
 		## testing

@@ -46,7 +46,7 @@ class VideoMiMFrame(Frame):
 		self.video_controls.grid(row = 12, column = 0, columnspan = 10, sticky = (N, E, W, S))
 		
 	def playback_control(self, button_id):
-		## ic(self.video_controls.mode, self.current_frame, self.LAST_FRAME)
+		## ic(self.video_controls.mode, self.current_frame, self.settings.delay, self.settings.shoot_on, self.LAST_FRAME)
 		self.shoot_on = self.settings.shoot_on
 		##ic(self.shoot_on)
 		
@@ -143,10 +143,19 @@ class VideoMiMFrame(Frame):
 				self.bounce_direction = -1
 
 		if self.bouncing:  # Bounce Play is on
+					
 			# flip the page
 			self.video_canvas.show_next_frame(self.current_frame)
-			# add 1 if playing forward, -1 if playing reverse
-			self.current_frame += self.bounce_direction
+			match self.shoot_on:
+				case 0:
+					# add 1 if playing forward, -1 if playing reverse
+					self.current_frame += self.bounce_direction
+					self.shoot_on = self.settings.shoot_on
+					##ic(self.shoot_on, self.current_frame)
+				case _:
+					self.shoot_on -= 1
+					##ic(self.shoot_on, self.current_frame)
+					
 			self.after_id = self.winfo_toplevel().after(self.settings.delay, self.play_bounce)  # Approximately 24 frames per second
 			
 		## ic(self.current_frame)
@@ -191,6 +200,6 @@ if __name__ == "__main__":
 	print("width: ", width, ", height: ", height)
 	window = Tk()
 	window.configure(width = width, height = height)
-	videomimframe = VideoMiMFrame(window)
-	videomimframe.grid()
+	video_mim_frame = VideoMiMFrame(window)
+	video_mim_frame.grid()
 	window.mainloop()

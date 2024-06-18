@@ -181,11 +181,22 @@ class APSettings():
 			self._letterbox_displacement.set(self._letterbox_default.get())
 
 	@property
-	def original_image_width(self):
+	def image_width(self):
 		return self._image_width.get()
 	
-	@original_image_width.setter
-	def original_image_height(self, value):
+	@image_width.setter
+	def image_width(self, value):
+		if type(value) == int:
+			self._image_width.set(value)
+		else:
+			self._image_width.set(self._image_width_default.get())
+
+	@property
+	def image_height(self):
+		return self._image_height.get()
+	
+	@image_height.setter
+	def image_height(self, value):
 		if type(value) == int:
 			self._image_height.set(value)
 		else:

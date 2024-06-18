@@ -14,10 +14,10 @@ class Menubar(Menu):
 	preferences_menu = None
 	help_menu = None
 
-	def __init__(self, window, show_next_frame, build_new_image_list):
+	def __init__(self, window, video_canvas, image_size_set, build_new_image_list):
 		super().__init__(window)
 		## ATTRIBUTE stuff
-		self.file_menu = FileMenu(self, window, show_next_frame,build_new_image_list)
+		self.file_menu = FileMenu(self, window, video_canvas, image_size_set, build_new_image_list)
 		self.help_menu = HelpMenu(self)
 
 		## POPULATE

@@ -39,8 +39,13 @@ class Window(Tk):
 		## POPULATION stuff
 		mainframe = MainFrame(self)
 		video_canvas = self.nametowidget(".!mainframe.!videomimframe").video_canvas
+		'''
+		for child in self.nametowidget(".!mainframe.!videomimframe.!videosettingsframe.!videoimageinfoset.!imagesizeset").winfo_children():
+			print(child)
+		'''
+		image_size_set = self.nametowidget(".!mainframe.!videomimframe.!videosettingsframe.!videoimageinfoset.!imagesizeset")
 		build_new_image_list = self.nametowidget(".!mainframe.!previewmimframe").build_new_image_list
-		self._menubar = Menubar(self, video_canvas, build_new_image_list)
+		self._menubar = Menubar(self, video_canvas, image_size_set, build_new_image_list)
 
 		## CONFIGURE window stuff
 		self.config(width = self.min_width, height = self.min_height)

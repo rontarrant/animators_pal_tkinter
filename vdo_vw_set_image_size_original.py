@@ -9,19 +9,21 @@ from ap_settings import *
 class ImageSizeSet(Frame):
 	def __init__(self, parent, padx, padx_west, *args, **kwargs):
 		super().__init__(parent, *args, **kwargs)
+		self.ap_settings = APSettings()
 
 		self.settings = APSettings.get_instance()
 		self.columnconfigure(0, minsize = 260)
 		self.columnconfigure(1, minsize = 260)
 
 		self.label = Label(self, text = "Original Image Size")
-		self.value_label = Label(self, text = "1920 x 1080")
+		self.value_label = Label(self, text = str(self.ap_settings.image_width) + " x " + str(self.ap_settings.image_height))
 		
 		self.label.grid(row = 0, column = 0, sticky = E, padx = padx)
 		self.value_label.grid(row = 0, column = 1, sticky = W, padx = padx_west)
 	
 	def update(self, width, height):
-		self.value_label.text(str(width) + " x " + str(height))
+		ic()
+		self.value_label.config(text = str(width) + " x " + str(height))
 
 ## testing
 def main():
