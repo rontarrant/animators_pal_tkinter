@@ -38,11 +38,23 @@ class Window(Tk):
 
 		## POPULATION stuff
 		mainframe = MainFrame(self)
-		video_canvas = self.nametowidget(".!mainframe.!videomimframe").video_canvas
 		'''
+		## nametowidget() retrieves an object or method by reference. Here, it's used
+		## to set up dependency injection (although, it's unclear if we're violating
+		## other OOP principals by doing things this way).
+		## In this instance, we reference two objects and a method:
+		## - image_size_set,
+		## - video_canvas, and
+		## - build_new_image_list()
+		## These are passed to the menu system so they can be used in menu_file.add_images().
+		## The next two lines are here only so I don't forget how to list all children of abs
+		## widget (which comes in handy when you're trying to remember the differences in 
+		## how we programmers name things and how tkinter names them internally.)
+		
 		for child in self.nametowidget(".!mainframe.!videomimframe.!videosettingsframe.!videoimageinfoset.!imagesizeset").winfo_children():
 			print(child)
 		'''
+		video_canvas = self.nametowidget(".!mainframe.!videomimframe").video_canvas
 		image_size_set = self.nametowidget(".!mainframe.!videomimframe.!videosettingsframe.!videoimageinfoset.!imagesizeset")
 		build_new_image_list = self.nametowidget(".!mainframe.!previewmimframe").build_new_image_list
 		self._menubar = Menubar(self, video_canvas, image_size_set, build_new_image_list)

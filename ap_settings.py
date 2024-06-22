@@ -80,10 +80,6 @@ class APSettings():
 		APSettings._pillar_displacement_default = IntVar(value = 0)
 		APSettings._letterbox_displacement = IntVar(value = 0)
 		APSettings._leterbox_displacement_default = IntVar(value = 0)
-		APSettings._image_width = IntVar(value = 1920)
-		APSettings._image_width_default = IntVar(value = 1920)
-		APSettings._image_height = IntVar(value = 1080)
-		APSettings._image_height_default = IntVar(value = 1080)
 
 	@property
 	def direction(self):
@@ -108,11 +104,11 @@ class APSettings():
 		if value == 18 or value == 24 or value == 30:
 			self._fps.set(value)
 			self._delay = self.fps2ms(value)
-			ic(self._fps.get(), self._delay)
+			##ic(self._fps.get(), self._delay)
 		else:
 			self._fps.set(self._fps_default.get())
 			self._delay = self.fps2ms(self._fps_default.get())
-			ic(self._fps.get(), self._delay)
+			##ic(self._fps.get(), self._delay)
 
 	## For some reason, this refuses to work as an IntVar()
 	## So this gives direct access instead of using .get()
@@ -140,11 +136,12 @@ class APSettings():
 	
 	@resolution.setter
 	def resolution(self, value):
+		##ic(value)
+		
 		if type(value) == str:
 			self._resolution.set(value)
 		else:
 			self._resolution.set(self.resolution_default.get())
-		## ic(value)
 
 	@property
 	def projection(self):
@@ -152,7 +149,8 @@ class APSettings():
 	
 	@projection.setter
 	def projection(self, value):
-		## ic(value)
+		##ic(value)
+		
 		if type(value) == str:
 			self._projection.set(value)
 		else:
@@ -179,28 +177,6 @@ class APSettings():
 			self._letterbox_displacement.set(value)
 		else:
 			self._letterbox_displacement.set(self._letterbox_default.get())
-
-	@property
-	def image_width(self):
-		return self._image_width.get()
-	
-	@image_width.setter
-	def image_width(self, value):
-		if type(value) == int:
-			self._image_width.set(value)
-		else:
-			self._image_width.set(self._image_width_default.get())
-
-	@property
-	def image_height(self):
-		return self._image_height.get()
-	
-	@image_height.setter
-	def image_height(self, value):
-		if type(value) == int:
-			self._image_height.set(value)
-		else:
-			self._image_height.set(self._image_height_default.get())
 
 	def fps2ms(self, fps):
 		value = int(round(1000 / fps))

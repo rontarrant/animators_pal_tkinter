@@ -3,13 +3,12 @@ pvw_mim_frame.py
 Logic that goes between the preview data and view
 '''
 from ap_image_collection import *
-from ap_settings import *
 
 from pvw_vw_file_treeview import *
 from pvw_vw_thumbnail_canvas import *
 
 class PreviewMiMFrame(Frame):
-	def __init__(self, parent, *args, **kwargs):
+	def __init__(self, parent, image_size_set, *args, **kwargs):
 		super().__init__(parent)
 		## data classes (decide which [if any] methods need to be passed to these)
 		column_count = 4 ## number of columns in the file Treeview
@@ -24,7 +23,7 @@ class PreviewMiMFrame(Frame):
 		
 		## view classes (decide which [if any] methods need to be passed to these)
 		self.thumbnail_canvas = ThumbnailCanvas(self)
-		self.file_treeview = FileTreeview(self, column_count, self.thumbnail_canvas.preview_thumbnail)
+		self.file_treeview = FileTreeview(self, column_count, self.thumbnail_canvas.preview_thumbnail, image_size_set)
 
 		## insert frames for each window area
 		self.file_treeview.grid(row = 0, column = 0, rowspan = 10, columnspan = 3, sticky = (N, E, W, S))
@@ -33,9 +32,6 @@ class PreviewMiMFrame(Frame):
 	## go-between methods
 	def build_new_image_list(self, new_file_count):
 		self.file_treeview.build_new_image_list(new_file_count)
-	
-	def preview_thumbnail(self):
-		pass
 
 ## testing
 if __name__ == "__main__":

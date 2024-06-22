@@ -24,13 +24,13 @@ class ThumbnailCanvas(Canvas):
 		self.thumb_height = 0 ## used during calculation of size
 		self.pillars = 0
 		self.letters = 0
-		self.target_width = 384
-		self.target_height = 216
+		self.canvas_width = 384
+		self.canvas_height = 216
 		## configure
-		super().__init__(parent, width = self.target_width, height = self.target_height, bg = self.colour)
+		super().__init__(parent, width = self.canvas_width, height = self.canvas_height, bg = self.colour)
 		self.parent = parent
 		self.image_collection = APImageCollection.get_instance()
-		self.config(width = self.target_width, height = self.target_height)
+		self.config(width = self.canvas_width, height = self.canvas_height)
 		## population
 		self.grid()
 
@@ -43,27 +43,27 @@ class ThumbnailCanvas(Canvas):
 	in pillarbox mode or the full width in letterbox.
 	See preview_thumbnail() below for more info.
 	'''
-	def set_thumbnail_size(self, image_width, image_height):
+	def calculate_thumbnail_size(self, image_width, image_height):
 		if self.ratio_flag == "letterbox":
-			self.thumb_width = self.target_width
-			divisor = width / self.target_width ## always assume we're downsizing
+			self.thumb_width = self.canvas_width
+			divisor = image_width / self.canvas_width ## always assume we're downsizing
 			self.thumb_height = int(image_height / divisor)
 		elif self.ratio_flag == "pillarbox":
-			self.thumb_height = self.target_height
-			divisor = image_height / self.target_height
+			self.thumb_height = self.canvas_height
+			divisor = image_height / self.canvas_height
 			self.thumb_width = int(image_width / divisor)
 		else:
 			## ic()
 			pass
 		
-		## ic(self.thumb_width, self.thumb_height)
+		ic(self.thumb_width, self.thumb_height)
 
 	def set_image_placement(self):
-		if self.thumb_height == self.target_height: ## pillarbox mode
-			self.pillars = (self.target_width - self.thumb_width) / 2
+		if self.thumb_height == self.canvas_height: ## pillarbox mode
+			self.pillars = (self.canvas_width - self.thumb_width) / 2
 			self.letters = 0
-		elif self.thumb_width == self.target_width: ## letterbox mode
-			self.letters = (self.target_height - self.thumb_height) / 2
+		elif self.thumb_width == self.canvas_width: ## letterbox mode
+			self.letters = (self.canvas_height - self.thumb_height) / 2
 			self.pillars = 0
 		
 		## ic(self.pillars, self.letters)
@@ -83,7 +83,7 @@ class ThumbnailCanvas(Canvas):
 		## ic(self.ratio_flag)
 		
 		##- resize the image to fit within a 384x216 (thumbnail size) canvas
-		self.set_thumbnail_size(image_width, image_height)
+		self.calculate_thumbnail_size(image_width, image_height)
 		## set placement of the image within the black background
 		self.set_image_placement()
 		##- overlay image onto black rectangle for pillarbox or letterbox effect

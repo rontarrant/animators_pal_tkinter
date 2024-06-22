@@ -14,7 +14,7 @@ class FPSRadioSet(Labelframe):
 		super().__init__(parent, *args, **kwargs)
 		## attributes
 		self.config(text = "fps")
-		self.settings = APSettings.get_instance()
+		self.ap_settings = APSettings.get_instance()
 		var = IntVar() ## used in preferences
 		## child widgets
 		radio1 = Radiobutton(self, text = "18 fps", variable = var, value = 18)
@@ -34,10 +34,10 @@ class FPSRadioSet(Labelframe):
 		radio2.config(command = lambda: self.set_fps(var.get()))
 		radio3.config(command = lambda: self.set_fps(var.get()))
 		## default
-		var.set(self.settings.fps)
+		var.set(self.ap_settings.fps)
 	
 	def set_fps(self, value):
-		self.settings.fps = value
+		self.ap_settings.fps = value
 
 def main():
 	window = Window()
@@ -46,7 +46,7 @@ def main():
 class Window(Tk):
 	def __init__(self, *args, **kwargs):
 		super().__init__(*args, **kwargs)
-		settings = APSettings()
+		ap_settings = APSettings()
 		fps_radio_set = FPSRadioSet(self)
 		fps_radio_set.pack(ipadx = 20, ipady = 10)
 if __name__ == "__main__":

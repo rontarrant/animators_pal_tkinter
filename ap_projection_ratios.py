@@ -21,7 +21,7 @@ projection_ratios = {
 	{
 		"ratio": "21:9",
 	},
-	"Anamorphic Widescreen(239:100)": 
+	"Anamorphic Widescreen (239:100)": 
 	{
 		"ratio": "239:100",
 	},
@@ -40,16 +40,16 @@ if __name__ == "__main__":
 			print("\t", item, ":", specs)
 
 	## direct access
-	print(projection_ratios["CinemaScope"]["ratio"])
+	print(projection_ratios["CinemaScope (21:9)"]["ratio"])
 
 	## direct access to numerator and denominator
-	numerator, denominator = projection_ratios["CinemaScope"]["ratio"].split(":")
+	numerator, denominator = projection_ratios["Anamorphic Widescreen (239:100)"]["ratio"].split(":")
 	print("numerator: ", numerator, ", denominator: ", denominator)
 	## use of numerator and denominator
 	result = int(numerator) / int(denominator)
 	print("result: ", result)
 	
-	projection = "MGM 65"
+	projection = "MGM 65 (69:25)"
 	
 	print("projection: ", projection)
 	print("ratio: ", projection_ratios[projection]["ratio"])

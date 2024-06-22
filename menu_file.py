@@ -10,7 +10,6 @@ import sys
 from ap_image_collection import APImageCollection
 from ap_image import APImage
 from vdo_vw_canvas import VideoCanvas
-from ap_settings import *
 
 '''
 Dependency Injection
@@ -26,7 +25,6 @@ class FileMenu(Menu):
 		self.image_collection = APImageCollection.get_instance()
 		super().__init__(menubar)
 		items = self.index ## shortcut to item index
-		self.settings = APSettings.get_instance()
 		## CONFIGURE
 		self.assign_filetypes()
 		self.add_command(label = "New", command = self.file_new)
@@ -85,7 +83,7 @@ class FileMenu(Menu):
 		pass
 		
 	def file_save(self, event = None):
-		## ic()
+		ic()
 		if self.window.project_name == None:
 			## ic(self.window.project_name)
 			filedialog.asksaveasproject_name(filetypes = self.imagetypes)
@@ -136,10 +134,7 @@ class FileMenu(Menu):
 			## ic("collection image: ", index)
 		'''
 		video_canvas.show_next_frame(old_count) ## put 1st new frame in video_canvas
-		## store size of first new frame in settings
-		self.settings.image_width = self.image_collection.images[old_count].width
-		self.settings.image_height = self.image_collection.images[old_count].height
-		image_size_set.update(self.settings.image_width, self.settings.image_height)
+		image_size_set.update(image.width, image.height)
 		build_new_image_list(difference)
 
 		## testing

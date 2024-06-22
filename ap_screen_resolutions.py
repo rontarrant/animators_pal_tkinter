@@ -33,7 +33,7 @@ screen_resolutions = {
 			"width": 7680,
 			"height": 3291
 		},
-		"Anamorphic Widescreen(239:100)": 
+		"Anamorphic Widescreen (239:100)": 
 		{
 			"displacement": 553,
 			"width": 7680,
@@ -80,7 +80,7 @@ screen_resolutions = {
 			"width": 3840,
 			"height": 1646
 		},
-		"Anamorphic Widescreen": 
+		"Anamorphic Widescreen (239:100)": 
 		{
 			"displacement": 277,
 			"width": 3840,
@@ -127,7 +127,7 @@ screen_resolutions = {
 			"width": 1920,
 			"height": 823
 		},
-		"Anamorphic Widescreen": 
+		"Anamorphic Widescreen (239:100)": 
 		{
 			"displacement": 138,
 			"width": 1920,
@@ -174,7 +174,7 @@ screen_resolutions = {
 			"width": 1280,
 			"height": 549
 		},
-		"Anamorphic Widescreen": 
+		"Anamorphic Widescreen (239:100)": 
 		{
 			"displacement": 92,
 			"width": 1280,

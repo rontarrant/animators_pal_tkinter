@@ -10,7 +10,7 @@ class DirectionRadioSet(Labelframe):
 		## instance
 		self.config(text = "direction")
 		var = IntVar() ## used in preferences
-		self.settings = APSettings.get_instance()
+		self.ap_settings = APSettings.get_instance()
 		## child widgets
 		radio1 = Radiobutton(self, text = "Forward", variable = var, value = 1)
 		radio2 = Radiobutton(self, text = "Reverse", variable = var, value = -1)
@@ -24,10 +24,10 @@ class DirectionRadioSet(Labelframe):
 		## bind callbacks
 		radio1.config(command = lambda: self.set_direction(var.get()))
 		radio2.config(command = lambda: self.set_direction(var.get()))
-		var.set(self.settings.direction)
+		var.set(self.ap_settings.direction)
 		
 	def set_direction(self, value):
-		self.settings.direction = value
+		self.ap_settings.direction = value
 	
 ## testing
 def main():
@@ -37,7 +37,7 @@ def main():
 class Window(Tk):
 	def __init__(self, *args, **kwargs):
 		super().__init__(*args, **kwargs)
-		self.settings = APSettings()
+		self.ap_settings = APSettings()
 		direction_radio_set = DirectionRadioSet(self)
 		direction_radio_set.pack(ipadx = 20, ipady = 10)
 

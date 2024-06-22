@@ -18,7 +18,12 @@ class MainFrame(Frame):
 		self.ui_ready = UIReady.get_instance()
 		# populate
 		video_mim_frame = VideoMiMFrame(self)
-		preview_mim_frame = PreviewMiMFrame(self)
+		'''
+		for child in self.nametowidget(self).winfo_children():
+			print(child)
+		'''
+		image_size_set = self.nametowidget(".!mainframe.!videomimframe.!videosettingsframe.!videoimageinfoset.!imagesizeset")
+		preview_mim_frame = PreviewMiMFrame(self, image_size_set)
 		
 		# layout
 		## set the row and column minimum sizes

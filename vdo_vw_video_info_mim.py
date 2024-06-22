@@ -24,6 +24,7 @@ from vdo_vw_set_projection import *
 from vdo_vw_set_pillar_displacement import *
 from vdo_vw_set_letterbox_displacement import *
 from vdo_vw_set_image_size_original import *
+from ap_image_collection import APImageCollection
 from ui_ready import *
 
 ## for debugging
@@ -37,6 +38,7 @@ class VideoImageInfoSet(Frame):
 		self.padx_east = 5
 		self.padx_west = 7
 		self.settings = APSettings.get_instance()
+		self.image_collection = APImageCollection.get_instance()
 		self.ui_ready = UIReady.get_instance()
 		
 		super().__init__(parent)
@@ -69,7 +71,6 @@ class VideoImageInfoSet(Frame):
 		self.ui_ready.ui_ready = True
 
 	def post_info(self):
-		ic()
 		## look up width & height using resolution in screen_resolutions
 		## look up projection using resolution in screen_resolutions
 		## ic(self.settings.resolution, self.settings.projection)
@@ -91,9 +92,10 @@ class VideoImageInfoSet(Frame):
 			self.pillar_set.update(self.settings.pillar_displacement)
 			## ic(self.settings.letterbox_displacement)
 			## look up original image width & height in:
-			self.image_size_set.update(self.image_collection.images.width, self.image_collection.images.height)
+			## self.image_size_set.update(self.settings.image_width, self.settings.image_height)
 			##	image_collection.images.width & image_collection.images.height
 			## fill in image width & height settings
+		##ic(self.settings.resolution, self.settings.projection, resolution[self.settings.projection])
 
 ## testing
 if __name__ == "__main__":

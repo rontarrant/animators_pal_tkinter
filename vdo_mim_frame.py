@@ -16,7 +16,7 @@ class VideoMiMFrame(Frame):
 		super().__init__(parent)
 		## external stuff needed for playback
 		self.ap_image_collection = APImageCollection.get_instance()
-		self.settings = APSettings.get_instance()
+		self.ap_settings = APSettings.get_instance()
 		self.flags = APVideoFlags.get_instance()
 		
 		## local playback criteria
@@ -36,18 +36,18 @@ class VideoMiMFrame(Frame):
 			self.grid_columnconfigure(column, minsize = 128)
 		
 		## CHILDREN
-		self.video_settings_frame = VideoSettingsFrame(self)
+		self.video_ap_settings_frame = VideoSettingsFrame(self)
 		self.video_canvas = VideoCanvas(self)
 		self.video_controls = VideoControlsFrame(self, self.playback_control, self.reset_last_frame, self.get_current_frame)
 		
 		## LAYOUT
-		self.video_settings_frame.grid(row = 0, column = 0, rowspan = 2, columnspan = 10, sticky = (N, E, W, S))
+		self.video_ap_settings_frame.grid(row = 0, column = 0, rowspan = 2, columnspan = 10, sticky = (N, E, W, S))
 		self.video_canvas.grid(row = 2, column = 0, rowspan = 10, columnspan = 10, sticky = (N, E, W, S))
 		self.video_controls.grid(row = 12, column = 0, columnspan = 10, sticky = (N, E, W, S))
 		
 	def playback_control(self, button_id):
-		## ic(self.video_controls.mode, self.current_frame, self.settings.delay, self.settings.shoot_on, self.LAST_FRAME)
-		self.shoot_on = self.settings.shoot_on
+		## ic(self.video_controls.mode, self.current_frame, self.ap_settings.delay, self.ap_settings.shoot_on, self.LAST_FRAME)
+		self.shoot_on = self.ap_settings.shoot_on
 		##ic(self.shoot_on)
 		
 		match button_id:
@@ -121,14 +121,14 @@ class VideoMiMFrame(Frame):
 				match self.shoot_on:
 					case 0:
 						self.current_frame += 1
-						self.shoot_on = self.settings.shoot_on
+						self.shoot_on = self.ap_settings.shoot_on
 						##ic(self.shoot_on, self.current_frame)
 					case _:
 						self.shoot_on -= 1
 						##ic(self.shoot_on, self.current_frame)
 
 				self.video_canvas.show_next_frame(self.current_frame)
-				self.after_id = self.winfo_toplevel().after(self.settings.delay, self.play_forward)
+				self.after_id = self.winfo_toplevel().after(self.ap_settings.delay, self.play_forward)
 				## ic(self.current_frame, self.video_controls.mode)
 				
 		## ic(self.current_frame)
@@ -150,13 +150,13 @@ class VideoMiMFrame(Frame):
 				case 0:
 					# add 1 if playing forward, -1 if playing reverse
 					self.current_frame += self.bounce_direction
-					self.shoot_on = self.settings.shoot_on
+					self.shoot_on = self.ap_settings.shoot_on
 					##ic(self.shoot_on, self.current_frame)
 				case _:
 					self.shoot_on -= 1
 					##ic(self.shoot_on, self.current_frame)
 					
-			self.after_id = self.winfo_toplevel().after(self.settings.delay, self.play_bounce)  # Approximately 24 frames per second
+			self.after_id = self.winfo_toplevel().after(self.ap_settings.delay, self.play_bounce)  # Approximately 24 frames per second
 			
 		## ic(self.current_frame)
 
