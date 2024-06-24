@@ -79,7 +79,7 @@ class APSettings():
 		APSettings._pillar_displacement = IntVar(value = 0)
 		APSettings._pillar_displacement_default = IntVar(value = 0)
 		APSettings._letterbox_displacement = IntVar(value = 0)
-		APSettings._leterbox_displacement_default = IntVar(value = 0)
+		APSettings._letterbox_displacement_default = IntVar(value = 0)
 
 	@property
 	def direction(self):

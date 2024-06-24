@@ -6,8 +6,9 @@ Images are loaded as OpenCV data, then converted to pillow
 and tkinter (tk_image) formats. All three are persistent.
 '''
 
-from PIL import Image, ImageTk
-from tkinter import Tk ## This must be limited so we don't replace PIL's Image class
+import PIL.Image
+import PIL.ImageTk
+from tkinter import Tk
 from tkinter import Canvas
 
 ## local
@@ -55,7 +56,7 @@ class APImageCollection():
 		## ic("cv: ", image.cv_image)
 		pass
 		
-	def remove(self, image_name: str, data: ImageTk.PhotoImage):
+	def remove(self, image_name: str, data: PIL.ImageTk.PhotoImage):
 		pass
 	
 	def sort(self):

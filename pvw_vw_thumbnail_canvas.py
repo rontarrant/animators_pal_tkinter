@@ -4,12 +4,13 @@ Displays a TKImage selected in the Treeview (and stored in APImageCollection)
 as a thumbnail. 
 '''
 
+import PIL.Image
+import PIL.ImageTk
 from tkinter import *
 from tkinter.ttk import *
 
 ## local
 from ap_image_collection import APImageCollection
-from PIL import Image, ImageTk
 
 class ThumbnailCanvas(Canvas):
 
@@ -55,8 +56,6 @@ class ThumbnailCanvas(Canvas):
 		else:
 			## ic()
 			pass
-		
-		ic(self.thumb_width, self.thumb_height)
 
 	def set_image_placement(self):
 		if self.thumb_height == self.canvas_height: ## pillarbox mode
@@ -90,7 +89,7 @@ class ThumbnailCanvas(Canvas):
 		## ic(self.thumb_width, self.thumb_height)
 		self.pillow_thumbnail_image = image.pillow_image.resize((self.thumb_width, self.thumb_height))
 		## ic(self.pillow_thumbnail_image)
-		self.thumbnail_image = ImageTk.PhotoImage(self.pillow_thumbnail_image)
+		self.thumbnail_image = PIL.ImageTk.PhotoImage(self.pillow_thumbnail_image)
 		## ic(self.thumbnail_image)
 		self.create_rectangle(0, 0, 384, 216, fill = "black")
 		self.create_image(self.pillars, self.letters, anchor = 'nw', image = self.thumbnail_image)

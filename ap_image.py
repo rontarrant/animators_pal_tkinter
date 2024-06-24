@@ -20,14 +20,15 @@ Special FX may consist of:
 
 '''
 TODO:
-	Somehow, the display_image isn't being resized to fit 1280x720.
+	Somehow, the image_4_display isn't being resized to fit 1280x720.
 	Start by printing the sizes at various stages.
 '''
 import os
 import cv2
 import sys ## for testing only
-from PIL import Image, ImageTk
-from tkinter import Tk ## This must be limited so we don't replace PIL's Image class
+import PIL.Image
+import PIL.ImageTk
+from tkinter import Tk
 from tkinter import Canvas
 
 ## local
@@ -41,31 +42,35 @@ class APImage():
 	def __init__(self, full_path_and_file):
 		## image data
 		self._pillow_image = None
-		self._display_image = None
+		self._image_4_display = None
 		self._cv_image = None
-		self.pillars = 0
-		self.letters = 0
+		self.pillarboxing_width = 0
+		self.letterboxing_height = 0
 		self.canvas_width = 1280
 		self.canvas_height = 720
 		self.display_width = 0
 		self.display_height = 0
+		
 		## storage data
 		self._file_name = ""
 		self._path = ""
+
 		## store file name and path
 		self.file_name = os.path.split(full_path_and_file)[1]
 		self.path = os.path.split(full_path_and_file)[0]
 		## internal image data types
-		self.pillow_image = Image.open(os.path.join(self.path, self.file_name))
+		self.pillow_image = PIL.Image.open(os.path.join(self.path, self.file_name))
 		self.cv_image = cv2.imread(os.path.join(self.path, self.file_name))
+		
 		## width, height, and width-to-height ratio (to determine letterbox or pillarbox)
 		shape = self.cv_image.shape
 		self.width = shape[1]
 		self.height = shape[0]
 		self.ratio_flag = ""
 		self.set_ratio()
+		
 		## put the first image in the newly-loaded series on display in the player
-		self.display_image = self.image_display()
+		self.image_4_display = self.build_image_4_display()
 
 	'''
 	Calculate the size of the displayed image based on whether it's
@@ -74,7 +79,7 @@ class APImage():
 	The display canvas has a 16:9 ratio, but these calculations
 	will resize any other aspect ratio to fit either the full height
 	in pillarbox mode or the full width in letterbox.
-	See image_display() below for more info.
+	See build_image_4_display() below for more info.
 	'''
 	def calculate_display_size(self, image_width, image_height):
 		if self.ratio_flag == "letterbox":
@@ -91,24 +96,28 @@ class APImage():
 
 	def set_image_placement(self):
 		if self.display_height == self.canvas_height: ## pillarbox mode
-			self.pillars = (self.canvas_width - self.display_width) / 2
-			self.letters = 0
+			self.pillarboxing_width = int((self.canvas_width - self.display_width) / 2)
+			self.letterboxing_height = 0
 		elif self.display_width == self.canvas_width: ## letterbox mode
-			self.letters = (self.canvas_height - self.display_height) / 2
-			self.pillars = 0
-
-	def image_display(self):
+			self.letterboxing_height = int((self.canvas_height - self.display_height) / 2)
+			self.pillarboxing_width = 0
+			
+	def build_image_4_display(self):
 		## get the original width and height of the image
 		image_width, image_height = self.dimensions
 		
+		## Resize the original image so it'll fit in the display while respecting 
+		## its aspect ratio.
 		self.calculate_display_size(image_width, image_height)
 		resized_original = self.pillow_image.resize((self.display_width, self.display_height))
+		
 		## set placement of the image within the black background
 		self.set_image_placement()
+		
 		##- overlay image onto black rectangle for pillarbox or letterbox effect
-		composite_image = Image.new("RGB", (self.canvas_width, self.canvas_height), color = 'black')
-		composite_image.paste(resized_original, (int(self.pillars), int(self.letters)))
-		self.display_image = ImageTk.PhotoImage(composite_image)
+		composite_image = PIL.Image.new("RGB", (self.canvas_width, self.canvas_height), color = 'black')
+		composite_image.paste(resized_original, (int(self.pillarboxing_width), int(self.letterboxing_height)))
+		self.image_4_display = PIL.ImageTk.PhotoImage(composite_image)
 
 	@property
 	def pillow_image(self):
@@ -120,14 +129,14 @@ class APImage():
 			self._pillow_image = value
 		
 	@property
-	def display_image(self):
-		return self._display_image
+	def image_4_display(self):
+		return self._image_4_display
 	
-	@display_image.setter
-	def display_image(self, value):
+	@image_4_display.setter
+	def image_4_display(self, value):
 		## we don't use any() here because a TKImage isn't a data array
 		if value:
-			self._display_image = value
+			self._image_4_display = value
 		
 	@property
 	def cv_image(self):
@@ -254,7 +263,7 @@ if __name__ == "__main__":
 	## ic(my_ap_image.path)
 	## ic(my_ap_image.width, my_ap_image.height)
 	#my_ap_image.convert_cv_to_tk()
-	## ic(my_ap_image.display_image.width(), my_ap_image.display_image.height())
-	## ic(type(my_ap_image.display_image))
-	canvas.create_image(0, 0, anchor = "nw", image = my_ap_image.display_image)
+	## ic(my_ap_image.image_4_display.width(), my_ap_image.image_4_display.height())
+	## ic(type(my_ap_image.image_4_display))
+	canvas.create_image(0, 0, anchor = "nw", image = my_ap_image.image_4_display)
 	window.mainloop()

@@ -53,7 +53,7 @@ class VideoCanvas(Canvas):
 		## the fastest possible draw time for each frame.
 		## ic(frame_num)
 		self.delete(ALL)
-		self.create_image(0, 0, anchor = "nw", image = self.image_collection.images[frame_num].display_image)
+		self.create_image(0, 0, anchor = "nw", image = self.image_collection.images[frame_num].image_4_display)
 		'''
 		Keep the following comment until the delay stuff is worked out.
 		'''
