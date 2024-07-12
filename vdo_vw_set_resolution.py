@@ -23,7 +23,7 @@ class ResolutionSet(Frame):
 		self.ui_ready = UIReady.get_instance()
 
 		## populate
-		self.label = Label(self, text = "Resolution")
+		self.label = Label(self, text = "Resolution (Size)")
 		## default: arg #3
 		self.option_menu = OptionMenu(self, self.selection, self.options[2], *self.options)
 		

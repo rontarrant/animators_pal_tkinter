@@ -18,7 +18,7 @@ class FileTreeview(Treeview):
 		super().__init__(parent)
 		self.grid()
 		## make sure we have a collection of images
-		self.image_collection = APImageCollection.get_instance()
+		self.ap_image_collection = APImageCollection.get_instance()
 
 		## total width: 380
 		column_specs = {
@@ -55,7 +55,7 @@ class FileTreeview(Treeview):
 		## get the full path and image file name
 		row_number = self.index(self.selection()[0])
 		## ic(self.index(self.selection()[0]))
-		current_image = self.image_collection.images[row_number]
+		current_image = self.ap_image_collection.images[row_number]
 		image_size_set.update(current_image.width, current_image.height)
 		letterbox_displacement_set.update(current_image.letterboxing_height)
 		pillarbox_displacement_set.update(current_image.pillarboxing_width)
@@ -67,7 +67,7 @@ class FileTreeview(Treeview):
 	to the Treeview each time we add new images.
 	
 	Previously-added image file names are already in
-	the image_collection. So, we find the end of the list, and
+	the ap_image_collection. So, we find the end of the list, and
 	do a bit of simple math to find out where the new file names
 	will be added.
 	'''
@@ -75,11 +75,11 @@ class FileTreeview(Treeview):
 		## start with an empty list of images to add
 		data = []
 		## number of images already in the collection
-		count = len(self.image_collection.images)
+		count = len(self.ap_image_collection.images)
 		
 		## To get the file names to add,
 		## look at each image in the collection...
-		for image in self.image_collection.images:
+		for image in self.ap_image_collection.images:
 			## This keeps us from re-adding pre-existing
 			## images for a second time.
 			if count > new_file_count:

@@ -35,7 +35,7 @@ class VideoCanvas(Canvas):
 		self.parent = parent
 		## instantiation
 		super().__init__(parent)
-		self.image_collection = APImageCollection.get_instance()
+		self.ap_image_collection = APImageCollection.get_instance()
 		## configure
 		self.config(bg = self.colour, width = self.width, height = self.height)
 		self.delay = self.fps2ms(self.fps)
@@ -46,18 +46,21 @@ class VideoCanvas(Canvas):
 		return value
 
 	def show_next_frame(self, frame_num):
-		## When a frame is drawn, canvas adds it to a queue.
-		## Each time a new frame is drawn, canvas draws every
-		## frame in the queue before drawing the new frame.
-		## The following line clears the queue so we get 
-		## the fastest possible draw time for each frame.
+		'''
+		When a frame is drawn, Canvas adds it to a queue.
+		Each time a new frame is drawn, canvas draws every
+		frame in the queue before drawing the new frame.
+		This causes the player to get slower and slower
+		because each time it adds a new frame to the queue
+		(and subsequently redraws every frame in the queue)
+		playback gets slower and slower until it turns into
+		an agonizingly-slow slideshow.
+		The following line clears the queue so we get 
+		the fastest possible draw time for each frame.
+		'''
 		## ic(frame_num)
 		self.delete(ALL)
-		self.create_image(0, 0, anchor = "nw", image = self.image_collection.images[frame_num].image_4_display)
-		'''
-		Keep the following comment until the delay stuff is worked out.
-		'''
-		# self.winfo_toplevel().after(self.delay, self.show_next_frame, (frame_num + 1) % len(self.image_collection.images))
+		self.create_image(0, 0, anchor = "nw", image = self.ap_image_collection.images[frame_num].image_4_display)
 
 ## testing
 if __name__ == "__main__":

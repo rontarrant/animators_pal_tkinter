@@ -23,4 +23,3 @@ class Menubar(Menu):
 		## POPULATE
 		self.add_cascade(menu = self.file_menu, label = self.file_menu.label_text)
 		self.add_cascade(menu = self.help_menu, label = self.help_menu.label_text)
-		

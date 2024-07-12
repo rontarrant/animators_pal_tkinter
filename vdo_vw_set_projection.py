@@ -14,7 +14,7 @@ class ProjectionSet(Frame):
 		self.settings = APSettings.get_instance()
 		self.post_info = post_info
 		self.ui_ready = UIReady.get_instance()
-
+		default = 1
 		self.columnconfigure(0, minsize = 260)
 		self.columnconfigure(1, minsize = 260)
 		self.options = [] ## empty list
@@ -22,8 +22,8 @@ class ProjectionSet(Frame):
 		self.selection = StringVar() ## instantiate associated variable
 		self.selection.trace_add("write", self.set_projection) ## same as binding a callback
 		## instantiate menu & set default (arg #3)
-		self.label = Label(self, text = "Projection Size")
-		self.option_menu = OptionMenu(self, self.selection, self.options[2], *self.options)
+		self.label = Label(self, text = "Projection Ratio")
+		self.option_menu = OptionMenu(self, self.selection, self.options[default], *self.options)
 		self.label.grid(column = 0, row = 0, sticky = E, padx = padx)
 		self.option_menu.grid(column = 1, row = 0, sticky = W, padx = padx)
 		

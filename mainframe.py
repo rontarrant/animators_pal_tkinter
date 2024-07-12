@@ -28,10 +28,10 @@ class MainFrame(Frame):
 						print("great: ", greatgrandchild)
 						print("greatgreat:", greatgreat)
 		'''
-		image_size_set = self.nametowidget(".!mainframe.!videomimframe.!videosettingsframe.!videoimageinfoset.!imagesizeset")
+		self.image_size_set = self.nametowidget(".!mainframe.!videomimframe.!videosettingsframe.!videoimageinfoset.!imagesizeset")
 		pillarbox_displacement_set = self.nametowidget(".!mainframe.!videomimframe.!videosettingsframe.!videoimageinfoset.!pillardisplacementset")
 		letterbox_displacement_set = self.nametowidget(".!mainframe.!videomimframe.!videosettingsframe.!videoimageinfoset.!letterboxdisplacementset")
-		preview_mim_frame = PreviewMiMFrame(self, image_size_set, pillarbox_displacement_set, letterbox_displacement_set)
+		preview_mim_frame = PreviewMiMFrame(self, self.image_size_set, pillarbox_displacement_set, letterbox_displacement_set)
 		
 		# layout
 		## set the row and column minimum sizes

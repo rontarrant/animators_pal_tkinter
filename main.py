@@ -30,6 +30,11 @@ class Window(Tk):
 	def __init__(self, *args, **kwargs):
 		working_dir = os.path.abspath(os.path.dirname(sys.argv[0]))
 		super().__init__(*args, **kwargs)
+		
+		self.ap_settings = APSettings.get_instance()
+		## open the window in the same position it was last closed
+		self.load_window_position()
+		self.protocol("WM_DELETE_WINDOW", self.on_close)
 
 		## ATTRIBUTE stuff
 		self.windowing_system = self.tk.call('tk', 'windowingsystem')
@@ -40,8 +45,8 @@ class Window(Tk):
 		mainframe = MainFrame(self)
 		'''
 		## nametowidget() retrieves an object or method by reference. Here, it's used
-		## to set up dependency injection (although, it's unclear if we're violating
-		## other OOP principals by doing things this way).
+		## to set up dependency injection (although, I'm unsure if I'm violating
+		## other OOP principals by doing it this way).
 		## In this instance, we reference two objects and a method:
 		## - image_size_set,
 		## - video_canvas, and
@@ -55,7 +60,7 @@ class Window(Tk):
 			print(child)
 		'''
 		video_canvas = self.nametowidget(".!mainframe.!videomimframe").video_canvas
-		image_size_set = self.nametowidget(".!mainframe.!videomimframe.!videosettingsframe.!videoimageinfoset.!imagesizeset")
+		image_size_set = mainframe.image_size_set
 		build_new_image_list = self.nametowidget(".!mainframe.!previewmimframe").build_new_image_list
 		self._menubar = Menubar(self, video_canvas, image_size_set, build_new_image_list)
 
@@ -68,6 +73,20 @@ class Window(Tk):
 		## titlebar icon
 		photo = PhotoImage(file = os.path.join(working_dir, "images/bobby_bowtie_icon60x.png"))
 		self.iconphoto(True, photo)
+		
+	def save_window_position(self):
+		x = self.winfo_x()
+		y = self.winfo_y()
+		self.ap_settings.window_position = {'x': x, 'y': y}
+		self.ap_settings.save_settings()
+	
+	def load_window_position(self):
+		pos = self.ap_settings.window_position
+		self.geometry(f"+{pos['x']}+{pos['y']}")
+
+	def on_close(self):
+		self.save_window_position()
+		self.destroy()
 
 if __name__ == "__main__":
 	main()

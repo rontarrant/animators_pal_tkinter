@@ -37,7 +37,7 @@ class NumericSpinbox(Spinbox):
 		super().__init__(parent)
 		# object attributes
 		self.parent = parent
-		self.settings = APSettings()
+		self.settings = APSettings.get_instance()
 		# configure
 		self.config(from_ = 1, to = 9, increment = 1) # range and step
 		self.config(textvariable = var)

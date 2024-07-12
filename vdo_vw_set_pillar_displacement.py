@@ -30,8 +30,8 @@ def main():
 class Window(Tk):
 	def __init__(self, *args, **kwargs):
 		super().__init__(*args, **kwargs)
-		pillar_displacement_set = PillarDisplacementSet(self, 10, 20)
-		pillar_displacement_set.pack(ipadx = 20, ipady = 10)
+		pillarbox_displacement_set = PillarDisplacementSet(self, 10, 20)
+		pillarbox_displacement_set.pack(ipadx = 20, ipady = 10)
 
 if __name__ == "__main__":
 	main()

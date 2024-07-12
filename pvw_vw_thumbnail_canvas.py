@@ -30,7 +30,7 @@ class ThumbnailCanvas(Canvas):
 		## configure
 		super().__init__(parent, width = self.canvas_width, height = self.canvas_height, bg = self.colour)
 		self.parent = parent
-		self.image_collection = APImageCollection.get_instance()
+		self.ap_image_collection = APImageCollection.get_instance()
 		self.config(width = self.canvas_width, height = self.canvas_height)
 		## population
 		self.grid()
@@ -71,7 +71,7 @@ class ThumbnailCanvas(Canvas):
 		## ic(image_number)
 		
 		## In the collection, find the image we want to thumbnail.
-		image = self.image_collection.images[image_number]
+		image = self.ap_image_collection.images[image_number]
 		## ic(image.full_path)
 		
 		## get the width and height of the image

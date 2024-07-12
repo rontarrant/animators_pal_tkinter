@@ -18,11 +18,6 @@ Special FX may consist of:
 	- inpaint (restore) (v. 2).
 '''
 
-'''
-TODO:
-	Somehow, the image_4_display isn't being resized to fit 1280x720.
-	Start by printing the sizes at various stages.
-'''
 import os
 import cv2
 import sys ## for testing only

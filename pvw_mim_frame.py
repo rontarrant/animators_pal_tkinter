@@ -2,8 +2,6 @@
 pvw_mim_frame.py
 Logic that goes between the preview data and view
 '''
-from ap_image_collection import *
-
 from pvw_vw_file_treeview import *
 from pvw_vw_thumbnail_canvas import *
 
@@ -24,7 +22,6 @@ class PreviewMiMFrame(Frame):
 		## view classes (decide which [if any] methods need to be passed to these)
 		self.thumbnail_canvas = ThumbnailCanvas(self)
 		self.file_treeview = FileTreeview(self, column_count, self.thumbnail_canvas.preview_thumbnail, image_size_set, pillarbox_displacement_set, letterbox_displacement_set)
-		##letterbox_displacement_set, letterbox_displacement, pillarbox_displacement_set, pillarbox_displacement)
 
 		## insert frames for each window area
 		self.file_treeview.grid(row = 0, column = 0, rowspan = 10, columnspan = 3, sticky = (N, E, W, S))

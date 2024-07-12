@@ -1,16 +1,12 @@
-## Python
 import os
-import sys
-## tkinter
-from tkinter import *
-from tkinter.ttk import *
+import json
+from tkinter import IntVar, StringVar
 
 ## for debugging
 from icecream import install
 install()
 ic.configureOutput(includeContext = True)
 
-## local
 from ap_constants import *
 '''
 Following is a list of the class properties in APSettings:
@@ -45,41 +41,80 @@ _image_height:
 	: possible range: anything up to the dimensions of a digital photo
 	: defaults: N/A
 '''
-class APSettings():
+
+class APSettings:
 	# Create a private class attribute to store the single instance
 	__instance = None
-	
+
 	@staticmethod
 	def get_instance():
-		"""
-		Static method to access the single instance of APSettings
-		"""
+		"""Static method to access the single instance of APSettings"""
 		if APSettings.__instance is None:
 			APSettings.__instance = APSettings()
-
 		return APSettings.__instance
 
 	def __init__(self, *args, **kwargs):
-		## Use the name of the class to declare class variables
-		## within a class method.
-		## use the 'value' keyword to avoid error:
-		##   object has no attribute '_root'
-		APSettings._direction = IntVar(value = AP_FORWARD)
-		APSettings._direction_default = IntVar(value = AP_FORWARD)
-		APSettings._shoot_on = IntVar(value = 1)
-		APSettings._shoot_on_default = IntVar(value = 1)
-		APSettings._fps = IntVar(value = 24)
-		APSettings._fps_default = IntVar(value = 24)
-		APSettings._delay = int(round(1000 / 24))
+		if APSettings.__instance is not None:
+			raise Exception("This class is a singleton!")
+		else:
+			APSettings.__instance = self
 		
-		APSettings._resolution = StringVar(value = "1080p (1920x1080)")
-		APSettings._resolution_default = StringVar(value = "1080p (1920x1080)")
-		APSettings._projection = StringVar(value = "HDTV (16:9)")
-		APSettings._projection_default = StringVar(value = "HDTV (16:9)")
-		APSettings._pillar_displacement = IntVar(value = 0)
-		APSettings._pillar_displacement_default = IntVar(value = 0)
-		APSettings._letterbox_displacement = IntVar(value = 0)
-		APSettings._letterbox_displacement_default = IntVar(value = 0)
+		self.settings_file = "settings.json"
+
+		# Initialize default values
+		self._window_position = {'x': 100, 'y': 100}
+		self._last_opened_folder = '.'
+
+		self._direction = IntVar(value=AP_FORWARD)
+		self._direction_default = IntVar(value=AP_FORWARD)
+		self._shoot_on = IntVar(value=1)
+		self._shoot_on_default = IntVar(value=1)
+		self._fps = IntVar(value=24)
+		self._fps_default = IntVar(value=24)
+		self._delay = int(round(1000 / 24))
+
+		self._resolution = StringVar(value="1080p (1920x1080)")
+		self._resolution_default = StringVar(value="1080p (1920x1080)")
+		self._projection = StringVar(value="HDTV (16:9)")
+		self._projection_default = StringVar(value="HDTV (16:9)")
+		self._pillar_displacement = IntVar(value=0)
+		self._pillar_displacement_default = IntVar(value=0)
+		self._letterbox_displacement = IntVar(value=0)
+		self._letterbox_displacement_default = IntVar(value=0)
+
+		self.load_settings()
+
+	def save_settings(self):
+		self.ap_settings['window_position'] = self._window_position
+		self.ap_settings['last_opened_folder'] = self._last_opened_folder
+		with open(self.settings_file, "w") as file:
+			json.dump(self.ap_settings, file)
+
+	def load_settings(self):
+		if os.path.exists(self.settings_file):
+			with open(self.settings_file, "r") as file:
+				self.ap_settings = json.load(file)
+			self._window_position = self.ap_settings.get('window_position', self._window_position)
+			self._last_opened_folder = self.ap_settings.get('last_opened_folder', self._last_opened_folder)
+		else:
+			self.ap_settings = {}
+
+	@property
+	def window_position(self):
+		return self._window_position
+
+	
+	@window_position.setter
+	def window_position(self, pos):
+		self._window_position = pos
+
+	@property
+	def last_opened_folder(self):
+		return self._last_opened_folder
+	
+	@last_opened_folder.setter
+	def last_opened_folder(self, folder):
+		self._last_opened_folder = folder
 
 	@property
 	def direction(self):
@@ -181,37 +216,4 @@ class APSettings():
 	def fps2ms(self, fps):
 		value = int(round(1000 / fps))
 		return value
-
-## testing
-if __name__ == "__main__":
-	## a window has to exist to use tkinter variables,
-	## but doesn't have to be used 
-	root = Tk()
-	settings = APSettings()
-	print("test direction:")
-	settings.direction = -2
-	print("\tsetting to -2: ", settings.direction)
-	settings.direction = -1
-	print("\tsetting to -1: ", settings.direction)
-
-	print("test shoot_on:")
-	settings.shoot_on = 9
-	print("\tsetting to 9: ", settings.shoot_on)
-	settings.shoot_on = -2
-	print("\tsetting to -2: ", settings.shoot_on)
-
-	print("test fps:")
-	settings.fps = 37
-	print("\tsetting to 37: ", settings.fps)
-	settings.fps = 18
-	print("\tsetting to 18:", settings.fps)
-
-	print("test pillar displacement:")
-	settings.pillar_displacement = 870
-	print("\tset to 870 - " + str(settings.pillar_displacement))
-
-	print("test resolution:")
-	settings.resolution = "8k"
-	print("\tset to 8k: ", settings.resolution)
-
-
+   
