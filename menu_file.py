@@ -104,7 +104,7 @@ class FileMenu(Menu):
 		easier to add to the image	list if it's an actual Python list.
 		So, the dialog results are assigned to a temp variable first.
 		Then a for loop append()s each image to the image_files variable.
-		This opens us up to appending multiple image sequences together
+		This opens us up to appending multiple image sequences
 		from multiple sources to create a longer animation. In fact,
 		the same sequence can be added over and over, if desired.
 		'''
@@ -117,11 +117,10 @@ class FileMenu(Menu):
 		## when you figure that shit out
 		initial_dir = self.ap_settings.last_opened_folder
 		temp = filedialog.askopenfilenames(filetypes = self.imagetypes, initialdir = initial_dir)
+		
 		if temp:
 			## ic("temp: \n", temp)
 			
-			## make sure we have a collection of images
-			self.ap_image_collection = APImageCollection()
 			## Find out how many images are already in the collection.
 			old_count = len(self.ap_image_collection.images)
 			
@@ -137,8 +136,8 @@ class FileMenu(Menu):
 
 			## now get the number of images in the collection again...
 			new_count = len(self.ap_image_collection.images)
-			## and find the difference, thus we know how many new images were added
-			difference = new_count - old_count
+			## and find the added_images_count, thus we know how many new images were added
+			added_images_count = new_count - old_count
 			## testing
 			'''
 			for index in self.ap_image_collection.images:
@@ -146,7 +145,7 @@ class FileMenu(Menu):
 			'''
 			video_canvas.show_next_frame(old_count) ## put 1st new frame in video_canvas
 			image_size_set.update(image.width, image.height)
-			build_new_image_list(difference)
+			build_new_image_list(added_images_count)
 
 			## testing
 			'''

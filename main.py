@@ -8,6 +8,7 @@ from tkinter.ttk import *
 ## local
 from mainframe import *
 from menu import *
+from ui_ready import *
 
 ## for debugging
 from icecream import install
@@ -30,8 +31,15 @@ class Window(Tk):
 	def __init__(self, *args, **kwargs):
 		working_dir = os.path.abspath(os.path.dirname(sys.argv[0]))
 		super().__init__(*args, **kwargs)
-		
+		# Get the UIReady instance and initialize it
+		self.ui_ready_instance = UIReady.get_instance()
+		self.ui_ready_instance.initialize(self)
+		self.ui_ready_instance.attach(self)
+
+		# Attach Settings as an observer
 		self.ap_settings = APSettings.get_instance()
+		self.ui_ready_instance.attach(self.ap_settings)
+		
 		## open the window in the same position it was last closed
 		self.load_window_position()
 		self.protocol("WM_DELETE_WINDOW", self.on_close)
@@ -43,22 +51,7 @@ class Window(Tk):
 
 		## POPULATION stuff
 		mainframe = MainFrame(self)
-		'''
-		## nametowidget() retrieves an object or method by reference. Here, it's used
-		## to set up dependency injection (although, I'm unsure if I'm violating
-		## other OOP principals by doing it this way).
-		## In this instance, we reference two objects and a method:
-		## - image_size_set,
-		## - video_canvas, and
-		## - build_new_image_list()
-		## These are passed to the menu system so they can be used in menu_file.add_images().
-		## The next two lines are here only so I don't forget how to list all children of abs
-		## widget (which comes in handy when you're trying to remember the differences in 
-		## how we programmers name things and how tkinter names them internally.)
 		
-		for child in self.nametowidget(".!mainframe.!videomimframe.!videosettingsframe.!videoimageinfoset.!imagesizeset").winfo_children():
-			print(child)
-		'''
 		video_canvas = self.nametowidget(".!mainframe.!videomimframe").video_canvas
 		image_size_set = mainframe.image_size_set
 		build_new_image_list = self.nametowidget(".!mainframe.!previewmimframe").build_new_image_list
@@ -73,6 +66,10 @@ class Window(Tk):
 		## titlebar icon
 		photo = PhotoImage(file = os.path.join(working_dir, "images/bobby_bowtie_icon60x.png"))
 		self.iconphoto(True, photo)
+		self.after(100, self.ui_ready_instance.check_ui_ready)
+		
+	def on_ui_ready(self):
+		self.ap_settings.load_settings()
 		
 	def save_window_position(self):
 		x = self.winfo_x()

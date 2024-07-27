@@ -1,22 +1,3 @@
-'''
-ap_image.py
-A class containing an image read by opencv.
-Properties are:
-	- file name,
-	- path,
-	- image data,
-	- dimensions, and
-	-	a list of special effects that are to be applied
-		to the image before rendering the final video.
-		
-Special FX may consist of:
-	- resize (v. 2),
-	- crop (v. 2),
-	- denoise (v. 3),
-	- flip horizontal (v. 3),
-	- flip vertical (v. 2), and/or
-	- inpaint (restore) (v. 2).
-'''
 
 import os
 import cv2
@@ -27,6 +8,8 @@ from tkinter import Tk
 from tkinter import Canvas
 
 ## local
+from ap_settings import APSettings
+from ap_projection_ratios import projection_ratios
 
 ## for debugging
 from icecream import install
@@ -35,6 +18,8 @@ ic.configureOutput(includeContext = True)
 
 class APImage():
 	def __init__(self, full_path_and_file):
+		## external
+		self.ap_settings = APSettings.get_instance()
 		## image data
 		self._pillow_image = None
 		self._image_4_display = None
@@ -53,6 +38,7 @@ class APImage():
 		## store file name and path
 		self.file_name = os.path.split(full_path_and_file)[1]
 		self.path = os.path.split(full_path_and_file)[0]
+		
 		## internal image data types
 		self.pillow_image = PIL.Image.open(os.path.join(self.path, self.file_name))
 		self.cv_image = cv2.imread(os.path.join(self.path, self.file_name))
@@ -68,6 +54,7 @@ class APImage():
 		self.image_4_display = self.build_image_4_display()
 
 	'''
+	calculate_display_size()
 	Calculate the size of the displayed image based on whether it's
 	in letterbox or pillarbox. The final image will fit on the 
 	display canvas, but will retain it's original aspect ratio.
@@ -96,11 +83,30 @@ class APImage():
 		elif self.display_width == self.canvas_width: ## letterbox mode
 			self.letterboxing_height = int((self.canvas_height - self.display_height) / 2)
 			self.pillarboxing_width = 0
-			
+	'''
+	REWRITE:
+	- create gray/gray chequerboard
+	- calculate the size of projection_ratio that will fit 1280x720
+	- create a black rectangle
+	- scale the image to fit projection_ratio
+	- create composite image
+	- add chequerboard to composite
+	- add projection rectangle to composite
+	- add image to composite
+	- assign final composite to self.image_4_display
+	- re-display current image (or first, whichever is possible)
+	'''
 	def build_image_4_display(self):
 		## get the original width and height of the image
 		image_width, image_height = self.dimensions
 		
+		## get the projection ratio from settings
+		projection_index = self.ap_settings.projection
+		## ic(projection_index)
+		term1 = projection_ratios[projection_index]["term1"]
+		term2 = projection_ratios[projection_index]["term2"]
+		## ic(term1, term2)
+		## ic(self.ap_settings.projection)
 		## Resize the original image so it'll fit in the display while respecting 
 		## its aspect ratio.
 		self.calculate_display_size(image_width, image_height)
@@ -114,6 +120,22 @@ class APImage():
 		composite_image.paste(resized_original, (int(self.pillarboxing_width), int(self.letterboxing_height)))
 		self.image_4_display = PIL.ImageTk.PhotoImage(composite_image)
 
+	'''
+	- get the original width and height of the image
+	- get resolution from settings (8k, 4k, 2k, 1080p, 720p)
+	- get the width and height of resolution from ap_screen_resolutions.py
+	- get the projection ratio from settings
+	- calculate the size of projection_ratio that will fit resolution
+	- create a black rectangle
+	- scale the image to fit projection_ratio
+	- create composite image
+	- add projection rectangle to composite
+	- add image to composite
+	- assign final composite to self.image_4_video
+	'''
+	def build_image_4_video(self):
+		pass
+		
 	@property
 	def pillow_image(self):
 		return self._pillow_image
@@ -193,17 +215,18 @@ class APImage():
 		if type(value) == str:
 			self._ratio_flag = value
 			
+	'''
+	set_ratio()
+	Given the width and height of the image, returns
+	a flag indicating whether it should be letterboxed
+	or pillarboxed.
+	If the result of the test is 1.78 or less,
+	we know the ratio is narrower than UHD (16:9), so
+	the flag will be set to "pillarbox". If it's 1.781
+	or more, the format is wider than UHD, so it'll be set
+	to "letterbox".
+	'''
 	def set_ratio(self):
-		'''
-		Given the width and height of the image, returns
-		a flag indicating whether it should be letterboxed
-		or pillarboxed.
-		If the result of the test is 1.78 or less,
-		we know the ratio is narrower than UHD (16:9), so
-		the flag will be set to "pillarbox". If it's 1.781
-		or more, the format wider than UHD, so it'll be set
-		to "letterbox".
-		'''
 		##- subtract height from width:
 		difference = self.width / self.height
 		## ic("difference: ", difference)
@@ -217,14 +240,9 @@ class APImage():
 		
 		## ic(self.ratio_flag)
 
-	def config_resolution(self):
-		##- configure resolution (8k, 4k, 2k, HD, etc.)
-		##	a) if pillar flag set, check height against available resolutions
-		##		pick the one whose height is closest, but not more than the image
+	def config_projection(self):
 		if self.ratio_flag == "pillarbox":
 			pass 
-		##	b) if letter flag is set, check width against available resolutions
-		##		pick the one whose width is closest, but not more than the image
 		pass
 
 	def resize(self):
@@ -251,7 +269,7 @@ if __name__ == "__main__":
 	canvas = Canvas(window, width = 1920, height = 1080)
 	canvas.pack()
 	## load an image
-	image_file_name = "D:/Documents/Programming/PythonCode/tkinter/animators_pal/image_sequence/Lisa_seq_01_0000.png"
+	image_file_name = "D:/Documents/Programming/PythonCode/tkinter/animators_pal/images HD/Lisa_seq_01_0000.png"
 	my_ap_image = APImage(image_file_name)
 	
 	## ic(my_ap_image.file_name)

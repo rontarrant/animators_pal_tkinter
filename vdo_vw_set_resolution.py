@@ -4,13 +4,12 @@ from tkinter.ttk import *
 ## locals
 from ap_screen_resolutions import *
 from ap_settings import *
-from ui_ready import *
 
 class ResolutionSet(Frame):
-	def __init__(self, parent, padx, post_info, *args, **kwargs):
+	def __init__(self, parent, padx, parent_update, *args, **kwargs):
 		super().__init__(parent, *args, **kwargs)
 		self.settings = APSettings.get_instance()
-		self.post_info = post_info
+		self.parent_update = parent_update
 		self.columnconfigure(0, minsize = 260)
 		self.columnconfigure(1, minsize = 260)
 
@@ -19,8 +18,6 @@ class ResolutionSet(Frame):
 		self.ghost_options = {}
 		self.build_options()
 		self.selection = StringVar()
-		self.selection.trace_add("write", self.set_resolution)
-		self.ui_ready = UIReady.get_instance()
 
 		## populate
 		self.label = Label(self, text = "Resolution (Size)")
@@ -45,16 +42,9 @@ class ResolutionSet(Frame):
 			## ic("option: ", option)
 			## ic("ghost_option: ", self.ghost_options)
 
-	def set_resolution(self, *args):
-		if self.ui_ready.ui_ready == False:
-			## ic(self.ui_ready.ui_ready)
-			return
-			
+	def update(self, *args):
 		self.settings.resolution = self.selection.get()
-		self.post_info()
-
-	def set_ui_ready(self):
-		self.ui_ready = True
+		self.parent_update()
 
 ## testing
 def main():

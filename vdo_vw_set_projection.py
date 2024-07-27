@@ -2,25 +2,30 @@
 from tkinter import *
 from tkinter.ttk import *
 
+'''
+To display projection changes, we need access to the image collection, and
+through it, access to all images. This would allow each image to be reformatted
+to fit the selected Projection settings.
+Whatever processing is done would also have to be done (based on Projection settings)
+when images are loaded as well (ie. in the FileMenu.add_images() method).
+'''
+
 ## local
 from ap_projection_ratios import *
 from ap_settings import *
-from ui_ready import *
 
 class ProjectionSet(Frame):
-	def __init__(self, parent, padx, post_info, *args, **kwargs):
+	def __init__(self, parent, padx, parent_update, *args, **kwargs):
 		super().__init__(parent, *args, **kwargs)
 		## build & configure options
 		self.settings = APSettings.get_instance()
-		self.post_info = post_info
-		self.ui_ready = UIReady.get_instance()
+		self.parent_update = parent_update
 		default = 1
 		self.columnconfigure(0, minsize = 260)
 		self.columnconfigure(1, minsize = 260)
 		self.options = [] ## empty list
 		self.build_options() ## add items
 		self.selection = StringVar() ## instantiate associated variable
-		self.selection.trace_add("write", self.set_projection) ## same as binding a callback
 		## instantiate menu & set default (arg #3)
 		self.label = Label(self, text = "Projection Ratio")
 		self.option_menu = OptionMenu(self, self.selection, self.options[default], *self.options)
@@ -32,13 +37,9 @@ class ProjectionSet(Frame):
 			option = ratio
 			self.options.append(option)
 		
-	def set_projection(self, *args):
-		if self.ui_ready.ui_ready == False:
-			## ic(self.ui_ready.ui_ready)
-			return
-			
-		self.settings.projection = self.selection.get()
-		self.post_info()
+	def update(self, *args):
+			self.settings.projection = self.selection.get()
+			self.parent_update()
 
 ## testing
 def main():

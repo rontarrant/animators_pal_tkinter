@@ -8,39 +8,6 @@ install()
 ic.configureOutput(includeContext = True)
 
 from ap_constants import *
-'''
-Following is a list of the class properties in APSettings:
-Video Playback Settings
-_direction:
-	: determines the order the loaded images
-	: will be written to the final video file
-_shoot_on:
-	: how long to display each image
-	: can be 1 ... 9
-	: default: 1
-_fps:
-	: speed of playback in frames per second
-	: can be 18, 24, or 30
-	: default: 24
-Video & Image Size Settings
-_displacement:
-	: width of pillars in pillarbox mode or
-	: height of letterboxing in letterbox mode
-	: possible values: based on resolution & projection size
-	: default: 0
-_displacement_direction:
-	: images are displaced within the frame 
-	  either horizontally, vertically or not at all
-	  if the aspect ratio of the image matches the 
-	  projection size
-	: possible values: AP_NEUTRAL, AP_VERTICAL, AP_HORIZONTAL
-	: default: AP_NEUTRAL (to match HDTV/1080p)
-_image_width:
-_image_height:
-	: width and height of the image on disk
-	: possible range: anything up to the dimensions of a digital photo
-	: defaults: N/A
-'''
 
 class APSettings:
 	# Create a private class attribute to store the single instance
@@ -65,22 +32,22 @@ class APSettings:
 		self._window_position = {'x': 100, 'y': 100}
 		self._last_opened_folder = '.'
 
-		self._direction = IntVar(value=AP_FORWARD)
-		self._direction_default = IntVar(value=AP_FORWARD)
-		self._shoot_on = IntVar(value=1)
-		self._shoot_on_default = IntVar(value=1)
-		self._fps = IntVar(value=24)
-		self._fps_default = IntVar(value=24)
+		self._direction = IntVar(value = AP_FORWARD)
+		self._direction_default = IntVar(value = AP_FORWARD)
+		self._shoot_on = IntVar(value = 1)
+		self._shoot_on_default = IntVar(value = 1)
+		self._fps = IntVar(value = 24)
+		self._fps_default = IntVar(value = 24)
 		self._delay = int(round(1000 / 24))
 
-		self._resolution = StringVar(value="1080p (1920x1080)")
-		self._resolution_default = StringVar(value="1080p (1920x1080)")
-		self._projection = StringVar(value="HDTV (16:9)")
-		self._projection_default = StringVar(value="HDTV (16:9)")
-		self._pillar_displacement = IntVar(value=0)
-		self._pillar_displacement_default = IntVar(value=0)
-		self._letterbox_displacement = IntVar(value=0)
-		self._letterbox_displacement_default = IntVar(value=0)
+		self._resolution = StringVar(value = "1080p (1920x1080)")
+		self._resolution_default = StringVar(value = "1080p (1920x1080)")
+		self._projection = StringVar(value = "HDTV (16:9)")
+		self._projection_default = StringVar(value = "HDTV (16:9)")
+		self._pillar_displacement = IntVar(value = 0)
+		self._pillar_displacement_default = IntVar(value = 0)
+		self._letterbox_displacement = IntVar(value = 0)
+		self._letterbox_displacement_default = IntVar(value = 0)
 
 		self.load_settings()
 
@@ -99,6 +66,9 @@ class APSettings:
 		else:
 			self.ap_settings = {}
 
+	def update(self):
+		self.load_settings()
+		
 	@property
 	def window_position(self):
 		return self._window_position
@@ -145,8 +115,9 @@ class APSettings:
 			self._delay = self.fps2ms(self._fps_default.get())
 			##ic(self._fps.get(), self._delay)
 
-	## For some reason, this refuses to work as an IntVar()
-	## So this gives direct access instead of using .get()
+	'''
+	This doesn't need a setter. It's taken care of in fps().
+	'''
 	@property
 	def delay(self):
 		return self._delay
@@ -184,7 +155,7 @@ class APSettings:
 	
 	@projection.setter
 	def projection(self, value):
-		##ic(value)
+		pass ## ic(value)
 		
 		if type(value) == str:
 			self._projection.set(value)

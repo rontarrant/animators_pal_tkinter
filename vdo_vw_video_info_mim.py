@@ -39,38 +39,37 @@ class VideoImageInfoSet(Frame):
 		self.padx_west = 7
 		self.settings = APSettings.get_instance()
 		self.ap_image_collection = APImageCollection.get_instance()
-		self.ui_ready = UIReady.get_instance()
 		
 		super().__init__(parent)
+		self.ui_ready_instance = UIReady.get_instance()
+		self.ui_ready_instance.attach(self)
 		
 		self.columnconfigure(0, minsize = 520)
 		self.configure(borderwidth = 1)
 		self.grid()
-		## populate
-		#self.video_settings_banner = BannerLabel(self)
-		self.resolution_set = ResolutionSet(self, self.padx, self.post_info)
-		self.projection_set = ProjectionSet(self, self.padx, self.post_info)
+		## CHILDREN
+		self.resolution_set = ResolutionSet(self, self.padx, self.update)
+		self.projection_set = ProjectionSet(self, self.padx, self.update)
 		self.pillarbox_displacement_set = PillarDisplacementSet(self, self.padx, self.padx_west)
 		self.letterbox_set = LetterboxDisplacementSet(self, self.padx, self.padx_west)
 		self.image_size_set = ImageSizeSet(self, self.padx, self.padx_west)
 		
+		## Register for ui_ready
+		self.ui_ready_instance.attach(self.resolution_set)
+		self.ui_ready_instance.attach(self.projection_set)
+
 		self.populate_grid()
 	
 	def populate_grid(self):
 		## set up a grid
 		## populate
-		#self.video_settings_banner.grid(column = 0, row = 0, pady = 5)
 		self.resolution_set.grid(column = 0, row = 1)
 		self.projection_set.grid(column = 0, row = 2)
 		self.pillarbox_displacement_set.grid(column = 0, row = 3)
 		self.letterbox_set.grid(column = 0, row = 4)
 		self.image_size_set.grid(column = 0, row = 5)
-		self.after(0, self.go_time)
-		
-	def go_time(self):
-		self.ui_ready.ui_ready = True
-
-	def post_info(self):
+	
+	def update(self):
 		## look up width & height using resolution in screen_resolutions
 		resolution = screen_resolutions[self.settings.resolution]
 		## look up projection using resolution in screen_resolutions
