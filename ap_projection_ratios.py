@@ -5,16 +5,22 @@ projection_ratios = {
 	{
 		"term1": 4,
 		"term2": 3,
+		"projection_width": 960,
+		"projection_height": 720,
 	},
 	"HDTV (16:9)": 
 	{
 		"term1": 16,
 		"term2": 9,
+		"projection_width": 1280,
+		"projection_height": 720,
 	},
 	"Anamorphic Widescreen (239:100)": 
 	{
 		"term1": 239,
 		"term2": 100,
+		"projection_width": 1280,
+		"projection_height": 536,
 	},
 }
 
@@ -50,3 +56,9 @@ if __name__ == "__main__":
 	print("as a passed values:")
 	my_ratio = projection_ratios[value]["term1"], projection_ratios[value]["term2"]
 	print(my_ratio)
+
+	value = "Anamorphic Widescreen (239:100)"
+
+	print("As a fitted projection:")
+	my_fitted_projection = projection_ratios[value]["projection_width"], projection_ratios[value]["projection_height"]
+	print(my_fitted_projection)

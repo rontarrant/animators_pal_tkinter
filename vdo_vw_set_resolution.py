@@ -27,7 +27,8 @@ class ResolutionSet(Frame):
 		self.label.grid(column = 0, row = 1, sticky = E, padx = padx)
 		self.option_menu.grid(column = 1, row = 1, sticky = W, padx = padx)
 		
-		## assign setter and getter
+		## attach callback
+		self.selection.trace('w', self.update)
 
 	def build_options(self):
 		for ratio, properties in screen_resolutions.items():

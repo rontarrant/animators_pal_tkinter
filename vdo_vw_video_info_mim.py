@@ -41,8 +41,6 @@ class VideoImageInfoSet(Frame):
 		self.ap_image_collection = APImageCollection.get_instance()
 		
 		super().__init__(parent)
-		self.ui_ready_instance = UIReady.get_instance()
-		self.ui_ready_instance.attach(self)
 		
 		self.columnconfigure(0, minsize = 520)
 		self.configure(borderwidth = 1)
@@ -55,6 +53,8 @@ class VideoImageInfoSet(Frame):
 		self.image_size_set = ImageSizeSet(self, self.padx, self.padx_west)
 		
 		## Register for ui_ready
+		self.ui_ready_instance = UIReady.get_instance()
+		self.ui_ready_instance.attach(self)
 		self.ui_ready_instance.attach(self.resolution_set)
 		self.ui_ready_instance.attach(self.projection_set)
 

@@ -26,20 +26,24 @@ class ProjectionSet(Frame):
 		self.options = [] ## empty list
 		self.build_options() ## add items
 		self.selection = StringVar() ## instantiate associated variable
+		
 		## instantiate menu & set default (arg #3)
 		self.label = Label(self, text = "Projection Ratio")
 		self.option_menu = OptionMenu(self, self.selection, self.options[default], *self.options)
 		self.label.grid(column = 0, row = 0, sticky = E, padx = padx)
 		self.option_menu.grid(column = 1, row = 0, sticky = W, padx = padx)
 		
+		## attach callback
+		self.selection.trace('w', self.update)
+	
 	def build_options(self):
 		for ratio, properties in projection_ratios.items():
 			option = ratio
 			self.options.append(option)
 		
 	def update(self, *args):
-			self.settings.projection = self.selection.get()
-			self.parent_update()
+		self.settings.projection = self.selection.get()
+		self.parent_update()
 
 ## testing
 def main():

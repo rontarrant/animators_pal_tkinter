@@ -31,7 +31,11 @@ class APSettings:
 		# Initialize default values
 		self._window_position = {'x': 100, 'y': 100}
 		self._last_opened_folder = '.'
-
+		## for displaying images on canvas
+		self.canvas_width = 1280
+		self.canvas_height = 720
+		self.checkerboard_colours = ("#8ea7dd", "#7d95c7")  # light blue and dark blue
+		
 		self._direction = IntVar(value = AP_FORWARD)
 		self._direction_default = IntVar(value = AP_FORWARD)
 		self._shoot_on = IntVar(value = 1)

@@ -144,7 +144,7 @@ class FileMenu(Menu):
 				## ic("collection image: ", index)
 			'''
 			video_canvas.show_next_frame(old_count) ## put 1st new frame in video_canvas
-			image_size_set.update(image.width, image.height)
+			image_size_set.update(image.image_width, image.image_height)
 			build_new_image_list(added_images_count)
 
 			## testing
