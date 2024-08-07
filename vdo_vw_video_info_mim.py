@@ -33,7 +33,7 @@ install()
 ic.configureOutput(includeContext = True)
 
 class VideoImageInfoSet(Frame):
-	def __init__(self, parent, *args, **kwargs):
+	def __init__(self, parent, video_canvas, *args, **kwargs):
 		self.padx = 1
 		self.padx_east = 5
 		self.padx_west = 7
@@ -47,7 +47,7 @@ class VideoImageInfoSet(Frame):
 		self.grid()
 		## CHILDREN
 		self.resolution_set = ResolutionSet(self, self.padx, self.update)
-		self.projection_set = ProjectionSet(self, self.padx, self.update)
+		self.projection_set = ProjectionSet(self, self.padx, self.update, video_canvas)
 		self.pillarbox_displacement_set = PillarDisplacementSet(self, self.padx, self.padx_west)
 		self.letterbox_set = LetterboxDisplacementSet(self, self.padx, self.padx_west)
 		self.image_size_set = ImageSizeSet(self, self.padx, self.padx_west)

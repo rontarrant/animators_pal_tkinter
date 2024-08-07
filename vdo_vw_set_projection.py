@@ -13,12 +13,16 @@ when images are loaded as well (ie. in the FileMenu.add_images() method).
 ## local
 from ap_projection_ratios import *
 from ap_settings import *
+from ap_image_collection import APImageCollection
+from vdo_vw_canvas import VideoCanvas
 
 class ProjectionSet(Frame):
-	def __init__(self, parent, padx, parent_update, *args, **kwargs):
+	def __init__(self, parent, padx, parent_update, video_canvas, *args, **kwargs):
 		super().__init__(parent, *args, **kwargs)
 		## build & configure options
 		self.settings = APSettings.get_instance()
+		self.video_canvas = video_canvas
+		self.image_collection = APImageCollection.get_instance()
 		self.parent_update = parent_update
 		default = 1
 		self.columnconfigure(0, minsize = 260)
@@ -40,10 +44,20 @@ class ProjectionSet(Frame):
 		for ratio, properties in projection_ratios.items():
 			option = ratio
 			self.options.append(option)
-		
+			
+	##############################
+	## NEXT: resize all loaded images to match.
+	## - get list of images in 
+	##############################
 	def update(self, *args):
 		self.settings.projection = self.selection.get()
 		self.parent_update()
+		
+		if self.image_collection.images:
+			for image in self.image_collection.images:
+				image.build_image_4_display()
+			
+			self.video_canvas.show_next_frame(0)
 
 ## testing
 def main():

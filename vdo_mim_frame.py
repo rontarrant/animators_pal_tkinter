@@ -36,8 +36,9 @@ class VideoMiMFrame(Frame):
 			self.grid_columnconfigure(column, minsize = 128)
 		
 		## CHILDREN
-		self.video_ap_settings_frame = VideoSettingsFrame(self)
+		## instantiated out of order so we can pass the VideoCanvas to VideoSettingsFrame > 
 		self.video_canvas = VideoCanvas(self)
+		self.video_ap_settings_frame = VideoSettingsFrame(self, self.video_canvas)
 		self.video_controls = VideoControlsFrame(self, self.playback_control, self.reset_last_frame, self.get_current_frame)
 		
 		## LAYOUT

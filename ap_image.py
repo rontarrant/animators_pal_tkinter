@@ -102,25 +102,25 @@ class APImage():
 			projection_display_height = int(self.projection_height / factor)
 			
 		return (projection_display_width, projection_display_height)
-		
-	###############
-	## Setting pillarboxing or letterboxing isn't dependent on 
-	## the canvas dimensions now. Use projection dimensions instead.
-	###############
+	
+	'''
+	Calculate the placement of the image over the projection_background,
+	taking the projection display's width and height into account.
+	'''
 	def set_image_placement(self):
 		if self.image_display_height == self.projection_height: ## pillarbox mode
 			self.image_pillarboxing_width = int((self.ap_settings.canvas_width - self.image_display_width) / 2)
 			self.image_letterboxing_height = self.projection_letterboxing_height
-			ic()
+			##ic()
 		elif self.image_display_width == self.projection_width: ## letterbox mode
 			self.image_letterboxing_height = int((self.ap_settings.canvas_height - self.image_display_height) / 2)
 			self.image_pillarboxing_width = self.projection_pillarboxing_width
-			ic()
+			##ic()
 		else:
 			self.image_letterboxing_height = self.projection_letterboxing_height
 			self.image_pillarboxing_width = self.projection_pillarboxing_width
 			
-		ic(self.image_pillarboxing_width, self.image_letterboxing_height)
+		##ic(self.image_pillarboxing_width, self.image_letterboxing_height)
 
 	'''
 	Calculate the placement of the (black) projection rectangle
@@ -136,21 +136,8 @@ class APImage():
 			self.projection_pillarboxing_width = self.ap_settings.canvas_width
 			self.projection_letterboxing_height = self.ap_settings.canvas_height
 			
-		ic(self.projection_pillarboxing_width, self.projection_letterboxing_height)
+		##ic(self.projection_pillarboxing_width, self.projection_letterboxing_height)
 		
-	'''
-	REWRITE:
-	- create gray/gray chequerboard
-	- look up the size of projection_ratio that will fit 1280x720
-	- create a black rectangle
-	- scale the image to fit projection_ratio
-	- create composite image
-	- add chequerboard to composite
-	- add projection rectangle to composite
-	- add image to composite
-	- assign final composite to self.image_4_display
-	- re-display current image (or first, whichever is possible)
-	'''
 	def build_image_4_display(self):
 		## get the original width and height of the image
 		image_width, image_height = self.dimensions

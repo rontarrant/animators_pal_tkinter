@@ -12,7 +12,7 @@ from vdo_vw_set_shoot_on import ShootOnSet
 from vdo_vw_video_info_mim import *
 
 class VideoSettingsFrame(Labelframe):
-	def __init__(self, parent):
+	def __init__(self, parent, video_canvas):
 		super().__init__(parent)
 		self.parent = parent
 		self.config(text = "Video Output Settings")
@@ -30,7 +30,7 @@ class VideoSettingsFrame(Labelframe):
 		separator3 = Separator(self, orient = VERTICAL)
 		shoot_on = ShootOnSet(self)
 		separator4 = Separator(self, orient = VERTICAL)
-		info = VideoImageInfoSet(self)
+		info = VideoImageInfoSet(self, video_canvas)
 		separator5 = Separator(self, orient = VERTICAL)
 		## layout
 		## because of a peculiarity in how padding works, to get the space
