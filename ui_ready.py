@@ -2,18 +2,18 @@ import tkinter as tk
 from observer import Observer
 
 class UIReady:
-	_instance = None
+	__instance = None
 
 	@staticmethod
 	def get_instance():
-		if UIReady._instance is None:
-			UIReady._instance = UIReady()
-		return UIReady._instance
+		if UIReady.__instance is None:
+			UIReady.__instance = UIReady()
+		return UIReady.__instance
 	
 	def __new__(cls, *args, **kwargs):
-		if cls._instance is None:
-			cls._instance = super().__new__(cls)
-		return cls._instance
+		if cls.__instance is None:
+			cls.__instance = super().__new__(cls)
+		return cls.__instance
 	
 	def __init__(self):
 		if not hasattr(self, '_initialized'):

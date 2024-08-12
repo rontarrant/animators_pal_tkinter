@@ -36,6 +36,7 @@ class ProjectionSet(Frame):
 		self.option_menu = OptionMenu(self, self.selection, self.options[default], *self.options)
 		self.label.grid(column = 0, row = 0, sticky = E, padx = padx)
 		self.option_menu.grid(column = 1, row = 0, sticky = W, padx = padx)
+		self.selection.set(self.settings.projection)
 		
 		## attach callback
 		self.selection.trace('w', self.update)
@@ -45,10 +46,6 @@ class ProjectionSet(Frame):
 			option = ratio
 			self.options.append(option)
 			
-	##############################
-	## NEXT: resize all loaded images to match.
-	## - get list of images in 
-	##############################
 	def update(self, *args):
 		self.settings.projection = self.selection.get()
 		self.parent_update()

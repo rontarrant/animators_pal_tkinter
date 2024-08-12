@@ -23,8 +23,8 @@ class APImage():
 		self._pillow_image = None
 		self._image_4_display = None
 		self._cv_image = None
-		self.image_pillarboxing_width = 0
-		self.image_letterboxing_height = 0
+		self.pillarboxing_width = 0
+		self.letterboxing_height = 0
 		self.projection_pillarboxing_width = 0
 		self.projection_letterboxing_height = 0
 		self.projection_width = 1280
@@ -83,7 +83,7 @@ class APImage():
 			image_display_height = int(self.image_height / factor)
 			
 		return (image_display_width, image_display_height)
-
+	'''
 	def calculate_projection_display_size(self):
 		canvas_ratio = self.ap_settings.canvas_width / self.ap_settings.canvas_height
 		projection_ratio = self.projection_width / self.projection_height
@@ -102,25 +102,25 @@ class APImage():
 			projection_display_height = int(self.projection_height / factor)
 			
 		return (projection_display_width, projection_display_height)
-	
+	'''
 	'''
 	Calculate the placement of the image over the projection_background,
 	taking the projection display's width and height into account.
 	'''
 	def set_image_placement(self):
 		if self.image_display_height == self.projection_height: ## pillarbox mode
-			self.image_pillarboxing_width = int((self.ap_settings.canvas_width - self.image_display_width) / 2)
-			self.image_letterboxing_height = self.projection_letterboxing_height
+			self.pillarboxing_width = int((self.ap_settings.canvas_width - self.image_display_width) / 2)
+			self.letterboxing_height = self.projection_letterboxing_height
 			##ic()
 		elif self.image_display_width == self.projection_width: ## letterbox mode
-			self.image_letterboxing_height = int((self.ap_settings.canvas_height - self.image_display_height) / 2)
-			self.image_pillarboxing_width = self.projection_pillarboxing_width
+			self.letterboxing_height = int((self.ap_settings.canvas_height - self.image_display_height) / 2)
+			self.pillarboxing_width = self.projection_pillarboxing_width
 			##ic()
 		else:
-			self.image_letterboxing_height = self.projection_letterboxing_height
-			self.image_pillarboxing_width = self.projection_pillarboxing_width
+			self.letterboxing_height = self.projection_letterboxing_height
+			self.pillarboxing_width = self.projection_pillarboxing_width
 			
-		##ic(self.image_pillarboxing_width, self.image_letterboxing_height)
+		##ic(self.pillarboxing_width, self.letterboxing_height)
 
 	'''
 	Calculate the placement of the (black) projection rectangle
@@ -165,7 +165,7 @@ class APImage():
 		self.image_display_width, self.image_display_height = self.calculate_image_display_size()
 		resized_original = self.pillow_image.resize((self.image_display_width, self.image_display_height))
 		self.set_image_placement()
-		canvas_composite.paste(resized_original, (int(self.image_pillarboxing_width), int(self.image_letterboxing_height)))
+		canvas_composite.paste(resized_original, (int(self.pillarboxing_width), int(self.letterboxing_height)))
 		self.image_4_display = PIL.ImageTk.PhotoImage(canvas_composite)
 
 	'''

@@ -66,12 +66,23 @@ class Window(Tk):
 		## titlebar icon
 		photo = PhotoImage(file = os.path.join(working_dir, "images/bobby_bowtie_icon60x.png"))
 		self.iconphoto(True, photo)
+		
+		## UI READY
+		## Make sure the UI is ready before trying to restore saved settings into
+		## UI elements.
 		self.after(100, self.ui_ready_instance.check_ui_ready)
+		
+		## Checking that the UI is ready ends up with the root window
+		## being pushed behind whatever other application windows are
+		## on screen. This brings it to the front.
+		self.lift()
+
 		
 	def on_ui_ready(self):
 		self.ap_settings.load_settings()
+		## update the UI from ap_settings
 		
-	def save_window_position(self):
+	def save_all_settings(self):
 		x = self.winfo_x()
 		y = self.winfo_y()
 		self.ap_settings.window_position = {'x': x, 'y': y}
@@ -82,7 +93,7 @@ class Window(Tk):
 		self.geometry(f"+{pos['x']}+{pos['y']}")
 
 	def on_close(self):
-		self.save_window_position()
+		self.save_all_settings()
 		self.destroy()
 
 if __name__ == "__main__":

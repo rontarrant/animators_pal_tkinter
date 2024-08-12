@@ -9,7 +9,7 @@ import sys
 from ap_image_collection import APImageCollection
 
 class FileTreeview(Treeview):
-	def __init__(self, parent, column_count, preview_thumbnail, image_size_set, pillarbox_displacement_set, letterbox_displacement_set):
+	def __init__(self, parent, column_count, preview_thumbnail, image_size_set, pillarbox_displacement_set, letterbox_offset_set):
 		## instance variables
 		self._cids = []
 		self.treeview = None
@@ -43,9 +43,9 @@ class FileTreeview(Treeview):
 		## The bound variable 'event' isn't used, but needs to be
 		## mentioned in the lambda statement because it's returned
 		## by something somewhere.
-		self.bind('<<TreeviewSelect>>', lambda event: self.preview(preview_thumbnail, image_size_set, pillarbox_displacement_set, letterbox_displacement_set))
+		self.bind('<<TreeviewSelect>>', lambda event: self.preview(preview_thumbnail, image_size_set, pillarbox_displacement_set, letterbox_offset_set))
 
-	def preview(self, preview_thumbnail, image_size_set, pillarbox_displacement_set, letterbox_displacement_set):
+	def preview(self, preview_thumbnail, image_size_set, pillarbox_displacement_set, letterbox_offset_set):
 		'''
 		Takes a method name for previewing the selected image.
 		'''
@@ -56,8 +56,8 @@ class FileTreeview(Treeview):
 		row_number = self.index(self.selection()[0])
 		## ic(self.index(self.selection()[0]))
 		current_image = self.ap_image_collection.images[row_number]
-		image_size_set.update(current_image.width, current_image.height)
-		letterbox_displacement_set.update(current_image.letterboxing_height)
+		image_size_set.update(current_image.image_width, current_image.image_height)
+		letterbox_offset_set.update(current_image.letterboxing_height)
 		pillarbox_displacement_set.update(current_image.pillarboxing_width)
 		preview_thumbnail(row_number)
 	

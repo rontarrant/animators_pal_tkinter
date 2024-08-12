@@ -21,8 +21,8 @@ from ap_screen_resolutions import *
 from vdo_vw_set_banner_label import *
 from vdo_vw_set_resolution import *
 from vdo_vw_set_projection import *
-from vdo_vw_set_pillar_displacement import *
-from vdo_vw_set_letterbox_displacement import *
+from vdo_vw_set_pillarbox_offset import *
+from vdo_vw_set_letterbox_offset import *
 from vdo_vw_set_image_size_original import *
 from ap_image_collection import APImageCollection
 from ui_ready import *
@@ -75,17 +75,17 @@ class VideoImageInfoSet(Frame):
 		## look up projection using resolution in screen_resolutions
 		projection_dictionary = {self.settings.projection: resolution[self.settings.projection]}
 		
-		## if projection is ClassicTV, set pillar_displacement to non-zero
+		## if projection is ClassicTV, set pillarbox_offset to non-zero
 		if list(projection_dictionary.keys())[0] == "ClassicTV (4:3)":
-			self.settings.pillar_displacement = projection_dictionary[self.settings.projection]["displacement"]
-			self.pillarbox_displacement_set.update(self.settings.pillar_displacement)
-			self.settings.letterbox_displacement = 0
-			self.letterbox_set.update(self.settings.letterbox_displacement)
-		else: ## else set letterbox_displacement to non-zero
-			self.settings.letterbox_displacement = projection_dictionary[self.settings.projection]["displacement"]
-			self.letterbox_set.update(self.settings.letterbox_displacement)
-			self.settings.pillar_displacement = 0
-			self.pillarbox_displacement_set.update(self.settings.pillar_displacement)
+			self.settings.pillarbox_offset = projection_dictionary[self.settings.projection]["displacement"]
+			self.pillarbox_displacement_set.update(self.settings.pillarbox_offset)
+			self.settings.letterbox_offset = 0
+			self.letterbox_set.update(self.settings.letterbox_offset)
+		else: ## else set letterbox_offset to non-zero
+			self.settings.letterbox_offset = projection_dictionary[self.settings.projection]["displacement"]
+			self.letterbox_set.update(self.settings.letterbox_offset)
+			self.settings.pillarbox_offset = 0
+			self.pillarbox_displacement_set.update(self.settings.pillarbox_offset)
 			## look up original image width & height in:
 			## self.image_size_set.update(self.settings.image_width, self.settings.image_height)
 			##	ap_image_collection.images.width & ap_image_collection.images.height

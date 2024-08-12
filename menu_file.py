@@ -5,6 +5,7 @@ from tkinter import filedialog
 ## Python stuff
 import os
 import sys
+import cv2
 
 ## local
 from ap_image_collection import APImageCollection
@@ -34,7 +35,7 @@ class FileMenu(Menu):
 		
 		window.bind('<Control_L><a>',
 			lambda: self.add_images(video_canvas, image_size_set, build_new_image_list))
-
+		'''
 		self.add_command(label = "Open Project", command = self.file_open)
 		self.entryconfig(items("Open Project"), accelerator = "(Ctrl-O)")
 		window.bind('<Control_L><o>', self.file_open)
@@ -50,10 +51,7 @@ class FileMenu(Menu):
 		self.add_command(label = "Close Project", command = self.file_close)
 		self.entryconfig(items("Close Project"), accelerator = "(Ctrl-W)")
 		window.bind('<Control_L><w>', self.file_close)
-		
-		self.add_command(label = "Build MP4 Video", command = self.build_mp4)
-		self.entryconfig(items("Build MP4 Video"), accelerator = "(Ctrl-M)")
-		window.bind('<Control_L><m>', self.build_mp4)
+		'''
 		
 		self.add_command(label = "Save MP4 Video", command = self.save_mp4)
 		self.entryconfig(items("Save MP4 Video"), accelerator = "(Ctrl-Shift-M)")
@@ -77,7 +75,8 @@ class FileMenu(Menu):
 		## ic(event)
 		## ic(self.window.project_name)
 		pass
-	
+		
+	'''
 	def file_open(self, event = None):
 		## ic()
 		pass
@@ -97,7 +96,8 @@ class FileMenu(Menu):
 		## ic()
 		## ic(self.window.project_name)
 		pass
-
+	'''
+	
 	def add_images(self, video_canvas, image_size_set, build_new_image_list, event = None):
 		'''
 		The askopenfilenames() dialog returns a tuple, but it'll be
@@ -160,23 +160,44 @@ class FileMenu(Menu):
 				## ic(image)
 			'''
 
-	def build_mp4(self, event = None):
-		## ic("building MP4 video...")
-		pass
-
+	'''
+	Need access to:
+	- list of images loaded (self.ap_image_collection.images)
+	- file handle for saving
+	- from APSettings:
+		- self.ap_settings.shoot_on
+		- self.ap_settings.fps
+		- self.ap_settings.resolution (to set width and height of video)
+			- compare image ratio to projection ratio so see which dimension will be fit
+		- self.ap_settings.projection (to index into screen_resolutions dictionary)
+		- self.ap_settings.pillarbox_offset (to place image)
+		- self.ap_settings.letterbox_offset (to place image)
+	- save dialog
+	- OpenCV library
+	
+	Operations:
+	- set the video file type (.mp4)
+	- set the video width and height
+	- instantiate a video file handle (cv2.VideoWriter() needs output file name, fps, width, and height)
+	- step through the images:
+		- build image layers:
+			- lay down the black background
+			- get image projection ratio
+			- compare image projection to projection ratio in self.ap_settings.projection
+				- divide the image height by the resolution height to get the scaling factor
+				- divide the image height and width by the scaling factor to get the fitted image width and height
+				- resize image
+			- lay down the image on top
+		- range through the shoot_on for number of times to hold each frame
+		- write the frame to the video
+	
+	- cv2.destroyAllWindows() to deallocate RAM
+	- release the video (video.release())
+	'''
 	def save_mp4(self, event = None):
+		
 		## ic("saving MP4 video...")
-		all_variables = vars(APSettings)
-		class_variables = {key: value for key, value in vars(APSettings).items()}
-
-		for variable, value in class_variables.items():
-			if isinstance(value, (IntVar, StringVar)):
-				# Access the stored value using `get()`
-				#print(f"{variable}: {value.get()}")
-				pass
-			else:
-				#print(f"{variable}: {value}")
-				pass
+		pass
 
 	def exit(self, event = None):
 		## ic("exiting...")

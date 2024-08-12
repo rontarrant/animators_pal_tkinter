@@ -29,8 +29,8 @@ def main():
 class Window(Tk):
 	def __init__(self, *args, **kwargs):
 		super().__init__(*args, **kwargs)
-		letterbox_displacement_set = LetterboxDisplacementSet(self, 10, 20)
-		letterbox_displacement_set.pack(ipadx = 20, ipady = 10)
+		letterbox_offset_set = LetterboxDisplacementSet(self, 10, 20)
+		letterbox_offset_set.pack(ipadx = 20, ipady = 10)
 
 if __name__ == "__main__":
 	main()

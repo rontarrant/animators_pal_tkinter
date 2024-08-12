@@ -7,7 +7,9 @@ from icecream import install
 install()
 ic.configureOutput(includeContext = True)
 
+## local
 from ap_constants import *
+from observer import Observer
 
 class APSettings:
 	# Create a private class attribute to store the single instance
@@ -20,21 +22,27 @@ class APSettings:
 			APSettings.__instance = APSettings()
 		return APSettings.__instance
 
+	def __new__(cls, *args, **kwargs):
+		if cls.__instance is None:
+			cls.__instance = super().__new__(cls)
+		return cls.__instance
+	
 	def __init__(self, *args, **kwargs):
-		if APSettings.__instance is not None:
-			raise Exception("This class is a singleton!")
-		else:
-			APSettings.__instance = self
-		
+		if not hasattr(self, '_initialized'):
+			self._settings_ready = False
+			self.root = None
+			self.observers = []
+			self._initialized = True
+
 		self.settings_file = "settings.json"
 
 		# Initialize default values
 		self._window_position = {'x': 100, 'y': 100}
 		self._last_opened_folder = '.'
 		## for displaying images on canvas
-		self.canvas_width = 1280
-		self.canvas_height = 720
-		self.checkerboard_colours = ("#8ea7dd", "#7d95c7")  # light blue and dark blue
+		self._canvas_width = 1280
+		self._canvas_height = 720
+		self._checkerboard_colours = ("#8ea7dd", "#7d95c7")  # light blue and dark blue
 		
 		self._direction = IntVar(value = AP_FORWARD)
 		self._direction_default = IntVar(value = AP_FORWARD)
@@ -42,22 +50,69 @@ class APSettings:
 		self._shoot_on_default = IntVar(value = 1)
 		self._fps = IntVar(value = 24)
 		self._fps_default = IntVar(value = 24)
-		self._delay = int(round(1000 / 24))
+		self._delay = int(round(1000 / 24)) ## used only for internal playback
 
 		self._resolution = StringVar(value = "1080p (1920x1080)")
 		self._resolution_default = StringVar(value = "1080p (1920x1080)")
 		self._projection = StringVar(value = "HDTV (16:9)")
 		self._projection_default = StringVar(value = "HDTV (16:9)")
-		self._pillar_displacement = IntVar(value = 0)
-		self._pillar_displacement_default = IntVar(value = 0)
-		self._letterbox_displacement = IntVar(value = 0)
-		self._letterbox_displacement_default = IntVar(value = 0)
+		self._pillarbox_offset = IntVar(value = 0)
+		self._pillarbox_offset_default = IntVar(value = 0)
+		self._letterbox_offset = IntVar(value = 0)
+		self._letterbox_offset_default = IntVar(value = 0)
 
 		self.load_settings()
+
+	@property
+	def ui_ready(self):
+		return self._ui_ready
+	
+	@ui_ready.setter
+	def ui_ready(self, value):
+		self._ui_ready = value
+		
+		if value:
+			self.notify_observers()
+
+	def check_settings_ready(self):
+		if self.root and self.root.winfo_ismapped():
+			self.root.after(500, self.ensure_settings_ready)  # Additional delay to ensure settings are up-to-date
+		else:
+			self.root.after(100, self.check_settings_ready)
+
+	def ensure_settings_ready(self):
+		self.settings_ready = True
+		
+
+	def attach(self, observer: Observer):
+		if observer not in self.observers:
+			self.observers.append(observer)
+
+	def detach(self, observer: Observer):
+		try:
+			self.observers.remove(observer)
+		except ValueError:
+			pass
+
+	def notify_observers(self):
+		for observer in self.observers:
+			observer.update()
 
 	def save_settings(self):
 		self.ap_settings['window_position'] = self._window_position
 		self.ap_settings['last_opened_folder'] = self._last_opened_folder
+		self.ap_settings['canvas_width'] = self._canvas_width
+		self.ap_settings['canvas_height'] = self._canvas_height
+		self.ap_settings['checkerboard_colours'] = self._checkerboard_colours
+		self.ap_settings['direction'] = self._direction.get()
+		self.ap_settings['shoot_on'] = self._shoot_on.get()
+		self.ap_settings['fps'] = self._fps.get()
+		self.ap_settings['delay'] = self._delay
+		self.ap_settings['resolution'] = self._resolution.get()
+		self.ap_settings['projection'] = self._projection.get()
+		self.ap_settings['pillarbox_offset'] = self._pillarbox_offset.get()
+		self.ap_settings['letterbox_offset'] = self._letterbox_offset.get()
+		
 		with open(self.settings_file, "w") as file:
 			json.dump(self.ap_settings, file)
 
@@ -65,8 +120,21 @@ class APSettings:
 		if os.path.exists(self.settings_file):
 			with open(self.settings_file, "r") as file:
 				self.ap_settings = json.load(file)
+			
 			self._window_position = self.ap_settings.get('window_position', self._window_position)
 			self._last_opened_folder = self.ap_settings.get('last_opened_folder', self._last_opened_folder)
+			self._canvas_width = self.ap_settings.get('canvas_width', self._canvas_width)
+			self._canvas_height = self.ap_settings.get('canvas_height', self._canvas_height)
+			self._checkerboard_colours = self.ap_settings.get('checkerboard_colours', self._checkerboard_colours)
+			self._direction.set(self.ap_settings.get('direction', self._direction))
+			self._shoot_on.set(self.ap_settings.get('shoot_on', self._shoot_on))
+			self._fps.set(self.ap_settings.get('fps', self._fps))
+			self._delay = self.ap_settings.get('delay', self._delay)
+			self._resolution.set(self.ap_settings.get('resolution', self._resolution))
+			self._projection.set(self.ap_settings.get('projection', self._projection))
+			self._pillarbox_offset.set(self.ap_settings.get('pillarbox_offset', self._pillarbox_offset))
+			self._letterbox_offset.set(self.ap_settings.get('letterbox_offset', self._letterbox_offset))
+			##ic(self.ap_settings)
 		else:
 			self.ap_settings = {}
 
@@ -89,6 +157,33 @@ class APSettings:
 	@last_opened_folder.setter
 	def last_opened_folder(self, folder):
 		self._last_opened_folder = folder
+
+	@property
+	def canvas_width(self):
+		return self._canvas_width
+
+	
+	@canvas_width.setter
+	def canvas_width(self, pos):
+		self._canvas_width = pos
+
+	@property
+	def canvas_height(self):
+		return self._canvas_height
+
+	
+	@canvas_height.setter
+	def canvas_height(self, pos):
+		self._canvas_height = pos
+
+	@property
+	def checkerboard_colours(self):
+		return self._checkerboard_colours
+
+	
+	@checkerboard_colours.setter
+	def checkerboard_colours(self, pos):
+		self._checkerboard_colours = pos
 
 	@property
 	def direction(self):
@@ -167,28 +262,27 @@ class APSettings:
 			self._projection.set(self.projection_default.get())
 	
 	@property
-	def pillar_displacement(self):
-		return self._pillar_displacement.get()
+	def pillarbox_offset(self):
+		return self._pillarbox_offset.get()
 	
-	@pillar_displacement.setter
-	def pillar_displacement(self, value):
+	@pillarbox_offset.setter
+	def pillarbox_offset(self, value):
 		if type(value) == int:
-			self._pillar_displacement.set(value)
+			self._pillarbox_offset.set(value)
 		else:
-			self._pillar_displacement.set(self._pillar_displacement_default.get())
+			self._pillarbox_offset.set(self._pillarbox_offset_default.get())
 
 	@property
-	def letterbox_displacement(self):
-		return self._letterbox_displacement.get()
+	def letterbox_offset(self):
+		return self._letterbox_offset.get()
 	
-	@letterbox_displacement.setter
-	def letterbox_displacement(self, value):
+	@letterbox_offset.setter
+	def letterbox_offset(self, value):
 		if type(value) == int:
-			self._letterbox_displacement.set(value)
+			self._letterbox_offset.set(value)
 		else:
-			self._letterbox_displacement.set(self._letterbox_default.get())
+			self._letterbox_offset.set(self._letterbox_default.get())
 
 	def fps2ms(self, fps):
 		value = int(round(1000 / fps))
 		return value
-   

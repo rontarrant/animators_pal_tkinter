@@ -26,7 +26,8 @@ class ResolutionSet(Frame):
 		
 		self.label.grid(column = 0, row = 1, sticky = E, padx = padx)
 		self.option_menu.grid(column = 1, row = 1, sticky = W, padx = padx)
-		
+		self.selection.set(self.settings.resolution)
+
 		## attach callback
 		self.selection.trace('w', self.update)
 
