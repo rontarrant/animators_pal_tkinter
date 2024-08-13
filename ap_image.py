@@ -8,6 +8,7 @@ from tkinter import Canvas
 ## local
 from ap_settings import APSettings
 from ap_projection_ratios import projection_ratios
+from ap_screen_resolutions import screen_resolutions
 from checkerboard import Checkerboard
 
 ## for debugging
@@ -23,10 +24,10 @@ class APImage():
 		self._pillow_image = None
 		self._image_4_display = None
 		self._cv_image = None
-		self.pillarboxing_width = 0
-		self.letterboxing_height = 0
-		self.projection_pillarboxing_width = 0
-		self.projection_letterboxing_height = 0
+		self.image_pillarboxing_width = 0
+		self.image_letterboxing_height = 0
+		self.projection_image_pillarboxing_width = 0
+		self.projection_image_letterboxing_height = 0
 		self.projection_width = 1280
 		self.projection_height = 720
 		self.image_display_width = 0
@@ -57,7 +58,7 @@ class APImage():
 	'''
 	calculate_image_display_size()
 	Calculate the size of the displayed image based on whether it's
-	in letterbox or pillarbox. The final image will fit on the 
+	in letterbox or pillarbox format. The final image will fit on the 
 	display canvas, but will retain it's original aspect ratio.
 	The display canvas has a 16:9 ratio, but these calculations
 	will resize any other aspect ratio to fit either the full height
@@ -83,89 +84,36 @@ class APImage():
 			image_display_height = int(self.image_height / factor)
 			
 		return (image_display_width, image_display_height)
-	'''
-	def calculate_projection_display_size(self):
-		canvas_ratio = self.ap_settings.canvas_width / self.ap_settings.canvas_height
-		projection_ratio = self.projection_width / self.projection_height
-
-		if projection_ratio > canvas_ratio: ## projection is wider than 16:9
-			factor = self.projection_width / self.ap_settings.canvas_width
-			projection_display_width = int(self.projection_width / factor)
-			projection_display_height = int(self.projection_height / factor)
-		elif projection_ratio < canvas_ratio: ## projection is narrower than 16:9
-			factor = self.projection_height / self.ap_settings.canvas_height
-			projection_display_width = int(self.projection_width / factor)
-			projection_display_height = int(self.projection_height / factor)
-		else: ## image is exactly 16:9 (must be HDTV)
-			factor = self.projection_height / self.ap_settings.canvas_height
-			projection_display_width = int(self.projection_width / factor)
-			projection_display_height = int(self.projection_height / factor)
-			
-		return (projection_display_width, projection_display_height)
-	'''
-	'''
-	Calculate the placement of the image over the projection_background,
-	taking the projection display's width and height into account.
-	'''
-	def set_image_placement(self):
-		if self.image_display_height == self.projection_height: ## pillarbox mode
-			self.pillarboxing_width = int((self.ap_settings.canvas_width - self.image_display_width) / 2)
-			self.letterboxing_height = self.projection_letterboxing_height
-			##ic()
-		elif self.image_display_width == self.projection_width: ## letterbox mode
-			self.letterboxing_height = int((self.ap_settings.canvas_height - self.image_display_height) / 2)
-			self.pillarboxing_width = self.projection_pillarboxing_width
-			##ic()
-		else:
-			self.letterboxing_height = self.projection_letterboxing_height
-			self.pillarboxing_width = self.projection_pillarboxing_width
-			
-		##ic(self.pillarboxing_width, self.letterboxing_height)
-
-	'''
-	Calculate the placement of the (black) projection rectangle
-	'''
-	def set_projection_placement(self):
-		if self.projection_height == self.ap_settings.canvas_height: ## pillarbox mode
-			self.projection_pillarboxing_width = int((self.ap_settings.canvas_width - self.projection_width) / 2)
-			self.projection_letterboxing_height = 0
-		elif self.projection_width == self.ap_settings.canvas_width: ## letterbox mode
-			self.projection_letterboxing_height = int((self.ap_settings.canvas_height - self.projection_height) / 2)
-			self.projection_pillarboxing_width = 0
-		else:
-			self.projection_pillarboxing_width = self.ap_settings.canvas_width
-			self.projection_letterboxing_height = self.ap_settings.canvas_height
-			
-		##ic(self.projection_pillarboxing_width, self.projection_letterboxing_height)
 		
 	def build_image_4_display(self):
-		## get the original width and height of the image
+		## dimensions
+		canvas_width = self.ap_settings.canvas_width
+		canvas_height = self.ap_settings.canvas_height
 		image_width, image_height = self.dimensions
-		
-		## get the projection ratio from settings
 		projection_index = self.ap_settings.projection
-		term1 = projection_ratios[projection_index]["term1"]
-		term2 = projection_ratios[projection_index]["term2"]
-		self.projection_width = projection_ratios[projection_index]["projection_width"]
-		self.projection_height = projection_ratios[projection_index]["projection_height"]
+		resolution = screen_resolutions["720p"][projection_index]
+		self.projection_width = resolution["projection width"]
+		self.projection_height = resolution["projection height"]
 		
-		## create the canvas background and place it on the canvas
-		canvas_composite = PIL.Image.new("RGB", (self.ap_settings.canvas_width, self.ap_settings.canvas_height), color = 'black')
-		## create the checkerboard background
-		checkerboard = Checkerboard(self.ap_settings.canvas_width, self.ap_settings.canvas_height, self.ap_settings.checkerboard_colours)
-		canvas_composite.paste(checkerboard, (0, 0))
-		
-		## create the projection rectangle (black) and place it on the canvas
-		projection_background = PIL.Image.new("RGB", (self.projection_width, self.projection_height), color = 'black')
-		self.set_projection_placement()
-		canvas_composite.paste(projection_background, (int(self.projection_pillarboxing_width), int(self.projection_letterboxing_height)))
-		
-		## Resize the original image so it'll fit in the display while respecting 
-		## its aspect ratio... and place it on the canvas
+		## offsets
+		projection_h_offset = resolution["h_offset"]
+		projection_v_offset = resolution["v_offset"]
 		self.image_display_width, self.image_display_height = self.calculate_image_display_size()
+		image_h_offset = int(projection_h_offset + ((self.projection_width - self.image_display_width) / 2))
+		image_v_offset = int(projection_v_offset + ((self.projection_height - self.image_display_height) / 2))
+		
+		## the canvas background & image layers
+		canvas_composite = PIL.Image.new("RGB", (canvas_width, canvas_height), color = 'black')
+		checkerboard = Checkerboard(canvas_width, canvas_height, self.ap_settings.checkerboard_colours)
+		projection_background = PIL.Image.new("RGB", (self.projection_width, self.projection_height), color = 'black')
 		resized_original = self.pillow_image.resize((self.image_display_width, self.image_display_height))
-		self.set_image_placement()
-		canvas_composite.paste(resized_original, (int(self.pillarboxing_width), int(self.letterboxing_height)))
+
+		## combine layers on canvas
+		canvas_composite.paste(checkerboard, (0, 0))
+		canvas_composite.paste(projection_background, (int(projection_h_offset), int(projection_v_offset)))
+		canvas_composite.paste(resized_original, (image_h_offset, image_v_offset))
+		
+		## make it easily accessible from elsewhere
 		self.image_4_display = PIL.ImageTk.PhotoImage(canvas_composite)
 
 	'''

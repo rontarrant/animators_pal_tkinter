@@ -52,10 +52,10 @@ class APSettings:
 		self._fps_default = IntVar(value = 24)
 		self._delay = int(round(1000 / 24)) ## used only for internal playback
 
-		self._resolution = StringVar(value = "1080p (1920x1080)")
-		self._resolution_default = StringVar(value = "1080p (1920x1080)")
-		self._projection = StringVar(value = "HDTV (16:9)")
-		self._projection_default = StringVar(value = "HDTV (16:9)")
+		self._resolution = StringVar(value = "1080p")
+		self._resolution_default = StringVar(value = "1080p")
+		self._projection = StringVar(value = "FHD TV")
+		self._projection_default = StringVar(value = "FHD TV")
 		self._pillarbox_offset = IntVar(value = 0)
 		self._pillarbox_offset_default = IntVar(value = 0)
 		self._letterbox_offset = IntVar(value = 0)

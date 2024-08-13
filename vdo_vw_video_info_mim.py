@@ -76,13 +76,13 @@ class VideoImageInfoSet(Frame):
 		projection_dictionary = {self.settings.projection: resolution[self.settings.projection]}
 		
 		## if projection is ClassicTV, set pillarbox_offset to non-zero
-		if list(projection_dictionary.keys())[0] == "ClassicTV (4:3)":
-			self.settings.pillarbox_offset = projection_dictionary[self.settings.projection]["displacement"]
+		if list(projection_dictionary.keys())[0] == "ClassicTV":
+			self.settings.pillarbox_offset = projection_dictionary[self.settings.projection]["h_offset"]
 			self.pillarbox_displacement_set.update(self.settings.pillarbox_offset)
 			self.settings.letterbox_offset = 0
 			self.letterbox_set.update(self.settings.letterbox_offset)
 		else: ## else set letterbox_offset to non-zero
-			self.settings.letterbox_offset = projection_dictionary[self.settings.projection]["displacement"]
+			self.settings.letterbox_offset = projection_dictionary[self.settings.projection]["v_offset"]
 			self.letterbox_set.update(self.settings.letterbox_offset)
 			self.settings.pillarbox_offset = 0
 			self.pillarbox_displacement_set.update(self.settings.pillarbox_offset)

@@ -35,7 +35,6 @@ class ResolutionSet(Frame):
 		for ratio, properties in screen_resolutions.items():
 			option = ratio
 			self.options.append(option)
-			## since the options are in long-form (ie. "8k" becomes "8k (7680x4320)")
 			## we need a way to find the short version (ie. "8k") in screen_resolutions.
 			## Therefore, we build a dictionary using the long form as a key
 			## and short form as value and then use the short form as a key in screen_resolutions.

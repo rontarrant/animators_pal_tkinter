@@ -57,8 +57,8 @@ class FileTreeview(Treeview):
 		## ic(self.index(self.selection()[0]))
 		current_image = self.ap_image_collection.images[row_number]
 		image_size_set.update(current_image.image_width, current_image.image_height)
-		letterbox_offset_set.update(current_image.letterboxing_height)
-		pillarbox_displacement_set.update(current_image.pillarboxing_width)
+		letterbox_offset_set.update(current_image.image_letterboxing_height)
+		pillarbox_displacement_set.update(current_image.image_pillarboxing_width)
 		preview_thumbnail(row_number)
 	
 	'''

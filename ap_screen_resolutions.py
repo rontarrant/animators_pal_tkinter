@@ -1,94 +1,106 @@
 screen_resolutions = { 
-	"8k (7680x4320)": 
+	"8k": 
 	{
-		"width": 7680,
-		"height": 4320,
-		"ClassicTV (4:3)": 
+		"resolution width": 7680,
+		"resolution height": 4320,
+		"ClassicTV": 
 		{
-			"displacement": 960,
-			"width": 5760,
-			"height": 4320
+			"h_offset": 960,
+			"v_offset": 0,
+			"projection width": 5760,
+			"projection height": 4320
 		},
-		"HDTV (16:9)": 
+		"FHD TV": 
 		{
-			"displacement": 0,
-			"width": 7680,
-			"height": 4320
+			"h_offset": 0,
+			"v_offset": 0,
+			"projection width": 7680,
+			"projection height": 4320
 		},
-		"Anamorphic Widescreen (239:100)": 
+		"Anamorphic": 
 		{
-			"displacement": 553,
-			"width": 7680,
-			"height": 3213
+			"h_offset": 0,
+			"v_offset": 553,
+			"projection width": 7680,
+			"projection height": 3213
 		},
 	},
-	"4k (3840x2160)": 
+	"4k": 
 	{
-		"width": 3840,
-		"height": 2160,
-		"ClassicTV (4:3)": 
+		"resolution width": 3840,
+		"resolution height": 2160,
+		"ClassicTV": 
 		{
-			"displacement": 480,
-			"width": 2880,
-			"height": 2160
+			"h_offset": 480,
+			"v_offset": 0,
+			"projection width": 2880,
+			"projection height": 2160
 		},
-		"HDTV (16:9)": 
+		"FHD TV": 
 		{
-			"displacement": 0,
-			"width": 3840,
-			"height": 2160
+			"h_offset": 0,
+			"v_offset": 0,
+			"projection width": 3840,
+			"projection height": 2160
 		},
-		"Anamorphic Widescreen (239:100)": 
+		"Anamorphic": 
 		{
-			"displacement": 277,
-			"width": 3840,
-			"height": 1607
+			"h_offset": 0,
+			"v_offset": 277,
+			"projection width": 3840,
+			"projection height": 1607
 		},
 	},
-	"1080p (1920x1080)": 
+	"1080p": 
 	{
-		"width": 1920,
-		"height": 1080,
-		"ClassicTV (4:3)": 
+		"resolution width": 1920,
+		"resolution height": 1080,
+		"ClassicTV": 
 		{
-			"displacement": 240,
-			"width": 1440,
-			"height": 1080
+			"h_offset": 240,
+			"v_offset": 0,
+			"projection width": 1440,
+			"projection height": 1080
 		},
-		"HDTV (16:9)": 
+		"FHD TV": 
 		{
-			"displacement": 0,
-			"width": 1920,
-			"height": 1080
+			"h_offset": 0,
+			"v_offset": 0,
+			"projection width": 1920,
+			"projection height": 1080
 		},
-		"Anamorphic Widescreen (239:100)": 
+		"Anamorphic": 
 		{
-			"displacement": 138,
-			"width": 1920,
-			"height": 803
+			"h_offset": 0,
+			"v_offset": 138,
+			"projection width": 1920,
+			"projection height": 803
 		},
 	},
-	"720p (1280x720)": 
+	"720p": 
 	{
-		"width": 1280,
-		"height": 720,
-		"ClassicTV (4:3)": 
+		"resolution width": 1280,
+		"resolution height": 720,
+		"ClassicTV": 
 		{
-			"displacement": 160,
-			"width": 960,
-			"height": 720
+			"h_offset": 160,
+			"v_offset": 0,
+			"projection width": 960,
+			"projection height": 720
 		},
-		"HDTV (16:9)": 
+		"FHD TV": 
 		{
-			"displacement": 0,
-			"width": 1280,
-			"height": 720
+			"h_offset": 0,
+			"v_offset": 0,
+			"projection width": 1280,
+			"projection height": 720
 		},
-		"Anamorphic Widescreen (239:100)": 
+		"Anamorphic": 
 		{
-			"displacement": 92,
-			"width": 1280,
-			"height": 536
+			"h_offset": 0,
+			"v_offset": 92,
+			"projection width": 1280,
+			"projection height": 536
 		},
 	}
 }
@@ -97,12 +109,12 @@ screen_resolutions = {
 if __name__ == "__main__":
 
 	for resolution, properties in screen_resolutions.items(): ## show the screen sizes
-		print(resolution) ##  (8k, 4k, 1080p, 720p)
+		print("resolution:", resolution) ##  (8k, 4k, 1080p, 720p)
 		
 		for item, property in properties.items(): ## width, height, resolution (by name)
-			if item == "width":
+			if item == "resolution width":
 				print("\t" + item + ":", property)
-			elif item == "height":
+			elif item == "resolution height":
 				print("\t" + item + ":", property)
 			else: ## Projection Sizes
 				print("\t" + item)
@@ -113,15 +125,15 @@ if __name__ == "__main__":
 
 	## direct access
 	print("direct access:")
-	print("HDTV (16:9) width @ 4k: ", screen_resolutions["4k (3840x2160)"]["HDTV (16:9)"]["width"])
+	print("HDTV (16:9) width @ 4k: ", screen_resolutions["4k"]["FHD TV"]["projection width"])
 	## set a resolution
-	resolution_key = "4k (3840x2160)"
+	resolution_key = "4k"
 	print("key: ", resolution_key)
 	print(screen_resolutions[resolution_key])
 	## find a resolution
 	nested_dictionary = screen_resolutions[resolution_key]
 	print("nested_dictionary: \n", nested_dictionary, "\n\n")
-	projection_key = "Anamorphic Widescreen (239:100)"
+	projection_key = "Anamorphic"
 	
 	new_dictionary = {projection_key: nested_dictionary[projection_key]}
 	
