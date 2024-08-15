@@ -25,6 +25,7 @@ class VideoCanvas(Canvas):
 	width: int = 1280 ## default: HD
 	height: int = 720 ## default: HD
 	colour = "Black"
+	current_frame = 0
 	direction: int = 1 ## default: forward (-1 = reverse)
 	first_frame_hold: int = 1 ## valid: 1 to 90
 	last_frame_hold: int = 1 ## valid: 1 to 90
@@ -58,7 +59,8 @@ class VideoCanvas(Canvas):
 		The following line clears the queue so we get 
 		the fastest possible draw time for each frame.
 		'''
-		## ic(frame_num)
+		self.current_frame = frame_num
+		ic(frame_num, self.current_frame)
 		self.delete(ALL)
 		self.create_image(0, 0, anchor = "nw", image = self.ap_image_collection.images[frame_num].image_4_display)
 

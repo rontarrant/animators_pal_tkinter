@@ -54,7 +54,7 @@ class ProjectionSet(Frame):
 			for image in self.image_collection.images:
 				image.build_image_4_display()
 			
-			self.video_canvas.show_next_frame(0)
+			self.video_canvas.show_next_frame(self.video_canvas.current_frame)
 
 ## testing
 def main():
