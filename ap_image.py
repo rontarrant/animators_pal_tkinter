@@ -19,7 +19,7 @@ ic.configureOutput(includeContext = True)
 class APImage():
 	def __init__(self, full_path_and_file):
 		## external
-		self.ap_settings = APSettings.get_instance()
+		self.ap_settings = APSettings()
 		## image data
 		self._pillow_image = None
 		self._image_4_display = None

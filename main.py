@@ -9,6 +9,7 @@ from tkinter.ttk import *
 from mainframe import *
 from menu import *
 from ui_ready import *
+from observer import Observer
 
 ## for debugging
 from icecream import install
@@ -19,7 +20,7 @@ def main():
 	window = Window()
 	window.mainloop()
 
-class Window(Tk):
+class Window(Tk, Observer):
 	windowing_system = None
 	title_text = "Animator's Pal"
 	min_width = 1664
@@ -32,14 +33,13 @@ class Window(Tk):
 		working_dir = os.path.abspath(os.path.dirname(sys.argv[0]))
 		super().__init__(*args, **kwargs)
 		# Get the UIReady instance and initialize it
-		self.ui_ready_instance = UIReady.get_instance()
+		self.ui_ready_instance = UIReady()
 		self.ui_ready_instance.initialize(self)
-		self.ui_ready_instance.attach(self)
 
 		# Attach Settings as an observer
-		self.ap_settings = APSettings.get_instance()
+		self.ap_settings = APSettings()
 		self.ui_ready_instance.attach(self.ap_settings)
-		
+
 		## open the window in the same position it was last closed
 		self.load_window_position()
 		self.protocol("WM_DELETE_WINDOW", self.on_close)
@@ -78,7 +78,7 @@ class Window(Tk):
 		self.lift()
 
 		
-	def on_ui_ready(self):
+	def update(self):
 		self.ap_settings.load_settings()
 		## update the UI from ap_settings
 		

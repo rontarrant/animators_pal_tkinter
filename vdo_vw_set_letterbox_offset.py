@@ -3,9 +3,10 @@ from tkinter import *
 from tkinter.ttk import *
 
 ## local
-from ap_screen_resolutions import *
+from ap_screen_resolutions import screen_resolutions
+from observer import Observer
 
-class LetterboxDisplacementSet(Frame):
+class LetterDisplacementSet(Frame, Observer):
 	def __init__(self, parent, padx, padx_west, *args, **kwargs):
 		super().__init__(parent, *args, **kwargs)
 		self.columnconfigure(0, minsize = 260)
@@ -29,7 +30,7 @@ def main():
 class Window(Tk):
 	def __init__(self, *args, **kwargs):
 		super().__init__(*args, **kwargs)
-		letterbox_offset_set = LetterboxDisplacementSet(self, 10, 20)
+		letterbox_offset_set = LetterDisplacementSet(self, 10, 20)
 		letterbox_offset_set.pack(ipadx = 20, ipady = 10)
 
 if __name__ == "__main__":

@@ -4,12 +4,13 @@ from tkinter.ttk import *
 ## locals
 from ap_screen_resolutions import *
 from ap_settings import *
+from observer import Observable
 
-class ResolutionSet(Frame):
-	def __init__(self, parent, padx, parent_update, *args, **kwargs):
-		super().__init__(parent, *args, **kwargs)
-		self.settings = APSettings.get_instance()
-		self.parent_update = parent_update
+class ResolutionSet(Frame, Observable):
+	def __init__(self, parent, padx, *args, **kwargs):
+		super().__init__(parent, **kwargs)
+		self.ap_settings = APSettings()
+		self.ap_settings.attach(self)
 		self.columnconfigure(0, minsize = 260)
 		self.columnconfigure(1, minsize = 260)
 
@@ -26,7 +27,7 @@ class ResolutionSet(Frame):
 		
 		self.label.grid(column = 0, row = 1, sticky = E, padx = padx)
 		self.option_menu.grid(column = 1, row = 1, sticky = W, padx = padx)
-		self.selection.set(self.settings.resolution)
+		self.selection.set(self.ap_settings.resolution)
 
 		## attach callback
 		self.selection.trace('w', self.update)
@@ -44,8 +45,7 @@ class ResolutionSet(Frame):
 			## ic("ghost_option: ", self.ghost_options)
 
 	def update(self, *args):
-		self.settings.resolution = self.selection.get()
-		self.parent_update()
+		self.ap_settings.resolution = self.selection.get()
 
 ## testing
 def main():
@@ -55,7 +55,7 @@ def main():
 class Window(Tk):
 	def __init__(self, *args, **kwargs):
 		super().__init__(*args, **kwargs)
-		self.settings = APSettings()
+		self.ap_settings = APSettings()
 		resolution_set = ResolutionSet(self, 10, self.post_info_dummy)
 		resolution_set.pack(ipadx = 20, ipady = 10)
 

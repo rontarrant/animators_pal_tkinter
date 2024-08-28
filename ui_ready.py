@@ -1,36 +1,30 @@
 import tkinter as tk
-from observer import Observer
+from observer import Observable
 
-class UIReady:
-	__instance = None
+class UIReady(Observable):
+	_instance = None
 
-	@staticmethod
-	def get_instance():
-		if UIReady.__instance is None:
-			UIReady.__instance = UIReady()
-		return UIReady.__instance
-	
 	def __new__(cls, *args, **kwargs):
-		if cls.__instance is None:
-			cls.__instance = super().__new__(cls)
-		return cls.__instance
-	
+		if not cls._instance:
+			cls._instance = super().__new__(cls, *args, **kwargs)
+		return cls._instance
+
 	def __init__(self):
 		if not hasattr(self, '_initialized'):
+			self._observers = set()
 			self._ui_ready = False
 			self.root = None
 			self.loading_dialog = None
-			self.observers = []
 			self._initialized = True
-	
+
 	@property
 	def ui_ready(self):
 		return self._ui_ready
-	
+
 	@ui_ready.setter
 	def ui_ready(self, value):
 		self._ui_ready = value
-		
+
 		if value:
 			self.notify_observers()
 
@@ -40,8 +34,8 @@ class UIReady:
 		# Create a loading dialog
 		self.loading_dialog = tk.Toplevel(self.root)
 		self.loading_dialog.geometry("200x100")
-		loading_label = tk.Label(self.loading_dialog, text = "UI not ready")
-		loading_label.pack(expand = True)
+		loading_label = tk.Label(self.loading_dialog, text="UI not ready")
+		loading_label.pack(expand=True)
 
 	def check_ui_ready(self):
 		if self.root and self.root.winfo_ismapped():
@@ -52,17 +46,4 @@ class UIReady:
 	def ensure_ui_ready(self):
 		self.ui_ready = True
 		self.loading_dialog.destroy()
-
-	def attach(self, observer: Observer):
-		if observer not in self.observers:
-			self.observers.append(observer)
-
-	def detach(self, observer: Observer):
-		try:
-			self.observers.remove(observer)
-		except ValueError:
-			pass
-
-	def notify_observers(self):
-		for observer in self.observers:
-			observer.update()
+		

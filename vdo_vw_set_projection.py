@@ -15,12 +15,13 @@ from ap_projection_ratios import *
 from ap_settings import *
 from ap_image_collection import APImageCollection
 from vdo_vw_canvas import VideoCanvas
+from observer import Observable
 
-class ProjectionSet(Frame):
+class ProjectionSet(Frame, Observable):
 	def __init__(self, parent, padx, parent_update, video_canvas, *args, **kwargs):
 		super().__init__(parent, *args, **kwargs)
 		## build & configure options
-		self.settings = APSettings.get_instance()
+		self.ap_settings = APSettings()
 		self.video_canvas = video_canvas
 		self.image_collection = APImageCollection.get_instance()
 		self.parent_update = parent_update
@@ -36,7 +37,7 @@ class ProjectionSet(Frame):
 		self.option_menu = OptionMenu(self, self.selection, self.options[default], *self.options)
 		self.label.grid(column = 0, row = 0, sticky = E, padx = padx)
 		self.option_menu.grid(column = 1, row = 0, sticky = W, padx = padx)
-		self.selection.set(self.settings.projection)
+		self.selection.set(self.ap_settings.projection)
 		
 		## attach callback
 		self.selection.trace('w', self.update)
@@ -47,14 +48,14 @@ class ProjectionSet(Frame):
 			self.options.append(option)
 			
 	def update(self, *args):
-		self.settings.projection = self.selection.get()
+		self.ap_settings.projection = self.selection.get()
 		self.parent_update()
 		
 		if self.image_collection.images:
 			for image in self.image_collection.images:
 				image.build_image_4_display()
 			
-			self.video_canvas.show_next_frame(self.video_canvas.current_frame)
+			self.video_canvas.show_frame(self.video_canvas.current_frame)
 
 ## testing
 def main():
@@ -64,7 +65,7 @@ def main():
 class Window(Tk):
 	def __init__(self, *args, **kwargs):
 		super().__init__(*args, **kwargs)
-		self.settings = APSettings()
+		self.ap_settings = APSettings()
 		projection_set = ProjectionSet(self, 10, self.post_info_dummy)
 		projection_set.pack(ipadx = 20, ipady = 10)
 

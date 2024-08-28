@@ -8,7 +8,7 @@ class ShootOnSet(Labelframe):
 	def __init__(self, parent, *args, **kwargs):
 		super().__init__(parent, *args, **kwargs)
 		## attributes
-		self.settings = APSettings.get_instance()
+		self.settings = APSettings()
 		self.var = IntVar() ## used in preferences
 		## population - spinbox
 		self.config(text = "shoot on...")
@@ -37,7 +37,7 @@ class NumericSpinbox(Spinbox):
 		super().__init__(parent)
 		# object attributes
 		self.parent = parent
-		self.settings = APSettings.get_instance()
+		self.settings = APSettings()
 		# configure
 		self.config(from_ = 1, to = 9, increment = 1) # range and step
 		self.config(textvariable = var)

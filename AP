@@ -1,0 +1,57 @@
+<NotepadPlus>
+    <Project name="Animator&apos;s Pal">
+        <File name="ap_constants.py" />
+        <File name="ap_image.py" />
+        <File name="ap_image_collection.py" />
+        <File name="ap_menu_mim.py" />
+        <File name="ap_projection_ratios.py" />
+        <File name="ap_screen_resolutions.py" />
+        <File name="ap_settings.py" />
+        <File name="ap_video_flags.py" />
+        <File name="checkerboard.py" />
+        <File name="LICENSE" />
+        <File name="main.py" />
+        <File name="mainframe.py" />
+        <File name="menu.py" />
+        <File name="menu_file.py" />
+        <File name="menu_help.py" />
+        <File name="new 1.py" />
+        <File name="observer.py" />
+        <File name="pvw_mim_frame.py" />
+        <File name="pvw_vw_file_treeview.py" />
+        <File name="pvw_vw_thumbnail_canvas.py" />
+        <File name="README.md" />
+        <File name="save_position_open_folder.py" />
+        <File name="settings.json" />
+        <File name="test.mp4" />
+        <File name="ui_ready.py" />
+        <File name="vdo_mim_frame.py" />
+        <File name="vdo_vw_canvas.py" />
+        <File name="vdo_vw_controls.py" />
+        <File name="vdo_vw_image_button.py" />
+        <File name="vdo_vw_set_banner_label.py" />
+        <File name="vdo_vw_set_direction_radio.py" />
+        <File name="vdo_vw_set_fps_radio.py" />
+        <File name="vdo_vw_set_image_size.py" />
+        <File name="vdo_vw_set_letterbox_offset.py" />
+        <File name="vdo_vw_set_mim_frame.py" />
+        <File name="vdo_vw_set_pillarbox_offset.py" />
+        <File name="vdo_vw_set_projection.py" />
+        <File name="vdo_vw_set_resolution.py" />
+        <File name="vdo_vw_set_resolution_widget_set.py" />
+        <File name="vdo_vw_set_shoot_on.py" />
+        <File name="vdo_vw_video_info_mim.py" />
+        <File name="window_position.txt" />
+    </Project>
+    <Project name="Observer outline (Perplexity)">
+        <File name="docs\AI queries\Perplexity\revision\ap_settings.py" />
+        <File name="docs\AI queries\Perplexity\revision\main.py" />
+        <File name="docs\AI queries\Perplexity\revision\main_frame.py" />
+        <File name="docs\AI queries\Perplexity\revision\observer.py" />
+        <File name="docs\AI queries\Perplexity\revision\projection_set.py" />
+        <File name="docs\AI queries\Perplexity\revision\resolution_set.py" />
+        <File name="docs\AI queries\Perplexity\revision\video_image_info_set.py" />
+        <File name="docs\AI queries\Perplexity\revision\view_frame.py" />
+        <File name="docs\AI queries\Perplexity\revision\window.py" />
+    </Project>
+</NotepadPlus>

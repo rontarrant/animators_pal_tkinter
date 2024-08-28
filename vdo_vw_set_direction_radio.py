@@ -10,7 +10,7 @@ class DirectionRadioSet(Labelframe):
 		## instance
 		self.config(text = "direction")
 		var = IntVar() ## used in preferences
-		self.ap_settings = APSettings.get_instance()
+		self.ap_settings = APSettings()
 		## child widgets
 		radio1 = Radiobutton(self, text = "Forward", variable = var, value = 1)
 		radio2 = Radiobutton(self, text = "Reverse", variable = var, value = -1)

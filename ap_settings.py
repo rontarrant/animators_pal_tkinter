@@ -9,29 +9,23 @@ ic.configureOutput(includeContext = True)
 
 ## local
 from ap_constants import *
-from observer import Observer
+from observer import Observable, Observer
 
-class APSettings:
+class APSettings(Observer, Observable):
 	# Create a private class attribute to store the single instance
-	__instance = None
-
-	@staticmethod
-	def get_instance():
-		"""Static method to access the single instance of APSettings"""
-		if APSettings.__instance is None:
-			APSettings.__instance = APSettings()
-		return APSettings.__instance
+	_instance = None
 
 	def __new__(cls, *args, **kwargs):
-		if cls.__instance is None:
-			cls.__instance = super().__new__(cls)
-		return cls.__instance
-	
-	def __init__(self, *args, **kwargs):
+		if not cls._instance:
+			cls._instance = super().__new__(cls, *args, **kwargs)
+		return cls._instance
+
+	def __init__(self):
 		if not hasattr(self, '_initialized'):
+			self._observers = set()
 			self._settings_ready = False
 			self.root = None
-			self.observers = []
+			self.loading_dialog = None
 			self._initialized = True
 
 		self.settings_file = "settings.json"
@@ -62,42 +56,7 @@ class APSettings:
 		self._letterbox_offset_default = IntVar(value = 0)
 
 		self.load_settings()
-
-	@property
-	def ui_ready(self):
-		return self._ui_ready
-	
-	@ui_ready.setter
-	def ui_ready(self, value):
-		self._ui_ready = value
 		
-		if value:
-			self.notify_observers()
-
-	def check_settings_ready(self):
-		if self.root and self.root.winfo_ismapped():
-			self.root.after(500, self.ensure_settings_ready)  # Additional delay to ensure settings are up-to-date
-		else:
-			self.root.after(100, self.check_settings_ready)
-
-	def ensure_settings_ready(self):
-		self.settings_ready = True
-		
-
-	def attach(self, observer: Observer):
-		if observer not in self.observers:
-			self.observers.append(observer)
-
-	def detach(self, observer: Observer):
-		try:
-			self.observers.remove(observer)
-		except ValueError:
-			pass
-
-	def notify_observers(self):
-		for observer in self.observers:
-			observer.update()
-
 	def save_settings(self):
 		self.ap_settings['window_position'] = self._window_position
 		self.ap_settings['last_opened_folder'] = self._last_opened_folder

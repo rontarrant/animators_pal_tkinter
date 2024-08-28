@@ -15,7 +15,7 @@ from ap_settings import APSettings
 
 class FileMenu(Menu):
 	def __init__(self, menubar, window, video_canvas, image_size_set, build_new_image_list):
-		self.ap_settings = APSettings.get_instance()
+		self.ap_settings = APSettings()
 		self.label_text = "File"
 		self.window = window
 		self.ap_image_collection = APImageCollection.get_instance()
@@ -143,7 +143,7 @@ class FileMenu(Menu):
 			for index in self.ap_image_collection.images:
 				## ic("collection image: ", index)
 			'''
-			video_canvas.show_next_frame(old_count) ## put 1st new frame in video_canvas
+			video_canvas.show_frame(old_count) ## put 1st new frame in video_canvas
 			image_size_set.update(image.image_width, image.image_height)
 			build_new_image_list(added_images_count)
 

@@ -16,7 +16,7 @@ class VideoMiMFrame(Frame):
 		super().__init__(parent)
 		## external stuff needed for playback
 		self.ap_image_collection = APImageCollection.get_instance()
-		self.ap_settings = APSettings.get_instance()
+		self.ap_settings = APSettings()
 		self.flags = APVideoFlags.get_instance()
 		
 		## local playback criteria
@@ -81,14 +81,14 @@ class VideoMiMFrame(Frame):
 		## reset to first frame in the collection
 		self.current_frame = self.LAST_FRAME
 		self.bounce_direction = -1
-		self.video_canvas.show_next_frame(self.current_frame)
+		self.video_canvas.show_frame(self.current_frame)
 		#self.call_a_halt()	
 		## ic()
 		
 	def goto_start(self):
 		## reset to first frame in the collection
 		self.current_frame = self.FIRST_FRAME
-		self.video_canvas.show_next_frame(self.current_frame)
+		self.video_canvas.show_frame(self.current_frame)
 		self.bounce_direction = 1
 		self.call_a_halt()	
 		## ic(self.current_frame, self.video_controls.mode)
@@ -100,7 +100,7 @@ class VideoMiMFrame(Frame):
 				pass
 			case _:
 				self.current_frame -= 1
-				self.video_canvas.show_next_frame(self.current_frame)
+				self.video_canvas.show_frame(self.current_frame)
 
 	def forward_step(self):
 		## ic(self.current_frame)
@@ -109,7 +109,7 @@ class VideoMiMFrame(Frame):
 				pass
 			case _:
 				self.current_frame += 1
-				self.video_canvas.show_next_frame(self.current_frame)
+				self.video_canvas.show_frame(self.current_frame)
 
 	def play_forward(self):
 		match self.current_frame:
@@ -128,7 +128,7 @@ class VideoMiMFrame(Frame):
 						self.shoot_on -= 1
 						##ic(self.shoot_on, self.current_frame)
 
-				self.video_canvas.show_next_frame(self.current_frame)
+				self.video_canvas.show_frame(self.current_frame)
 				self.after_id = self.winfo_toplevel().after(self.ap_settings.delay, self.play_forward)
 				## ic(self.current_frame, self.video_controls.mode)
 				
@@ -146,7 +146,7 @@ class VideoMiMFrame(Frame):
 		if self.bouncing:  # Bounce Play is on
 					
 			# flip the page
-			self.video_canvas.show_next_frame(self.current_frame)
+			self.video_canvas.show_frame(self.current_frame)
 			match self.shoot_on:
 				case 0:
 					# add 1 if playing forward, -1 if playing reverse
